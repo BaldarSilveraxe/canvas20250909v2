@@ -88,7 +88,7 @@ const board = (() => {
             canvasState.index[groupName] = groupId;
             itemsGroup = canvasState.groups[canvasState.index['items-pseudo-layer']]; 
             if (itemsGroup) {
-                itemsLayer.add(newGroup);
+                itemsGroup.add(newGroup);
             }
             canvasState.groups[canvasState.index['items-pseudo-layer']] = itemsGroup;
         }
