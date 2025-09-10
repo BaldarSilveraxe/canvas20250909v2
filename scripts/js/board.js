@@ -32,8 +32,6 @@ const board = (() => {
             makeLayer
         } = build();
         const stage = makeStage(kCanvas);
-
-        layerNames: [ 'world_layer', 'lower_layer', 'items_layer', 'upper_layer', 'top_layer', 'host_layer', 'overlay_layer' ]
         console.log(stage);
         
         stage.add(makeLayer(id: 'world', name: 'world'));
