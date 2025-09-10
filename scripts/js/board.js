@@ -4,7 +4,19 @@ import Konva from 'https://esm.sh/konva@9';
 
 const board = (() => {
     const create = (kCanvas) => {
-        console.log('here');
+        const stage = () => {
+            const kCanvasContainer = (typeof kCanvas === 'string') ? document.getElementById(kCanvas) : kCanvas;
+            if (!kCanvasContainer) {
+                throw new Error('board.create: container not found');
+            }
+            return new Konva.Stage({
+                container: kCanvasContainer,
+                width: kCanvasContainer.clientWidth,
+                height: kCanvasContainer.clientHeight,
+            });
+        };
+
+        console.log('stage');
 
         // Public API
         return {
