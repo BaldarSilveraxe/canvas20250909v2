@@ -40,7 +40,7 @@ const board = (() => {
         
         config.layers.forEach(function(e, i) {
             const newLayer = makeLayer({ id: `layer${i}`, name: `layer-${e}`});
-            const newGroup = new Konva.Group({ id: `group${i}`, name: `group-${e}` }));
+            const newGroup = new Konva.Group({ id: `group${i}`, name: `group-${e}` });
             stage.add(newLayer);
             newLayer.add(newGroup);
         });
