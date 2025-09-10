@@ -41,6 +41,15 @@ const board = (() => {
         config.layers.forEach(function(e, i) {
             stage.add(makeLayer({ id: `layer${i}`, name: e }));
         });
+
+        const itemsGroup = new Konva.Group({ id: 'items0', name: 'items' });
+        const overlayGroup = new Konva.Group({ id: 'ui0', name: 'ui' });
+    
+        layers.worldLayer.add(new Konva.Group({ id: 'world0', name: 'world' }));
+        layers.itemsLayer.add(itemsGroup);
+        layers.overlayLayer.add(overlayGroup);
+
+        
         const now = new Date();
         console.log(now);
         console.log(stage);
