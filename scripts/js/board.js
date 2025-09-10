@@ -3,7 +3,7 @@ import Konva from 'https://esm.sh/konva@9';
 const board = (() => {
     const canvasState = {
         stage: null,
-        layer: {},
+        layers: {},
         groups: {},
         shapes: {}
     };
