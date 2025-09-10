@@ -66,6 +66,7 @@ const board = (() => {
         const now = new Date();
         console.log(now);
         console.log(stage);
+        console.log(canvasState);
         
         // Removed: Don't destroy the stage immediately after creating it
         // stage.destroy(); 
