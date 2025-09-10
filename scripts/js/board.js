@@ -14,11 +14,12 @@ const board = (() => {
             if (!kCanvasContainer) {
                 throw new Error('board.create: container not found');
             }
-            return new Konva.Stage({
+            stage = new Konva.Stage({
                 container: kCanvasContainer,
                 width: kCanvasContainer.clientWidth,
                 height: kCanvasContainer.clientHeight,
             });
+            canvasState.stage = stage; 
         };
 
         const makeLayers = (props = {}) => {
@@ -47,7 +48,7 @@ const board = (() => {
             makeLayers
         } = build();
 
-        stage = makeStage(kCanvas);
+        makeStage(kCanvas);
         makeLayers();
 
         const targetGroup = stage.findOne('.world-group');
