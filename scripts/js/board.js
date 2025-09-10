@@ -85,7 +85,7 @@ const board = (() => {
                 newGroup = new Konva.Group({ id: groupId, name: groupName });
             canvasState.groups[groupId] = newGroup;
             canvasState.index[groupName] = groupId;
-            canvasState.groups[canvasState.index['items-pseudo-layer'].add(newGroup);
+            canvasState.groups[canvasState.index['items-pseudo-layer']add(newGroup);
         }
 
 console.log(canvasState.groups[canvasState.index['items-pseudo-layer']]);
