@@ -138,15 +138,7 @@ const board = (() => {
         makeLayers();
         makePseudoLayers();
 
-const worldRect = new Konva.Rect({
-            x: 0,
-            y: 0,
-            name: '_rect-stage',
-            width: 6000,
-            height: 6000,
-            fill: '#555555',
-            listening: true
-        });
+const worldRect = new Konva.Rect(config.world);
 
 
 
