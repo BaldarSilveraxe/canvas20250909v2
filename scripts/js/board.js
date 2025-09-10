@@ -141,9 +141,9 @@ const board = (() => {
 const shapeId = crypto.randomUUID();
 const worldRect = new Konva.Rect({...config.world, id: shapeId}); 
 
-
-
-
+const worldRoot  = getNodeByName('world-pseudo-layer');
+worldRoot.add(worldRect);
+stage.draw();
 
 
         
