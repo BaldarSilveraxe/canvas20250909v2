@@ -29,8 +29,8 @@ const board = (() => {
             '_rect-stage'
         ]),
         world: {
-            px: 0,
-            px: 0,
+            x: 0,
+            y: 0,
             name: '_rect-stage',
             width: 6000,
             height: 6000,
