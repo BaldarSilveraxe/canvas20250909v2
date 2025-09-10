@@ -97,18 +97,6 @@ const board = (() => {
         makeLayers();
         makePseudoLayers();
         
-
-
-console.log(canvasState.groups[canvasState.index['items-pseudo-layer']]);
-        
-        //const targetGroup = stage.findOne('.world-group');
-
-// Step 3: Add the new group to the target
-//const newGroup = new Konva.Group({ id: `test`, name: `test` });
-//if (targetGroup) {
-//    targetGroup.add(newGroup);
-//}
-        
         //const newGroup = new Konva.Group({ id: `test`, name: `test` });
         //stage.child[0].child[0].add(newGroup); 
         const now = new Date();
