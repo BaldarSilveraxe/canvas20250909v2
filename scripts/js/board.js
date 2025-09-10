@@ -139,10 +139,22 @@ const board = (() => {
         makePseudoLayers();
 
 const shapeId = crypto.randomUUID();
-const worldRect = new Konva.Rect({...config.world, id: shapeId}); 
+const worldRect = new Konva.Rect({...config.world, id: shapeId});
 
+const topLeft = new Konva.Rect({ x: 0, y: 0, width: 3000, height: 3000, fill: '#005555', listening: true });
+const topRight = new Konva.Rect({ x: 3001, y: 0, width: 3000, height: 3000, fill: '#550055', listening: true });
+const botLeft = new Konva.Rect({ x: 0, y: 3001, width: 3000, height: 3000, fill: '#555500', listening: true });
+const botRight = new Konva.Rect({ x: 3001, y: 3001, width: 3000, height: 3000, fill: '#055550', listening: true });
+
+        
 const worldRoot  = getNodeByName('world-pseudo-layer');
 worldRoot.add(worldRect);
+
+worldRoot.add(topLeft);
+worldRoot.add(topRight);
+worldRoot.add(botLeft);
+worldRoot.add(botRight);
+
 canvasState.stage.draw();
 
 
