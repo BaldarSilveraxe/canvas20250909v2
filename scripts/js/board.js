@@ -42,12 +42,9 @@ const board = (() => {
             stage.add(makeLayer({ id: `layer${i}`, name: e }));
         });
 
-        //const itemsGroup = new Konva.Group({ id: 'items0', name: 'items' });
-        //const overlayGroup = new Konva.Group({ id: 'ui0', name: 'ui' });
         stage.children[0].add(new Konva.Group({ id: 'world0', name: 'world' }));
-        //layers.worldLayer
-        //layers.itemsLayer.add(itemsGroup);
-        //layers.overlayLayer.add(overlayGroup);
+        stage.children[1].add(new Konva.Group({ id: 'items0', name: 'items' }));
+        stage.children[2].add(new Konva.Group({ id: 'ui0', name: 'ui' }));
 
         
         const now = new Date();
