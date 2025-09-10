@@ -3,6 +3,7 @@ import Konva from 'https://esm.sh/konva@9';
 const board = (() => {
     let stage = null;
     const canvasState = {};
+    const canvasStateIndex = {};
     
     const config = {
         layers: ['world', 'items', 'ui'],
@@ -14,14 +15,17 @@ const board = (() => {
             if (!kCanvasContainer) {
                 throw new Error('board.create: container not found');
             }
+            const stageId = crypto.randomUUID();
+            const stageName = "stage";
             stage = new Konva.Stage({
-                id: crypto.randomUUID(),
-                name: "stage",
+                id: stageId,
+                name: stageName,
                 container: kCanvasContainer,
                 width: kCanvasContainer.clientWidth,
                 height: kCanvasContainer.clientHeight,
             });
-            canvasState.stage = stage; 
+            canvasState[stageId] = stage;
+            canvasStateIndex[stageName] = stageId;
         };
 
         const makeLayers = (props = {}) => {
