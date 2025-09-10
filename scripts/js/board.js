@@ -34,9 +34,9 @@ const board = (() => {
         const stage = makeStage(kCanvas);
         console.log(stage);
         
-        stage.add(makeLayer(id: 'world', name: 'world'));
-        stage.add(makeLayer(id: 'items', name: 'items'));
-        stage.add(makeLayer(id: 'cntrl', name: 'cntrl'));
+        stage.add(makeLayer({ id: 'world', name: 'world' }));
+        stage.add(makeLayer({ id: 'items', name: 'items' }));
+        stage.add(makeLayer({ id: 'cntrl', name: 'cntrl' }));
         console.log(makeLayer);
         console.log(stage);
         const now = new Date();
