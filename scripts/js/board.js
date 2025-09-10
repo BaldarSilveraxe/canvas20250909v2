@@ -1,6 +1,10 @@
 import Konva from 'https://esm.sh/konva@9';
 
 const board = (() => {
+    const config = {
+        layers: ['world','lower','items','upper','top','ui'];
+
+    };
     const build = () => {
         const makeStage = (cnvs) => {
             const kCanvasContainer = (typeof cnvs === 'string') ? document.getElementById(cnvs) : cnvs;
@@ -31,14 +35,13 @@ const board = (() => {
             makeStage,
             makeLayer
         } = build();
+        
         const stage = makeStage(kCanvas);
-        console.log(stage);
         
         stage.add(makeLayer({ id: 'world', name: 'world' }));
         stage.add(makeLayer({ id: 'items', name: 'items' }));
         stage.add(makeLayer({ id: 'cntrl', name: 'cntrl' }));
-        console.log(makeLayer);
-        console.log(stage);
+
         const now = new Date();
         console.log(now);
 
