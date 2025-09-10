@@ -77,7 +77,19 @@ const board = (() => {
 
         makeStage(kCanvas);
         makeLayers();
+        
+        //items-pseudo-layer
+        for (let i = 0; i < 5; i++) {
+            const groupId = crypto.randomUUID(),
+                groupName = `${(i * 10)}-pseudo-layer`,
+                newGroup = new Konva.Group({ id: groupId, name: groupName });
+            canvasState.groups[groupId] = newGroup;
+            canvasState.index[groupName] = groupId;
+            console.log(canvasState.groups[canvasState.index['items-pseudo-layer']]);
+                //newLayer.add(newGroup);
+        }
 
+        
         //const targetGroup = stage.findOne('.world-group');
 
 // Step 3: Add the new group to the target
