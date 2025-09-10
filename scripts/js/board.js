@@ -58,7 +58,7 @@ const board = (() => {
         makeStage(kCanvas);
         makeLayers();
 
-        const targetGroup = stage.findOne('.world-group');
+        //const targetGroup = stage.findOne('.world-group');
 
 // Step 3: Add the new group to the target
 //const newGroup = new Konva.Group({ id: `test`, name: `test` });
