@@ -1,4 +1,4 @@
-//import { board } from './board.js';
+import { board } from './board.js';
 
 // Utility function
 const getEl = (id) => document.getElementById(id);
