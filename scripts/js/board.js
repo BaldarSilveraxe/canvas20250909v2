@@ -18,11 +18,14 @@ const build = () => {
     };
     return { stage };
 })();
+
     const create = (kCanvas) => {
         const stage = build.stage(kCanvas);
 
 
         console.log(stage);
+        const now = new Date();
+        console.log(now);
 
         // Public API
         return {
