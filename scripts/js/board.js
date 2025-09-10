@@ -1,9 +1,12 @@
 import Konva from 'https://esm.sh/konva@9';
 
 const board = (() => {
-    let stage = null;
-    const canvasState = {};
-    const canvasStateIndex = {};
+    const canvasState = {
+        stage: null,
+        layer: {},
+        groups: {},
+        shapes: {}
+    };
     
     const config = {
         layers: ['world', 'items', 'ui'],
@@ -24,8 +27,7 @@ const board = (() => {
                 width: kCanvasContainer.clientWidth,
                 height: kCanvasContainer.clientHeight,
             });
-            canvasState[stageId] = stage;
-            canvasStateIndex[stageName] = stageId;
+            canvasState.state = stage;
         };
 
         const makeLayers = (props = {}) => {
@@ -34,9 +36,9 @@ const board = (() => {
                 const groupId = crypto.randomUUID();
                 const newLayer = new Konva.Layer({ id: layerId, name: `layer-${e}` });
                 const newGroup = new Konva.Group({ id: groupId, name: `group-${e}` });
-                canvasState[layerId] = newLayer;
-                canvasState[groupId] = newGroup;
-                stage.add(newLayer);
+                canvasState.layers[layerId] = newLayer;
+                canvasState.groups[groupId] = newGroup;
+                canvasState.stage.add(newLayer);
                 newLayer.add(newGroup);
             });
         };
