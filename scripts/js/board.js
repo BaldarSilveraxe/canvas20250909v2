@@ -16,7 +16,7 @@ const board = (() => {
             });
         };
 
-        console.log('stage');
+        console.log(stage);
 
         // Public API
         return {
