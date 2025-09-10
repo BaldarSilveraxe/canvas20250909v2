@@ -3,7 +3,7 @@ import addGridGroup from './features/board/grid.js';
 import DEFAULT_CONFIG from './configuration/board/DEFAULT_CONFIG.js?d=2&ddd=1';
 
 const board = (() => {
-   const create = (kCanvas) => {
+    const create = (kCanvas) => {
         console.log('here');
 
         // Public API
@@ -24,7 +24,7 @@ const board = (() => {
             //toggleGrid: keyboardHandlers.toggleGrid
         };
     };
-    return { //create };
+    return { create };
 })();
 
 export { board };
