@@ -1,8 +1,12 @@
 import Konva from 'https://esm.sh/konva@9';
 
 const board = (() => {
+
+    const canvasState = {};
+    
     const config = {
-        layers: ['world', 'items', 'ui']
+        layers: ['world', 'items', 'ui'],
+        sub
     };
 
     const build = () => {
@@ -40,13 +44,26 @@ const board = (() => {
 
         config.layers.forEach(function(e, i) {
             // Corrected syntax: separate declarations
-            const newLayer = makeLayer({ id: `layer${i}`, name: `layer-${e}` });
-            const newGroup = new Konva.Group({ id: `group${i}`, name: `group-${e}` });
-
+            const layerId = crypto.randomUUID();
+            const groupId = crypto.randomUUID();
+            const newLayer = makeLayer({ id: layerId, name: `layer-${e}` });
+            const newGroup = new Konva.Group({ id: groupId, name: `group-${e}` });
+            canvasState[layerId] = newLayer;
+            canvasState[groupId] = newGroup;
             stage.add(newLayer);
             newLayer.add(newGroup);
         });
 
+        const targetGroup = stage.findOne('.world-group');
+
+// Step 3: Add the new group to the target
+//const newGroup = new Konva.Group({ id: `test`, name: `test` });
+//if (targetGroup) {
+//    targetGroup.add(newGroup);
+//}
+        
+        //const newGroup = new Konva.Group({ id: `test`, name: `test` });
+        //stage.child[0].child[0].add(newGroup); 
         const now = new Date();
         console.log(now);
         console.log(stage);
