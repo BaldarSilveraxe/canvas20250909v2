@@ -98,7 +98,7 @@ const board = (() => {
                     groupName = `items-pseudo-layer-z-${(i * 10)}`,
                     newGroup = new Konva.Group({ id: groupId, name: groupName });
                 let itemsGroup = null;
-                canvasState.pseudo[groupId] = newGroup;
+                canvasState.pseudos[groupId] = newGroup;
                 canvasState.index[groupName] = groupId;
                 itemsGroup = getNodeByName('items-pseudo-layer'); //, 'pseudo'
                 if (itemsGroup) {
