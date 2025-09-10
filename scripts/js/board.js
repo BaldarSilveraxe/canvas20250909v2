@@ -25,8 +25,18 @@ const board = (() => {
             'items-pseudo-layer-z-10',
             'items-pseudo-layer-z-20',
             'items-pseudo-layer-z-30',
-            'items-pseudo-layer-z-40'
-        ])
+            'items-pseudo-layer-z-40',
+            '_rect-stage'
+        ]),
+        world: {
+            px: 0,
+            px: 0,
+            name: '_rect-stage',
+            width: 6000,
+            height: 6000,
+            fill: '#555555',
+            listening: true
+        }
     };
 
     const build = () => {
@@ -127,6 +137,15 @@ const board = (() => {
         makeStage(kCanvas);
         makeLayers();
         makePseudoLayers();
+
+const worldRect = new Konva.Rect({config.world});
+
+
+
+
+
+
+        
         console.log(getNodeByName('items-pseudo-layer'));
         
         //const newGroup = new Konva.Group({ id: `test`, name: `test` });
