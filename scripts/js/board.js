@@ -13,9 +13,12 @@ const board = (() => {
                 height: kCanvasContainer.clientHeight,
             });
         };
-        const makeLayer = () => {
-            console.log('layer');
+        
+        const makeLayer = (prop = {}) => {
+            if (!props.id) throw new Error('makeLayer: "id" is required');
+            return new Konva.Layer(props);
         };
+    
         return {
             makeStage,
             makeLayer
