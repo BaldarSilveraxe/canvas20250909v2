@@ -19,7 +19,10 @@ const board = (() => {
         const layer = () => {
             console.log('layer');
         };    
-        return { stage, layer };
+        return { 
+            stage: stage, 
+            layer: layer 
+        };
     };
 
     const create = (kCanvas) => {
