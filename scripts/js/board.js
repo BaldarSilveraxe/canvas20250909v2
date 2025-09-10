@@ -62,9 +62,26 @@ const board = (() => {
             });
         };
 
+        const makePseudoLayers = (props = {}) => {
+            for (let i = 0; i < 5; i++) {
+                const groupId = crypto.randomUUID(),
+                    groupName = `items-pseudo-layer-z-${(i * 10)}`,
+                    newGroup = new Konva.Group({ id: groupId, name: groupName });
+                let itemsGroup = null;
+                canvasState.groups[groupId] = newGroup;
+                canvasState.index[groupName] = groupId;
+                itemsGroup = canvasState.groups[canvasState.index['items-pseudo-layer']]; 
+                if (itemsGroup) {
+                    itemsGroup.add(newGroup);
+                }
+                canvasState.groups[canvasState.index['items-pseudo-layer']] = itemsGroup;
+            }
+        };
+
         return {
             makeStage,
-            makeLayers
+            makeLayers,
+            makePseudoLayers
         };
     };
 
@@ -72,26 +89,15 @@ const board = (() => {
 
         const {
             makeStage,
-            makeLayers
+            makeLayers,
+            makePseudoLayers
         } = build();
 
         makeStage(kCanvas);
         makeLayers();
+        makePseudoLayers();
         
-        //items-pseudo-layer
-        for (let i = 0; i < 5; i++) {
-            const groupId = crypto.randomUUID(),
-                groupName = `items-pseudo-layer-z-${(i * 10)}`,
-                newGroup = new Konva.Group({ id: groupId, name: groupName });
-            let itemsGroup = null;
-            canvasState.groups[groupId] = newGroup;
-            canvasState.index[groupName] = groupId;
-            itemsGroup = canvasState.groups[canvasState.index['items-pseudo-layer']]; 
-            if (itemsGroup) {
-                itemsGroup.add(newGroup);
-            }
-            canvasState.groups[canvasState.index['items-pseudo-layer']] = itemsGroup;
-        }
+
 
 console.log(canvasState.groups[canvasState.index['items-pseudo-layer']]);
         
