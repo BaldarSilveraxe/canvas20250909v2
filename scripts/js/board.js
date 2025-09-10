@@ -1,6 +1,3 @@
-
-
-
 import Konva from 'https://esm.sh/konva@9';
 
 const board = (() => {
@@ -18,16 +15,18 @@ const board = (() => {
         };
         const makeLayer = () => {
             console.log('layer');
-        };    
-        return { 
-            makeStage, 
-            makeLayer 
+        };
+        return {
+            makeStage,
+            makeLayer
         };
     };
 
     const create = (kCanvas) => {
 
-        const { makeStage } = build();
+        const {
+            makeStage
+        } = build();
         const stage = makeStage(kCanvas);
 
         console.log(stage);
@@ -53,7 +52,11 @@ const board = (() => {
         };
     };
 
-    return { create };
+    return {
+        create
+    };
 })();
 
-export { board };
+export {
+    board
+};
