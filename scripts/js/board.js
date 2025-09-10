@@ -35,9 +35,9 @@ const board = (() => {
             makeStage,
             makeLayer
         } = build();
-        stage.destroy();
+        
         const stage = makeStage(kCanvas);
-
+        
         config.layers.forEach(function(e, i) {
             stage.add(makeLayer({ id: `layer${i}`, name: `layer-${e}`}));
             stage.children[i].add(new Konva.Group({ id: `group${i}`, name: `group-${e}` }));
@@ -51,7 +51,7 @@ const board = (() => {
         const now = new Date();
         console.log(now);
         console.log(stage);
-
+        stage.destroy();
         // Public API
         return {
             //stage,
