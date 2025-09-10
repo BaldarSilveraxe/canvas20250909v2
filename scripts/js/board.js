@@ -85,10 +85,10 @@ const board = (() => {
                 newGroup = new Konva.Group({ id: groupId, name: groupName });
             canvasState.groups[groupId] = newGroup;
             canvasState.index[groupName] = groupId;
-            console.log(groupName]
+            console.log(groupName);
                 //newLayer.add(newGroup);
         }
-console.log(canvasState.groups[canvasState.index]['items-pseudo-layer']);
+console.log(canvasState.groups[canvasState.index].['items-pseudo-layer']);
         
         //const targetGroup = stage.findOne('.world-group');
 
