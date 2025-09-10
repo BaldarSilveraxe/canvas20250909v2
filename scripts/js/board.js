@@ -28,11 +28,13 @@ const board = (() => {
     const create = (kCanvas) => {
 
         const {
-            makeStage
+            makeStage,
+            makeLayer
         } = build();
         const stage = makeStage(kCanvas);
 
         console.log(stage);
+        console.log(makeLayer);
         const now = new Date();
         console.log(now);
 
