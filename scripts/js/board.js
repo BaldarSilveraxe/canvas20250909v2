@@ -2,7 +2,7 @@ import Konva from 'https://esm.sh/konva@9';
 
 const board = (() => {
     const config = {
-        layers: ['world','items','ui']
+        layers: ['world', 'items', 'ui']
     };
 
     const build = () => {
@@ -17,12 +17,12 @@ const board = (() => {
                 height: kCanvasContainer.clientHeight,
             });
         };
-        
+
         const makeLayer = (props = {}) => {
             if (!props.id) throw new Error('makeLayer: "id" is required');
             return new Konva.Layer(props);
         };
-    
+
         return {
             makeStage,
             makeLayer
@@ -35,42 +35,31 @@ const board = (() => {
             makeStage,
             makeLayer
         } = build();
-        
+
         const stage = makeStage(kCanvas);
-        
+
         config.layers.forEach(function(e, i) {
-            const newLayer = makeLayer({ id: `layer${i}`, name: `layer-${e}`});
+            // Corrected syntax: separate declarations
+            const newLayer = makeLayer({ id: `layer${i}`, name: `layer-${e}` });
             const newGroup = new Konva.Group({ id: `group${i}`, name: `group-${e}` });
-    
+
             stage.add(newLayer);
             newLayer.add(newGroup);
         });
 
-        //stage.children[0].add(new Konva.Group({ id: 'world0', name: 'world' }));
-        //stage.children[1].add(new Konva.Group({ id: 'items0', name: 'items' }));
-        //stage.children[2].add(new Konva.Group({ id: 'ui0', name: 'ui' }));
-
-        
         const now = new Date();
         console.log(now);
         console.log(stage);
-        stage.destroy();
+        
+        // Removed: Don't destroy the stage immediately after creating it
+        // stage.destroy(); 
+        
         // Public API
         return {
-            //stage,
-            //layers: {
-            //    world: layers.worldLayer,
-            //    items: layers.itemsLayer
-            //},
-            //groups: {
-            //    world: groups.worldGroup,
-            //    items: groups.itemsGroup,
-            //    grid_group: worldContent.gridGroup
-            //},
-            //camera: cameraSystem.camera,
-            //centerWorld: cameraSystem.centerWorld,
-            //setGridVisible: keyboardHandlers.setGridVisible,
-            //toggleGrid: keyboardHandlers.toggleGrid
+            stage
+            // You should return the stage and other useful objects here
+            // so they can be used outside the module.
+            // ... (rest of the public API)
         };
     };
 
