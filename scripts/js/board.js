@@ -5,7 +5,8 @@ const board = (() => {
         stage: null,
         layers: {},
         groups: {},
-        shapes: {}
+        shapes: {},
+        index: {},
     };
     
     const config = {
@@ -33,10 +34,14 @@ const board = (() => {
             config.layers.forEach(function(e, i) {
                 const layerId = crypto.randomUUID();
                 const groupId = crypto.randomUUID();
-                const newLayer = new Konva.Layer({ id: layerId, name: `layer-${e}` });
-                const newGroup = new Konva.Group({ id: groupId, name: `group-${e}` });
+                const layerName = `layer-${e}`;
+                const groupName = `group-${e}`;
+                const newLayer = new Konva.Layer({ id: layerId, name: layerName });
+                const newGroup = new Konva.Group({ id: groupId, name: groupName });
                 canvasState.layers[layerId] = newLayer;
                 canvasState.groups[groupId] = newGroup;
+                canvasState.index[layerName] = layerId;
+                canvasState.index[groupName] = groupId;
                 canvasState.stage.add(newLayer);
                 newLayer.add(newGroup);
             });
