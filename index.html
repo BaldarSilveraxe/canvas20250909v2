@@ -43,7 +43,7 @@
     .panel.middle {
       position: relative; display: grid;
       grid-template-rows: 100%; grid-template-columns: 100%;
-      overflow: hidden;
+      overflow: scroll; /* or auto */
     }
     #konvaMount { width: 100%; height: 100%; display: block; }
   </style>
@@ -55,7 +55,7 @@
     <aside class="panel left">Panel Left (15%)</aside>
 
     <section class="panel middle">
-      <div id="konva-container"></div>
+        <div id="konva-container"></div>
     </section>
 
     <aside class="panel right">Panel Left (15%)</aside>
