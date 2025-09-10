@@ -6,7 +6,6 @@ const board = (() => {
     
     const config = {
         layers: ['world', 'items', 'ui'],
-        sub
     };
 
     const build = () => {
