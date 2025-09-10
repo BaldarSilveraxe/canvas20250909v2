@@ -37,11 +37,10 @@ const board = (() => {
         } = build();
         
         const stage = makeStage(kCanvas);
-        
-        stage.add(makeLayer({ id: 'world', name: 'world' }));
-        stage.add(makeLayer({ id: 'items', name: 'items' }));
-        stage.add(makeLayer({ id: 'cntrl', name: 'cntrl' }));
 
+        config.layers.forEach(function(e, i) {
+            stage.add(makeLayer({ id: `layer${i}`, name: e }));
+        });
         const now = new Date();
         console.log(now);
 
