@@ -1,7 +1,7 @@
 import Konva from 'https://esm.sh/konva@9';
 
 const board = (() => {
-
+    const stage = {};
     const canvasState = {};
     
     const config = {
@@ -39,7 +39,7 @@ const board = (() => {
             makeLayer
         } = build();
 
-        const stage = makeStage(kCanvas);
+        stage = makeStage(kCanvas);
 
         config.layers.forEach(function(e, i) {
             // Corrected syntax: separate declarations
