@@ -21,14 +21,22 @@ const board = (() => {
             });
         };
 
-        const makeLayer = (props = {}) => {
-            if (!props.id) throw new Error('makeLayer: "id" is required');
-            return new Konva.Layer(props);
+        const makeLayers = (props = {}) => {
+            config.layers.forEach(function(e, i) {
+                const layerId = crypto.randomUUID();
+                const groupId = crypto.randomUUID();
+                const newLayer = new Konva.Layer({ id: layerId, name: `layer-${e}` });
+                const newGroup = new Konva.Group({ id: groupId, name: `group-${e}` });
+                canvasState[layerId] = newLayer;
+                canvasState[groupId] = newGroup;
+                stage.add(newLayer);
+                newLayer.add(newGroup);
+            });
         };
 
         return {
             makeStage,
-            makeLayer
+            makeLayers
         };
     };
 
@@ -40,12 +48,14 @@ const board = (() => {
         } = build();
 
         stage = makeStage(kCanvas);
+        
+        makeLayers();
 
         config.layers.forEach(function(e, i) {
             // Corrected syntax: separate declarations
             const layerId = crypto.randomUUID();
             const groupId = crypto.randomUUID();
-            const newLayer = makeLayer({ id: layerId, name: `layer-${e}` });
+            const newLayer = new Konva.Layer({ id: layerId, name: `layer-${e}` });
             const newGroup = new Konva.Group({ id: groupId, name: `group-${e}` });
             canvasState[layerId] = newLayer;
             canvasState[groupId] = newGroup;
