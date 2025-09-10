@@ -17,7 +17,7 @@ const board = (() => {
     };
     
     const create = (kCanvas) => {
-        const stage = stageBuilder(cnvs)
+        const stage = stageBuilder(kCanvas);
 
 
         console.log(stage);
