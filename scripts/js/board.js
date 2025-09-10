@@ -44,7 +44,7 @@ const board = (() => {
 
         const {
             makeStage,
-            makeLayer
+            makeLayers
         } = build();
 
         stage = makeStage(kCanvas);
