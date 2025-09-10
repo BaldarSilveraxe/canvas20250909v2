@@ -78,7 +78,7 @@ const board = (() => {
         
         // Public API
         return {
-            stage
+            canvasState.stage
             // You should return the stage and other useful objects here
             // so they can be used outside the module.
             // ... (rest of the public API)
