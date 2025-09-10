@@ -3,8 +3,8 @@ import Konva from 'https://esm.sh/konva@9';
 const board = (() => {
     const config = {
         layers: ['world','items','ui']
-
     };
+
     const build = () => {
         const makeStage = (cnvs) => {
             const kCanvasContainer = (typeof cnvs === 'string') ? document.getElementById(cnvs) : cnvs;
@@ -43,6 +43,7 @@ const board = (() => {
         });
         const now = new Date();
         console.log(now);
+        console.log(stage);
 
         // Public API
         return {
