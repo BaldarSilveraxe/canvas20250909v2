@@ -71,7 +71,7 @@ const board = (() => {
             if (type === true) {
                 // If type is not specified, search all stores
                 if (canvasState.layers[nodeId]) return canvasState.layers[nodeId];
-                if (canvasState.pseudos[nodeId]) return canvasState.groups[nodeId];
+                if (canvasState.pseudos[nodeId]) return canvasState.pseudos[nodeId];
                 if (canvasState.groups[nodeId]) return canvasState.groups[nodeId];
                 if (canvasState.shapes[nodeId]) return canvasState.shapes[nodeId];
             } else {
