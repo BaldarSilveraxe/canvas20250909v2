@@ -5,7 +5,7 @@ import Konva from 'https://esm.sh/konva@9';
 
 const board = (() => {
     const build = () => {
-        const stage = (cnvs) => {
+        const makeStage = (cnvs) => {
             const kCanvasContainer = (typeof cnvs === 'string') ? document.getElementById(cnvs) : cnvs;
             if (!kCanvasContainer) {
                 throw new Error('board.create: container not found');
@@ -16,18 +16,19 @@ const board = (() => {
                 height: kCanvasContainer.clientHeight,
             });
         };
-        const layer = () => {
+        const makeLayer = () => {
             console.log('layer');
         };    
         return { 
-            stage: stage, 
-            layer: layer 
+            makeStage, 
+            makeLayer 
         };
     };
 
     const create = (kCanvas) => {
 
-        const stage = build.stage(kCanvas);
+        const { makeStage } = build();
+        const stage = makeStage(kCanvas);
 
         console.log(stage);
         const now = new Date();
