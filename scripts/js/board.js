@@ -135,7 +135,7 @@ const board = (() => {
         console.log(now);
         console.log(canvasState.stage);
         console.log(canvasState);
-        console.log(canvasState.groups[canvasState.index['items-pseudo-layer']]);
+
         
         // Removed: Don't destroy the stage immediately after creating it
         // stage.destroy(); 
