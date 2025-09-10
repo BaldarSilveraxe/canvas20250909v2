@@ -4,7 +4,7 @@ const board = (() => {
     const canvasState = {
         stage: null,
         layers: {},
-        pseudo: {},
+        pseudos: {},
         groups: {},
         shapes: {},
         index: {},
@@ -63,19 +63,19 @@ const board = (() => {
             });
         };
 
-        function getNodeByName(name) {
+        function getNodeByName(name, type = true) {
             const nodeId = canvasState.index[name];
             if (nodeId) {
-                if (canvasState.layers[nodeId]) {
+                if (canvasState.layers[nodeId] && (type === 'layer' || type === true)) {
                     return canvasState.layers[nodeId];
                 }
-                if (canvasState.pseudo[nodeId]) {
+                if (canvasState.pseudos[nodeId] && (type === 'pseudo' || type === true)) {
                     return canvasState.layers[nodeId];
                 }
-                if (canvasState.groups[nodeId]) {
+                if (canvasState.groups[nodeId] && (type === 'group' || type === true)) {
                     return canvasState.groups[nodeId];
                 }
-                if (canvasState.shapes[nodeId]) {
+                if (canvasState.shapes[nodeId] && (type === 'shape' || type === true)) {
                     return canvasState.shapes[nodeId];
                 }
             }
