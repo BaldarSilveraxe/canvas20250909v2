@@ -4,6 +4,7 @@ const board = (() => {
     const canvasState = {
         stage: null,
         layers: {},
+        pseudo: {},
         groups: {},
         shapes: {},
         index: {},
@@ -62,13 +63,32 @@ const board = (() => {
             });
         };
 
+        function getNodeByName(name) {
+            const nodeId = canvasState.index[name];
+            if (nodeId) {
+                if (canvasState.layers[nodeId]) {
+                    return canvasState.layers[nodeId];
+                }
+                if (canvasState.pseudo[nodeId]) {
+                    return canvasState.layers[nodeId];
+                }
+                if (canvasState.groups[nodeId]) {
+                    return canvasState.groups[nodeId];
+                }
+                if (canvasState.shapes[nodeId]) {
+                    return canvasState.shapes[nodeId];
+                }
+            }
+            return null;
+        };
+        
         const makePseudoLayers = (props = {}) => {
             for (let i = 0; i < 5; i++) {
                 const groupId = crypto.randomUUID(),
                     groupName = `items-pseudo-layer-z-${(i * 10)}`,
                     newGroup = new Konva.Group({ id: groupId, name: groupName });
                 let itemsGroup = null;
-                canvasState.groups[groupId] = newGroup;
+                canvasState.pseudo[groupId] = newGroup;
                 canvasState.index[groupName] = groupId;
                 itemsGroup = canvasState.groups[canvasState.index['items-pseudo-layer']]; 
                 if (itemsGroup) {
