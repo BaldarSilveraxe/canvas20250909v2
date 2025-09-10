@@ -25,7 +25,7 @@ const board = (() => {
             'items-pseudo-layer-z-20',
             'items-pseudo-layer-z-30',
             'items-pseudo-layer-z-40'
-        ]);
+        ])
     };
 
     const build = () => {
