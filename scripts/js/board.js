@@ -110,7 +110,8 @@ const board = (() => {
         return {
             makeStage,
             makeLayers,
-            makePseudoLayers
+            makePseudoLayers,
+            getNodeByName
         };
     };
 
@@ -119,7 +120,8 @@ const board = (() => {
         const {
             makeStage,
             makeLayers,
-            makePseudoLayers
+            makePseudoLayers,
+            getNodeByName
         } = build();
 
         makeStage(kCanvas);
