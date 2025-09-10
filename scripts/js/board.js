@@ -88,7 +88,7 @@ const board = (() => {
             console.log(groupName);
                 //newLayer.add(newGroup);
         }
-console.log(canvasState.groups[canvasState.index].['items-pseudo-layer']);
+console.log(canvasState.groups[canvasState.index]['items-pseudo-layer']);
         
         //const targetGroup = stage.findOne('.world-group');
 
