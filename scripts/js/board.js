@@ -2,7 +2,7 @@ import Konva from 'https://esm.sh/konva@9';
 
 const board = (() => {
     const config = {
-        layers: ['world','lower','items','upper','top','ui']
+        layers: ['world','items','ui']
 
     };
     const build = () => {
