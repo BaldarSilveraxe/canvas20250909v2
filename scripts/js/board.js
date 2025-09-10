@@ -14,7 +14,7 @@ const board = (() => {
             });
         };
         
-        const makeLayer = (prop = {}) => {
+        const makeLayer = (props = {}) => {
             if (!props.id) throw new Error('makeLayer: "id" is required');
             return new Konva.Layer(props);
         };
