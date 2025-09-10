@@ -35,7 +35,7 @@ const board = (() => {
                 throw new Error('board.create: container not found');
             }
             const stageId = crypto.randomUUID();
-            const stageName = "stage";
+            const stageName = "_stage";
             canvasState.stage = new Konva.Stage({
                 id: stageId,
                 name: stageName,
