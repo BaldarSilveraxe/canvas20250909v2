@@ -16,7 +16,10 @@ const board = (() => {
                 height: kCanvasContainer.clientHeight,
             });
         };
-        return { stage };
+        const layer = () => {
+            console.log('layer');
+        };    
+        return { stage, layer };
     };
 
     const create = (kCanvas) => {
