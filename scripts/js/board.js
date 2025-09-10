@@ -39,8 +39,10 @@ const board = (() => {
         const stage = makeStage(kCanvas);
         
         config.layers.forEach(function(e, i) {
-            stage.add(makeLayer({ id: `layer${i}`, name: `layer-${e}`}));
-            stage.children[i].add(new Konva.Group({ id: `group${i}`, name: `group-${e}` }));
+            const newLayer = makeLayer({ id: `layer${i}`, name: `layer-${e}`});
+            const newGroup = new Konva.Group({ id: `group${i}`, name: `group-${e}` }));
+            stage.add(newLayer);
+            newLayer.add(newGroup);
         });
 
         //stage.children[0].add(new Konva.Group({ id: 'world0', name: 'world' }));
