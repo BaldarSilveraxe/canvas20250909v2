@@ -83,15 +83,14 @@ const board = (() => {
             const groupId = crypto.randomUUID(),
                 groupName = `items-pseudo-layer-z-${(i * 10)}`,
                 newGroup = new Konva.Group({ id: groupId, name: groupName })
-                itemsLayer;
+                itemsGroup;
             canvasState.groups[groupId] = newGroup;
             canvasState.index[groupName] = groupId;
-            canvasState.groups[canvasState.index['items-pseudo-layer'];
-            itemsLayer = canvasState.layers[canvasState.index['layer-items']]; 
-            if (itemsLayer) {
+            itemsGroup = canvasState.groups[canvasState.index['items-pseudo-layer']]; 
+            if (itemsGroup) {
                 itemsLayer.add(newGroup);
             }
-            canvasState.layers[canvasState.index['layer-items'] = itemsLayer;
+            canvasState.groups[canvasState.index['items-pseudo-layer']] = itemsGroup;
         }
 
 console.log(canvasState.groups[canvasState.index['items-pseudo-layer']]);
