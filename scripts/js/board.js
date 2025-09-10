@@ -65,21 +65,28 @@ const board = (() => {
 
         function getNodeByName(name, type = true) {
             const nodeId = canvasState.index[name];
-            if (nodeId) {
-                if (canvasState.layers[nodeId] && (type === 'layer' || type === true)) {
-                    return canvasState.layers[nodeId];
-                }
-                if (canvasState.pseudos[nodeId] && (type === 'pseudo' || type === true)) {
-                    return canvasState.layers[nodeId];
-                }
-                if (canvasState.groups[nodeId] && (type === 'group' || type === true)) {
-                    return canvasState.groups[nodeId];
-                }
-                if (canvasState.shapes[nodeId] && (type === 'shape' || type === true)) {
-                    return canvasState.shapes[nodeId];
+            if (!nodeId) {
+                return null;
+            }
+            if (type === true) {
+                // If type is not specified, search all stores
+                if (canvasState.layers[nodeId]) return canvasState.layers[nodeId];
+                if (canvasState.groups[nodeId]) return canvasState.groups[nodeId];
+                if (canvasState.shapes[nodeId]) return canvasState.shapes[nodeId];
+            } else {
+                // If a specific type is requested, search only that store
+                switch (type) {
+                    case 'layer':
+                        return canvasState.layers[nodeId] || null;
+                    case 'group':
+                        return canvasState.groups[nodeId] || null;
+                    case 'shape':
+                        return canvasState.shapes[nodeId] || null;
+                    default:
+                        return null;
                 }
             }
-            return null;
+            return null; // Fallback return if nothing is found
         };
         
         const makePseudoLayers = (props = {}) => {
@@ -90,7 +97,7 @@ const board = (() => {
                 let itemsGroup = null;
                 canvasState.pseudo[groupId] = newGroup;
                 canvasState.index[groupName] = groupId;
-                itemsGroup = canvasState.groups[canvasState.index['items-pseudo-layer']]; 
+                itemsGroup = getNodeByName('items-pseudo-layer', 'pseudo');
                 if (itemsGroup) {
                     itemsGroup.add(newGroup);
                 }
