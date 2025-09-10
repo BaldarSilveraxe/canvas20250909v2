@@ -1,7 +1,7 @@
 import Konva from 'https://esm.sh/konva@9';
 
 const board = (() => {
-    let stage = {};
+    let stage = null;
     const canvasState = {};
     
     const config = {
