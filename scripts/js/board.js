@@ -124,7 +124,7 @@ const board = (() => {
 
         makeStage(kCanvas);
         makeLayers();
-        //makePseudoLayers();
+        makePseudoLayers();
         
         //const newGroup = new Konva.Group({ id: `test`, name: `test` });
         //stage.child[0].child[0].add(newGroup); 
