@@ -138,7 +138,8 @@ const board = (() => {
         makeLayers();
         makePseudoLayers();
 
-const worldRect = new Konva.Rect(config.world);
+const shapeId = crypto.randomUUID(),
+const worldRect = new Konva.Rect({...config.world, id: shapeId}); 
 
 
 
