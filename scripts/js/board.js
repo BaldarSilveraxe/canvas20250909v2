@@ -143,7 +143,7 @@ const worldRect = new Konva.Rect({...config.world, id: shapeId});
 
 const worldRoot  = getNodeByName('world-pseudo-layer');
 worldRoot.add(worldRect);
-stage.draw();
+canvasState.stage.draw();
 
 
         
