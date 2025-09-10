@@ -70,9 +70,8 @@ const board = (() => {
         //stage.child[0].child[0].add(newGroup); 
         const now = new Date();
         console.log(now);
-        console.log(stage);
+        console.log(canvasState.stage);
         console.log(canvasState);
-        console.log(canvasStateIndex);
         
         // Removed: Don't destroy the stage immediately after creating it
         // stage.destroy(); 
