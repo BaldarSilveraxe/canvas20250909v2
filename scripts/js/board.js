@@ -32,12 +32,12 @@ const board = (() => {
 
         const makeLayers = (props = {}) => {
             config.layers.forEach(function(e, i) {
-                const layerId = crypto.randomUUID();
-                const groupId = crypto.randomUUID();
-                const layerName = `layer-${e}`;
-                const groupName = `group-${e}`;
-                const newLayer = new Konva.Layer({ id: layerId, name: layerName });
-                const newGroup = new Konva.Group({ id: groupId, name: groupName });
+                const layerId = crypto.randomUUID(),
+                    groupId = crypto.randomUUID(),
+                    layerName = `layer-${e}`,
+                    groupName = `group-${e}`,
+                    newLayer = new Konva.Layer({ id: layerId, name: layerName }),
+                    newGroup = new Konva.Group({ id: groupId, name: groupName });
                 canvasState.layers[layerId] = newLayer;
                 canvasState.groups[groupId] = newGroup;
                 canvasState.index[layerName] = layerId;
