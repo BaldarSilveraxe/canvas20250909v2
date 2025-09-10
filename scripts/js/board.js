@@ -74,7 +74,6 @@ const board = (() => {
                 if (itemsGroup) {
                     itemsGroup.add(newGroup);
                 }
-                canvasState.groups[canvasState.index['items-pseudo-layer']] = itemsGroup;
             }
         };
 
