@@ -55,7 +55,7 @@ const board = (() => {
                     newLayer = new Konva.Layer({ id: layerId, name: layerName }),
                     newGroup = new Konva.Group({ id: groupId, name: groupName });
                 canvasState.layers[layerId] = newLayer;
-                canvasState.groups[groupId] = newGroup;
+                canvasState.pseudos[groupId] = newGroup;
                 canvasState.index[layerName] = layerId;
                 canvasState.index[groupName] = groupId;
                 canvasState.stage.add(newLayer);
