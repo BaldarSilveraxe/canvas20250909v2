@@ -20,14 +20,13 @@ const board = (() => {
             }
             const stageId = crypto.randomUUID();
             const stageName = "stage";
-            stage = new Konva.Stage({
+            canvasState.state = new Konva.Stage({
                 id: stageId,
                 name: stageName,
                 container: kCanvasContainer,
                 width: kCanvasContainer.clientWidth,
                 height: kCanvasContainer.clientHeight,
             });
-            canvasState.state = stage;
         };
 
         const makeLayers = (props = {}) => {
