@@ -10,7 +10,22 @@ const board = (() => {
     };
     
     const config = {
-        layers: ['world', 'items', 'ui'],
+        layers: ['world', 'items', 'ui'], // Used for creating layers and pseudo-layer 'layer-world' 'world-pseudo-layer' etc
+        pseudoLayers: ['items-pseudo-layer-z-0', 'items-pseudo-layer-z-10', 'items-pseudo-layer-z-20', 'items-pseudo-layer-z-30', 'items-pseudo-layer-z-40'],
+        RESERVED_NAMES: new Set([
+            '_stage',
+            'layer-world',
+            'world-pseudo-layer',
+            'layer-items',
+            'items-pseudo-layer',
+            'layer-ui',
+            'ui-pseudo-layer',
+            'items-pseudo-layer-z-0',
+            'items-pseudo-layer-z-10',
+            'items-pseudo-layer-z-20',
+            'items-pseudo-layer-z-30',
+            'items-pseudo-layer-z-40'
+        ]);
     };
 
     const build = () => {
@@ -35,7 +50,7 @@ const board = (() => {
                 const layerId = crypto.randomUUID(),
                     groupId = crypto.randomUUID(),
                     layerName = `layer-${e}`,
-                    groupName = `group-${e}`,
+                    groupName = `${e}-pseudo-layer`,
                     newLayer = new Konva.Layer({ id: layerId, name: layerName }),
                     newGroup = new Konva.Group({ id: groupId, name: groupName });
                 canvasState.layers[layerId] = newLayer;
