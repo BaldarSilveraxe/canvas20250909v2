@@ -45,7 +45,7 @@ const board = (() => {
             strokeWidthMinor: 1,
             strokeWidthMajor: 2,
             minorLine: 100,
-            majorLine: 5
+            majorLineEvery: 5
         },
         zoom: {
             scaleMin: 0.10,
@@ -159,7 +159,7 @@ var path = new Konva.Path({
   fill: 'blue' // The fill will only be applied if the path is closed
 });
             for (let i = 0; i <= center.cx; i += config.grid.minorLine) {
-                const isMajor = (i % (config.grid.minorLine * 5) === 0);
+                const isMajor = ((config.grid.majorLineEvery > 1) && (i % (config.grid.minorLine * config.grid.majorLineEvery) === 0));
                 const strokeColor = isMajor ? '#FFFFFF' : '#000000';
                 const strokeWidth = isMajor ? 2 : 1;
                 if (i !== 0) {
