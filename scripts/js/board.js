@@ -159,7 +159,7 @@ var path = new Konva.Path({
   fill: 'blue' // The fill will only be applied if the path is closed
 });
             for (let i = 0; i <= center.cx; i += config.grid.minorLine) {
-                const isMajor = (5 > 1 && i % 5e === 0);
+                const isMajor = (5 > 1 && i % 5 === 0);
                 const strokeColor = isMajor ? '#FFFFFF' : '#000000';
                 const strokeWidth = isMajor ? 2 : 1;
                 if (i !== 0) {
