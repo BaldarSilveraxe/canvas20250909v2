@@ -36,7 +36,11 @@ const board = (() => {
             height: 6000,
             fill: '#555555',
             listening: true
-        }
+        },
+        zoom: {
+            hardMin: 0.10,
+            hardMax: 5.0
+        },
     };
 
     const build = () => {
@@ -51,8 +55,8 @@ const board = (() => {
                 id: stageId,
                 name: stageName,
                 container: kCanvasContainer,
-                width: 6000,
-                height: 6000,
+                width: world.width,
+                height: world.heigh,
             });
         };
 
@@ -159,7 +163,24 @@ worldRoot.add(topRight);
 worldRoot.add(botLeft);
 worldRoot.add(botRight);
 //test code~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        
+//camstart~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+const clamp = (values) => {
+        return Math.max(values.low, Math.min(values.high, values.value));
+    };
+const smallestScaleToCover = () => {
+            const { hardMin, hardMax } = config.zoom;
+            const width = config.world.width, height = config.world.height;
+            const minToCover = Math.max(canvasState.stage.width() / width, canvasState.stage.height() / height);
+            return clamp({
+                value: Math.min(1, minToCover),
+                low: hardMin,
+                high: hardMax
+            });
+        };
+console.log(smallestScaleToCove);
 
+//real code below~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 canvasState.stage.draw();
 
 
