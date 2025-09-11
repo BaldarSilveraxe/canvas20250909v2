@@ -163,15 +163,23 @@ const board = (() => {
             
             for (let step = 0, i = 0; step <= center.cx; step += config.grid.minorLine, i++) {
                 if (i !== 0) {
-                    newGroup.add(makePath([center.cx + step + 0.5, 0, center.cx + step + 0.5, config.world.height], ((config.grid.majorLineEvery > 1) && (i % config.grid.majorLineEvery === 0));
-                    newGroup.add(makePath([center.cx - step - 0.5, 0, center.cx - step - 0.5, ((config.grid.majorLineEvery > 1) && (i % config.grid.majorLineEvery === 0));
+                    newGroup.add(makePath(
+                        [center.cx + step + 0.5, 0, center.cx + step + 0.5, config.world.height],
+                        ((config.grid.majorLineEvery > 1) && (i % config.grid.majorLineEvery === 0)));
+                    newGroup.add(makePath(
+                        [center.cx - step - 0.5, 0, center.cx - step - 0.5,
+                        ((config.grid.majorLineEvery > 1) && (i % config.grid.majorLineEvery === 0)));
                 }
             }
             
             for (let step = 0, i = 0; step <= center.cy; step += config.grid.minorLine, i++) {
                 if (i !== 0) {
-                    newGroup.add(makePath([0, center.cy + step + 0.5, config.world.width, center.cy + step + 0.5], ((config.grid.majorLineEvery > 1) && (i % config.grid.majorLineEvery === 0))));
-                    newGroup.add(makePath([0, center.cy - step - 0.5, config.world.width, center.cy - step - 0.5], ((config.grid.majorLineEvery > 1) && (i % config.grid.majorLineEvery === 0))));
+                    newGroup.add(makePath(
+                        [0, center.cy + step + 0.5, config.world.width, center.cy + step + 0.5],
+                        ((config.grid.majorLineEvery > 1) && (i % config.grid.majorLineEvery === 0))));
+                    newGroup.add(makePath(
+                        [0, center.cy - step - 0.5, config.world.width, center.cy - step - 0.5],
+                        ((config.grid.majorLineEvery > 1) && (i % config.grid.majorLineEvery === 0))));
                 }
             }
 
