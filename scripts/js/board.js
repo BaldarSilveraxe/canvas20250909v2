@@ -157,7 +157,7 @@ const board = (() => {
                     // Right of center
                     newGroup.add(new Konva.Line({
                         points: [center.cx + step, 0, center.cx + step, config.world.height],
-                        stroke: isMajor ? '#FFFFFF' : '#000000'
+                        stroke: isMajor ? '#FFFFFF' : '#000000',
                         strokeWidth: isMajor ? 2 : 1
                     }));
                     // Left of center
@@ -175,7 +175,7 @@ const board = (() => {
                     // Right of center
                     newGroup.add(new Konva.Line({
                         points: [0, center.cy + step, config.world.width, center.cy + step],
-                        stroke: isMajor ? '#FFFFFF' : '#000000'
+                        stroke: isMajor ? '#FFFFFF' : '#000000',
                         strokeWidth: isMajor ? 2 : 1
                     }));
                     // Left of center
