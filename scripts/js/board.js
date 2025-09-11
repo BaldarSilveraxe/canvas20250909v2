@@ -44,7 +44,7 @@ const board = (() => {
             colorMajor: '#000000',
             strokeWidthMinor: 1,
             strokeWidthMajor: 2,
-            minorLine: 70,
+            minorLine: 150,
             majorLineEvery: 5
         },
         zoom: {
