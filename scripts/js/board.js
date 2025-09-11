@@ -35,13 +35,13 @@ const board = (() => {
             name: '_rect-stage',
             width: 6000,
             height: 6000,
-            fill: '#555555',
+            fill: '#222222',
             listening: true
         },
         grid: {
             name: '_group-world-grid',
-            colorMinor: '#FF0000',
-            colorMajor: '#0000FF',
+            colorMinor: '#444444',
+            colorMajor: '#000000',
             strokeWidthMinor: 1,
             strokeWidthMajor: 2,
             minorLine: 67,
@@ -155,13 +155,13 @@ const board = (() => {
                 if (i !== 0) {
                     // Right of center
                     newGroup.add(new Konva.Line({
-                        points: [center.cx + step, 0, center.cx + step, config.world.height],
+                        points: [center.cx + step + 0.5, 0, center.cx + step + 0.5, config.world.height],
                         stroke: isMajor ? config.grid.colorMajor : config.grid.colorMinor,
                         strokeWidth: isMajor ? config.grid.strokeWidthMajor : config.grid.strokeWidthMinor
                     }));
                     // Left of center
                     newGroup.add(new Konva.Line({
-                        points: [center.cx - step, 0, center.cx - step, config.world.height],
+                        points: [center.cx - step - 0.5, 0, center.cx - step - 0.5, config.world.height],
                         stroke: isMajor ? config.grid.colorMajor : config.grid.colorMinor,
                         strokeWidth: isMajor ? config.grid.strokeWidthMajor : config.grid.strokeWidthMinor
                     }));
@@ -172,13 +172,13 @@ const board = (() => {
                 if (i !== 0) {
                     // Right of center
                     newGroup.add(new Konva.Line({
-                        points: [0, center.cy + step, config.world.width, center.cy + step],
+                        points: [0, center.cy + step + 0.5, config.world.width, center.cy + step + 0.5],
                         stroke: isMajor ? config.grid.colorMajor : config.grid.colorMinor,
                         strokeWidth: isMajor ? config.grid.strokeWidthMajor : config.grid.strokeWidthMinor
                     }));
                     // Left of center
                     newGroup.add(new Konva.Line({
-                        points: [0, center.cy - step, config.world.width, center.cy - step],
+                        points: [0, center.cy - step - 0.5, config.world.width, center.cy - step - 0.5],
                         stroke: isMajor ? config.grid.colorMajor : config.grid.colorMinor,
                         strokeWidth: isMajor ? config.grid.strokeWidthMajor : config.grid.strokeWidthMinor
                     }));
