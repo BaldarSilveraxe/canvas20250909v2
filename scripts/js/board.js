@@ -152,7 +152,6 @@ const board = (() => {
             
             for (let step = 0, i = 0; step <= center.cx; step += config.grid.minorLine, i++) {
                 isMajor = ((config.grid.majorLineEvery > 1) && (i % config.grid.majorLineEvery === 0));
-                strokeWidth = isMajor ? 2 : 1;
                 if (i !== 0) {
                     // Right of center
                     newGroup.add(new Konva.Line({
@@ -170,7 +169,6 @@ const board = (() => {
             }
             for (let step = 0, i = 0; step <= center.cy; step += config.grid.minorLine, i++) {
                 isMajor = ((config.grid.majorLineEvery > 1) && (i % config.grid.majorLineEvery === 0));
-                strokeWidth = isMajor ? 2 : 1;
                 if (i !== 0) {
                     // Right of center
                     newGroup.add(new Konva.Line({
