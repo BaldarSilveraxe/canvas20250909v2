@@ -38,8 +38,8 @@ const board = (() => {
             listening: true
         },
         zoom: {
-            hardMin: 0.10,
-            hardMax: 5.0
+            scaleMin: 0.10,
+            scaleMax: 5.0
         },
     };
 
@@ -165,17 +165,17 @@ worldRoot.add(botRight);
 //test code~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         
 //camstart~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-const clamp = (values) => {
-        return Math.max(values.low, Math.min(values.high, values.value));
+const clamp = (value) => {
+        return Math.max(value.min, Math.min(value.max, value.n));
     };
 const smallestScaleToCover = () => {
-            const { hardMin, hardMax } = config.zoom;
+            const { scaleMin, scaleMax } = config.zoom;
             const width = config.world.width, height = config.world.height;
             const minToCover = Math.max(canvasState.stage.width() / width, canvasState.stage.height() / height);
             return clamp({
-                value: Math.min(1, minToCover),
-                low: hardMin,
-                high: hardMax
+                n: Math.min(1, minToCover),
+                low: scaleMin,
+                high: scaleMax
             });
         };
 console.log(smallestScaleToCover());
