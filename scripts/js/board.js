@@ -184,6 +184,16 @@ const board = (() => {
                     }));
                 }
             }
+            newGroup.add(new Konva.Line({
+                points: [center.cx, 0, center.cx, config.world.height],
+                stroke: isMajor ? '#FFFFFF' : '#000000',
+                strokeWidth: isMajor ? 2 : 1
+            }));
+            newGroup.add(new Konva.Line({
+                points: [0, center.cy, config.world.width, center.cy],
+                stroke: isMajor ? '#FFFFFF' : '#000000',
+                strokeWidth: isMajor ? 2 : 1
+            }));
             newGroup.moveToTop();
         };
 
