@@ -55,8 +55,8 @@ const board = (() => {
                 id: stageId,
                 name: stageName,
                 container: kCanvasContainer,
-                width: world.width,
-                height: world.heigh,
+                width: config.world.width,
+                height: config.world.heigh,
             });
         };
 
