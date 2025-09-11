@@ -162,10 +162,10 @@ const board = (() => {
                 if (i !== 0) {
                     newGroup.add(makePath(
                         [center.cx + step + 0.5, 0, center.cx + step + 0.5, config.world.height],
-                        ((config.grid.majorLineEvery > 1) && (i % config.grid.majorLineEvery === 0))));
+                        ((i % config.grid.majorLineEvery === 0))));
                     newGroup.add(makePath(
                         [center.cx - step - 0.5, 0, center.cx - step - 0.5, config.world.height],
-                        ((config.grid.majorLineEvery > 1) && (i % config.grid.majorLineEvery === 0))));
+                        ((i % config.grid.majorLineEvery === 0))));
                 }
             }
             
@@ -173,10 +173,10 @@ const board = (() => {
                 if (i !== 0) {
                     newGroup.add(makePath(
                         [0, center.cy + step + 0.5, config.world.width, center.cy + step + 0.5],
-                        ((config.grid.majorLineEvery > 1) && (i % config.grid.majorLineEvery === 0))));
+                        ((i % config.grid.majorLineEvery === 0))));;
                     newGroup.add(makePath(
                         [0, center.cy - step - 0.5, config.world.width, center.cy - step - 0.5],
-                        ((config.grid.majorLineEvery > 1) && (i % config.grid.majorLineEvery === 0))));
+                        ((i % config.grid.majorLineEvery === 0))));
                 }
             }
 
