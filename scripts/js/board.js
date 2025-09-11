@@ -165,13 +165,13 @@ var path = new Konva.Path({
                 if (i !== 0) {
                     // Right of center
                     newGroup.add(new Konva.Line({
-                        points: [center.cx + i, 0, center.x + i, config.world.height],
+                        points: [center.cx + i, 0, center.cx + i, config.world.height],
                         stroke: strokeColor,
                         strokeWidth: strokeWidth,
                     }));
                     // Left of center
                     newGroup.add(new Konva.Line({
-                        points: [center.cx - i, 0, center.x - i, config.world.height],
+                        points: [center.cx - i, 0, center.cx - i, config.world.height],
                         stroke: strokeColor,
                         strokeWidth: strokeWidth,
                     }));
