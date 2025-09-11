@@ -35,7 +35,7 @@ const board = (() => {
             name: '_rect-stage',
             width: 6000,
             height: 6000,
-            fill: '#222222',
+            fill: '#EEEEEE',
             listening: true
         },
         grid: {
