@@ -178,7 +178,7 @@ const smallestScaleToCover = () => {
                 high: hardMax
             });
         };
-console.log(smallestScaleToCover);
+console.log(smallestScaleToCover());
 
 //real code below~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 canvasState.stage.draw();
