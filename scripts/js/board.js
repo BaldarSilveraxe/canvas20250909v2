@@ -173,22 +173,8 @@ const board = (() => {
             for (let step = 0, i = 0; step <= center.cy; step += config.grid.minorLine, i++) {
                 isMajor = ((config.grid.majorLineEvery > 1) && (i % config.grid.majorLineEvery === 0));
                 if (i !== 0) {
-                    // Right of center
-                    newGroup.add(new Konva.Line({
-                        id: crypto.randomUUID(),
-                        name: 'grid-line',
-                        points: [0, center.cy + step + 0.5, config.world.width, center.cy + step + 0.5],
-                        stroke: isMajor ? config.grid.colorMajor : config.grid.colorMinor,
-                        strokeWidth: isMajor ? config.grid.strokeWidthMajor : config.grid.strokeWidthMinor
-                    }));
-                    // Left of center
-                    newGroup.add(new Konva.Line({
-                        id: crypto.randomUUID(),
-                        name: 'grid-line',
-                        points: [0, center.cy - step - 0.5, config.world.width, center.cy - step - 0.5],
-                        stroke: isMajor ? config.grid.colorMajor : config.grid.colorMinor,
-                        strokeWidth: isMajor ? config.grid.strokeWidthMajor : config.grid.strokeWidthMinor
-                    }));
+                    newGroup.add(makePath([0, center.cy + step + 0.5, config.world.width, center.cy + step + 0.5], isMajor));
+                    newGroup.add(makePath([0, center.cy - step - 0.5, config.world.width, center.cy - step - 0.5], isMajor));
                 }
             }
             newGroup.add(new Konva.Line({
