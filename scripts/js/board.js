@@ -148,20 +148,20 @@ const board = (() => {
                 center = { cx: config.world.width / 2, cy: config.world.height / 2};
             
             worldRoot.add(newGroup);
-            for (let i = center.cx; i >= 0; i -= config.grid.minorLine) {
-                const isMajor = ((config.grid.majorLineEvery > 1) && (i % (config.grid.minorLine * config.grid.majorLineEvery) === 0));
-                const strokeColor = isMajor ? '#FFFFFF' : '#000000';
-                const strokeWidth = isMajor ? 2 : 1;
+            for (let px = center.cx, i = 0; px >= 0; px -= config.grid.minorLine i++) {
+                //const isMajor = ((config.grid.majorLineEvery > 1) && (i % (config.grid.minorLine * config.grid.majorLineEvery) === 0));
+                const strokeColor = '#000000' // isMajor ? '#FFFFFF' : '#000000';
+                const strokeWidth = 1 // isMajor ? 2 : 1;
                 if (i !== 0) {
                     // Right of center
                     newGroup.add(new Konva.Line({
-                        points: [center.cx + i, 0, center.cx + i, config.world.height],
+                        points: [px, 0, pxi, config.world.height],
                         stroke: strokeColor,
                         strokeWidth: strokeWidth,
                     }));
                     // Left of center
                     newGroup.add(new Konva.Line({
-                        points: [center.cx - i, 0, center.cx - i, config.world.height],
+                        points: [px, 0, px, config.world.height],
                         stroke: strokeColor,
                         strokeWidth: strokeWidth,
                     }));
