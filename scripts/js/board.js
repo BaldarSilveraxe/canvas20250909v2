@@ -148,7 +148,7 @@ const board = (() => {
                 center = { cx: config.world.width / 2, cy: config.world.height / 2};
             
             worldRoot.add(newGroup);
-            for (let step = 0, i = 0; px >= 0; step += config.grid.minorLine, i++) {
+            for (let step = 0, i = 0; step <= center.cx; step += config.grid.minorLine, i++) {
                 //const isMajor = ((config.grid.majorLineEvery > 1) && (i % (config.grid.minorLine * config.grid.majorLineEvery) === 0));
                 const strokeColor = '#000000' // isMajor ? '#FFFFFF' : '#000000';
                 const strokeWidth = 1 // isMajor ? 2 : 1;
