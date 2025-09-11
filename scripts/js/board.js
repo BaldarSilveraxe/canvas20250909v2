@@ -148,17 +148,7 @@ const board = (() => {
                 center = { cx: config.world.width / 2, cy: config.world.height / 2};
             
             worldRoot.add(newGroup);
-
-            var pathData = 'M10 10 L100 100';
-var path = new Konva.Path({
-  x: 50,
-  y: 50,
-  data: pathData,
-  stroke: 'red',
-  strokeWidth: 5,
-  fill: 'blue' // The fill will only be applied if the path is closed
-});
-            for (let i = 0; i <= center.cx; i += config.grid.minorLine) {
+            for (let i = center.cx; i >= 0; i -= config.grid.minorLine) {
                 const isMajor = ((config.grid.majorLineEvery > 1) && (i % (config.grid.minorLine * config.grid.majorLineEvery) === 0));
                 const strokeColor = isMajor ? '#FFFFFF' : '#000000';
                 const strokeWidth = isMajor ? 2 : 1;
@@ -177,8 +167,6 @@ var path = new Konva.Path({
                     }));
                 }
             }
-
-newGroup.add(path);
             newGroup.moveToTop();
         };
 
