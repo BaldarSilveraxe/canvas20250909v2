@@ -142,6 +142,7 @@ const board = (() => {
 
         const makeGrid = () => {
             let isMajor;
+                makePath;
             const groupId = crypto.randomUUID(),
                 groupName = config.grid.name,
                 newGroup = new Konva.Group({ id: groupId, name: groupName }),
@@ -149,18 +150,25 @@ const board = (() => {
                 center = { cx: config.world.width / 2, cy: config.world.height / 2};
             
             worldRoot.add(newGroup);
+            makePath = (points, isMajor) => {
+                return (new Konva.Line({
+                        id: crypto.randomUUID(),
+                        name: 'grid-line',
+                        points: points,
+                        stroke: isMajor ? config.grid.colorMajor : config.grid.colorMinor,
+                        strokeWidth: isMajor ? config.grid.strokeWidthMajor : config.grid.strokeWidthMinor
+                    }));
+            };
             
             for (let step = 0, i = 0; step <= center.cx; step += config.grid.minorLine, i++) {
                 isMajor = ((config.grid.majorLineEvery > 1) && (i % config.grid.majorLineEvery === 0));
                 if (i !== 0) {
                     // Right of center
-                    newGroup.add(new Konva.Line({
-                        points: [center.cx + step + 0.5, 0, center.cx + step + 0.5, config.world.height],
-                        stroke: isMajor ? config.grid.colorMajor : config.grid.colorMinor,
-                        strokeWidth: isMajor ? config.grid.strokeWidthMajor : config.grid.strokeWidthMinor
-                    }));
+                    newGroup.add(makePath([center.cx + step + 0.5, 0, center.cx + step + 0.5, config.world.height], isMajor);
                     // Left of center
                     newGroup.add(new Konva.Line({
+                        id: crypto.randomUUID(),
+                        name: 'grid-line',
                         points: [center.cx - step - 0.5, 0, center.cx - step - 0.5, config.world.height],
                         stroke: isMajor ? config.grid.colorMajor : config.grid.colorMinor,
                         strokeWidth: isMajor ? config.grid.strokeWidthMajor : config.grid.strokeWidthMinor
@@ -172,12 +180,16 @@ const board = (() => {
                 if (i !== 0) {
                     // Right of center
                     newGroup.add(new Konva.Line({
+                        id: crypto.randomUUID(),
+                        name: 'grid-line',
                         points: [0, center.cy + step + 0.5, config.world.width, center.cy + step + 0.5],
                         stroke: isMajor ? config.grid.colorMajor : config.grid.colorMinor,
                         strokeWidth: isMajor ? config.grid.strokeWidthMajor : config.grid.strokeWidthMinor
                     }));
                     // Left of center
                     newGroup.add(new Konva.Line({
+                        id: crypto.randomUUID(),
+                        name: 'grid-line',
                         points: [0, center.cy - step - 0.5, config.world.width, center.cy - step - 0.5],
                         stroke: isMajor ? config.grid.colorMajor : config.grid.colorMinor,
                         strokeWidth: isMajor ? config.grid.strokeWidthMajor : config.grid.strokeWidthMinor
@@ -185,11 +197,15 @@ const board = (() => {
                 }
             }
             newGroup.add(new Konva.Line({
+                id: crypto.randomUUID(),
+                name: 'grid-line',
                 points: [center.cx, 0, center.cx, config.world.height],
                 stroke: config.grid.colorMajor,
                 strokeWidth: config.grid.strokeWidthMajor
             }));
             newGroup.add(new Konva.Line({
+                id: crypto.randomUUID(),
+                name: 'grid-line',
                 points: [0, center.cy, config.world.width, center.cy],
                 stroke: config.grid.colorMajor,
                 strokeWidth: config.grid.strokeWidthMajor
