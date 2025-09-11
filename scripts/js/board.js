@@ -185,14 +185,14 @@ const board = (() => {
                 }
             }
             newGroup.add(new Konva.Line({
-                points: [center.cx, 0, center.cx, center.cy],
-                stroke: isMajor ? '#FFFFFF' : '#000000',
-                strokeWidth: isMajor ? 2 : 1
+                points: [center.cx, 0, center.cx, config.world.height],
+                stroke: '#FFFFFF',
+                strokeWidth: 2
             }));
             newGroup.add(new Konva.Line({
                 points: [0, center.cy, config.world.width, center.cy],
-                stroke: isMajor ? '#FFFFFF' : '#000000',
-                strokeWidth: isMajor ? 2 : 1
+                stroke: '#FFFFFF',
+                strokeWidth: 2
             }));
             newGroup.moveToTop();
         };
