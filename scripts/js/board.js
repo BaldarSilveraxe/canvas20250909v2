@@ -182,7 +182,7 @@ console.log(smallestScaleToCover());
 
 //real code below~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 canvasState.stage.draw();
-
+console.log('finished');
 
         
         console.log(getNodeByName('items-pseudo-layer'));
