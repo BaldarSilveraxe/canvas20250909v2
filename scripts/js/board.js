@@ -38,6 +38,13 @@ const board = (() => {
             fill: '#555555',
             listening: true
         },
+        grid: {
+            name: '_group-world-grid',
+            colorMinor: '#FF0000',
+            colorMajor: '#0000FF',
+            strokeWidthMinor: 1,
+            strokeWidthMajor: 2,
+        },
         zoom: {
             scaleMin: 0.10,
             scaleMax: 5.0
@@ -132,10 +139,11 @@ const board = (() => {
         };
 
         const makeGrid = () => {
-            const groupId = crypto.randomUUID();
-            const groupName = '_group-world-grid';
-            const newGroup = new Konva.Group({ id: groupId, name: groupName });
-            const worldRoot = getNodeByName('world-pseudo-layer');
+            const groupId = crypto.randomUUID(),
+                groupName = config.grid.name,
+                newGroup = new Konva.Group({ id: groupId, name: groupName }),
+                worldRoot = getNodeByName('world-pseudo-layer');
+            
             worldRoot.add(newGroup);
 
             var pathData = 'M10 10 L100 100';
