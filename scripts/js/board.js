@@ -163,8 +163,42 @@ worldRoot.add(topRight);
 worldRoot.add(botLeft);
 worldRoot.add(botRight);
 //test code~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    // Add the zoom event listener
+    const stage = canvasState.stage;
+    const scaleBy = 1.05; // Adjust this value to change zoom speed
+
+    stage.on('wheel', (e) => {
+        // Only zoom if the Alt key is pressed
+        if (!e.evt.altKey) {
+            return;
+        }
+
+        // Prevent default browser scrolling
+        e.evt.preventDefault(); 
+
+        const oldScale = stage.scaleX();
+        const pointer = stage.getPointerPosition();
+
+        // Determine zoom direction and calculate new scale
+        let newScale = e.evt.deltaY > 0 ? oldScale * scaleBy : oldScale / scaleBy;
         
-//camstart~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        // Clamp the scale to the configured min and max
+        const clampedScale = Math.max(config.zoom.scaleMin, Math.min(newScale, config.zoom.scaleMax));
+
+        // Adjust the stage position to zoom at the cursor's location
+        const mousePointTo = {
+            x: (pointer.x - stage.x()) / oldScale,
+            y: (pointer.y - stage.y()) / oldScale,
+        };
+        const newPos = {
+            x: pointer.x - mousePointTo.x * clampedScale,
+            y: pointer.y - mousePointTo.y * clampedScale,
+        };
+        stage.position(newPos);
+        stage.scale({ x: clampedScale, y: clampedScale });
+        stage.draw();
+    });     
+/*camstart~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 const clamp = (value) => {
         return Math.max(value.min, Math.min(value.max, value.n));
     };
@@ -180,7 +214,7 @@ const smallestScaleToCover = () => {
         };
 console.log(smallestScaleToCover());
 
-//real code below~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~/
+//real code below~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~/*
 canvasState.stage.draw();
 console.log('finished');
 
