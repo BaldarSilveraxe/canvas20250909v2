@@ -152,7 +152,7 @@ const board = (() => {
                         stroke: isMajor ? config.grid.colorMajor : config.grid.colorMinor,
                         strokeWidth: isMajor ? config.grid.strokeWidthMajor : config.grid.strokeWidthMinor
                     }));
-                };;
+                };
 
             worldRoot.add(newGroup);
 
