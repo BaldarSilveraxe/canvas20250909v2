@@ -172,7 +172,7 @@ worldRoot.add(botRight);
         if (!e.evt.altKey) {
             return;
         }
-console.log('zooming');
+
         
         // Prevent default browser scrolling
         e.evt.preventDefault(); 
