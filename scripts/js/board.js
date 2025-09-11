@@ -164,7 +164,7 @@ worldRoot.add(botLeft);
 worldRoot.add(botRight);
 //test code~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         
-/*camstart~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/camstart~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 const clamp = (value) => {
         return Math.max(value.min, Math.min(value.max, value.n));
     };
@@ -180,7 +180,7 @@ const smallestScaleToCover = () => {
         };
 console.log(smallestScaleToCover());
 
-//real code below~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+//real code below~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~/
 canvasState.stage.draw();
 console.log('finished');
 
