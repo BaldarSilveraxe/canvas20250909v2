@@ -142,8 +142,7 @@ const board = (() => {
 
         const makeGrid = () => {
             const groupId = crypto.randomUUID(),
-                groupName = config.grid.name,
-                newGroup = new Konva.Group({ id: groupId, name: groupName }),
+                newGroup = new Konva.Group({ id: groupId, name: config.grid.name }),
                 worldRoot = getNodeByName('world-pseudo-layer'),
                 center = { cx: config.world.width / 2, cy: config.world.height / 2},
                 makePath = (points, isMajor) => {
