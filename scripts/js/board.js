@@ -211,13 +211,9 @@ const board = (() => {
         makeWorldRect();
         makeGrid();
 
-
-        
-
         canvasState.stage.draw();
         console.log('finished');
 
-        
         console.log(getNodeByName('items-pseudo-layer'));
         
         //const newGroup = new Konva.Group({ id: `test`, name: `test` });
@@ -226,10 +222,6 @@ const board = (() => {
         console.log(now);
         console.log(canvasState.stage);
         console.log(canvasState);
-
-        
-        // Removed: Don't destroy the stage immediately after creating it
-        // stage.destroy(); 
         
         // Public API
         return {
