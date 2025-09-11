@@ -164,7 +164,7 @@ const board = (() => {
                 isMajor = ((config.grid.majorLineEvery > 1) && (i % config.grid.majorLineEvery === 0));
                 if (i !== 0) {
                     // Right of center
-                    newGroup.add(makePath([center.cx + step + 0.5, 0, center.cx + step + 0.5, config.world.height], isMajor);
+                    newGroup.add(makePath([center.cx + step + 0.5, 0, center.cx + step + 0.5, config.world.height], isMajor));
                     // Left of center
                     newGroup.add(new Konva.Line({
                         id: crypto.randomUUID(),
