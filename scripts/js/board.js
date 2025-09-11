@@ -141,7 +141,8 @@ const board = (() => {
             makeStage,
             makeLayers,
             makePseudoLayers,
-            getNodeByName
+            getNodeByName,
+            makeWorldRect
         } = build();
 
         makeStage(kCanvas);
