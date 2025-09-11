@@ -141,7 +141,7 @@ const board = (() => {
         };
 
         const makeGrid = () => {
-            let isMajor;
+            let isMajor,
                 makePath;
             const groupId = crypto.randomUUID(),
                 groupName = config.grid.name,
