@@ -135,7 +135,7 @@ const board = (() => {
             const groupId = crypto.randomUUID();
             const groupName = '_group-world-grid';
             const newGroup = new Konva.Group({ id: groupId, name: groupName });
-            worldRoot = getNodeByName('world-pseudo-layer');
+            const worldRoot = getNodeByName('world-pseudo-layer');
             worldRoot.add(newGroup);
 
             var pathData = 'M10 10 L100 100';
