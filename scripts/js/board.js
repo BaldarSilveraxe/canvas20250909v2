@@ -141,8 +141,7 @@ const board = (() => {
         };
 
         const makeGrid = () => {
-            let isMajor,
-                makePath;
+            let makePath;
             
             const groupId = crypto.randomUUID(),
                 groupName = config.grid.name,
@@ -163,34 +162,21 @@ const board = (() => {
             };
             
             for (let step = 0, i = 0; step <= center.cx; step += config.grid.minorLine, i++) {
-                isMajor = ((config.grid.majorLineEvery > 1) && (i % config.grid.majorLineEvery === 0));
                 if (i !== 0) {
-                    newGroup.add(makePath([center.cx + step + 0.5, 0, center.cx + step + 0.5, config.world.height], isMajor));
-                    newGroup.add(makePath([center.cx - step - 0.5, 0, center.cx - step - 0.5, config.world.height], isMajor));
+                    newGroup.add(makePath([center.cx + step + 0.5, 0, center.cx + step + 0.5, config.world.height], ((config.grid.majorLineEvery > 1) && (i % config.grid.majorLineEvery === 0));
+                    newGroup.add(makePath([center.cx - step - 0.5, 0, center.cx - step - 0.5, ((config.grid.majorLineEvery > 1) && (i % config.grid.majorLineEvery === 0));
                 }
             }
             
             for (let step = 0, i = 0; step <= center.cy; step += config.grid.minorLine, i++) {
-                isMajor = ((config.grid.majorLineEvery > 1) && (i % config.grid.majorLineEvery === 0));
                 if (i !== 0) {
-                    newGroup.add(makePath([0, center.cy + step + 0.5, config.world.width, center.cy + step + 0.5], isMajor));
-                    newGroup.add(makePath([0, center.cy - step - 0.5, config.world.width, center.cy - step - 0.5], isMajor));
+                    newGroup.add(makePath([0, center.cy + step + 0.5, config.world.width, center.cy + step + 0.5], ((config.grid.majorLineEvery > 1) && (i % config.grid.majorLineEvery === 0))));
+                    newGroup.add(makePath([0, center.cy - step - 0.5, config.world.width, center.cy - step - 0.5], ((config.grid.majorLineEvery > 1) && (i % config.grid.majorLineEvery === 0))));
                 }
             }
-            newGroup.add(new Konva.Line({
-                id: crypto.randomUUID(),
-                name: 'grid-line',
-                points: [center.cx, 0, center.cx, config.world.height],
-                stroke: config.grid.colorMajor,
-                strokeWidth: config.grid.strokeWidthMajor
-            }));
-            newGroup.add(new Konva.Line({
-                id: crypto.randomUUID(),
-                name: 'grid-line',
-                points: [0, center.cy, config.world.width, center.cy],
-                stroke: config.grid.colorMajor,
-                strokeWidth: config.grid.strokeWidthMajor
-            }));
+
+            newGroup.add(makePath([center.cx, 0, center.cx, config.world.height], true));
+            newGroup.add(makePath([0, center.cy, config.world.width, center.cy], true));
 
             newGroup.moveToTop();
         };
