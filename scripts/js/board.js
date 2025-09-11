@@ -163,7 +163,7 @@ const board = (() => {
 
             for (let step = 0, i = 0; step <= maxSide; step += config.grid.minorLine, i++) {
                 if (i !== 0) {
-                    if (step <= (width / 2) {
+                    if (step <= (width / 2)) {
                     newGroup.add(makePath(
                         [cx + step + pixelTrick, 0, cx + step + pixelTrick, height],
                         ((i % config.grid.majorLineEvery === 0))));
