@@ -141,6 +141,8 @@ const board = (() => {
         };
 
         const makeGrid = () => {
+            let newPathA,
+                newPathB;
             const groupId = crypto.randomUUID(),
                 groupName = config.grid.name,
                 newGroup = new Konva.Group({ id: groupId, name: groupName }),
@@ -155,14 +157,14 @@ const board = (() => {
                 const strokeWidth = 1 // isMajor ? 2 : 1;
                 if (i !== 0) {
                     // Right of center
-                    const newPathA.add(new Konva.Line({
+                    newPathA.add(new Konva.Line({
                         points: [center.cx + step, 0, center.cx + step, config.world.height],
                         stroke: strokeColor,
                         strokeWidth: strokeWidth,
                     }));
                     newGroup.add(newPathA);
                     // Left of center
-                    const newPathB.add(new Konva.Line({
+                    newPathB.add(new Konva.Line({
                         points: [center.cx - step, 0, center.cx - step, config.world.height],
                         stroke: strokeColor,
                         strokeWidth: strokeWidth,
