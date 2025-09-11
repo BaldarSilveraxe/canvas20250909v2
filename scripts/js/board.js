@@ -199,23 +199,7 @@ worldRoot.add(botRight);
         stage.scale({ x: clampedScale, y: clampedScale });
         stage.draw();
     });     
-/*camstart~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-const clamp = (value) => {
-        return Math.max(value.min, Math.min(value.max, value.n));
-    };
-const smallestScaleToCover = () => {
-            const { scaleMin, scaleMax } = config.zoom;
-            const width = config.world.width, height = config.world.height;
-            const minToCover = Math.max(canvasState.stage.width() / width, canvasState.stage.height() / height);
-            return clamp({
-                n: Math.min(1, minToCover),
-                low: scaleMin,
-                high: scaleMax
-            });
-        };
-console.log(smallestScaleToCover());
 
-//real code below~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~/*
 canvasState.stage.draw();
 console.log('finished');
 
