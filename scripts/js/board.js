@@ -156,13 +156,13 @@ const board = (() => {
                 if (i !== 0) {
                     // Right of center
                     newGroup.add(new Konva.Line({
-                        points: [center.cx + step, 0, center.cx, config.world.height],
+                        points: [center.cx + step, 0, center.cx + step, config.world.height],
                         stroke: strokeColor,
                         strokeWidth: strokeWidth,
                     }));
                     // Left of center
                     newGroup.add(new Konva.Line({
-                        points: [center.cx - step, 0, center.cx, config.world.height],
+                        points: [center.cx - step, 0, center.cx - step, config.world.height],
                         stroke: strokeColor,
                         strokeWidth: strokeWidth,
                     }));
@@ -198,15 +198,6 @@ const board = (() => {
         makeWorldRect();
 makeGrid();
 
-//test code~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-const topRight = new Konva.Rect({ x: 3001, y: 0, width: 3000, height: 3000, fill: '#550055', listening: true });
-const botLeft = new Konva.Rect({ x: 0, y: 3001, width: 3000, height: 3000, fill: '#555500', listening: true });
-const botRight = new Konva.Rect({ x: 3001, y: 3001, width: 3000, height: 3000, fill: '#055550', listening: true });
-const worldRoot = getNodeByName('world-pseudo-layer');
-worldRoot.add(topRight);
-worldRoot.add(botLeft);
-worldRoot.add(botRight);
-//test code~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
         
 
