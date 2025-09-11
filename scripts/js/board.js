@@ -44,6 +44,8 @@ const board = (() => {
             colorMajor: '#0000FF',
             strokeWidthMinor: 1,
             strokeWidthMajor: 2,
+            minorLine: 100,
+            majorLine: 5
         },
         zoom: {
             scaleMin: 0.10,
@@ -142,7 +144,8 @@ const board = (() => {
             const groupId = crypto.randomUUID(),
                 groupName = config.grid.name,
                 newGroup = new Konva.Group({ id: groupId, name: groupName }),
-                worldRoot = getNodeByName('world-pseudo-layer');
+                worldRoot = getNodeByName('world-pseudo-layer'),
+                center = { cx: config.world.width / 2, cy: config.world.height / 2};
             
             worldRoot.add(newGroup);
 
@@ -155,6 +158,26 @@ var path = new Konva.Path({
   strokeWidth: 5,
   fill: 'blue' // The fill will only be applied if the path is closed
 });
+            for (let i = 0; i <= center.cx; i += config.grid.minorLine) {
+                const isMajor = (i % config.grid.majorLine === 0);
+                const strokeColor = isMajor ? '#666' : '#ddd';
+                const strokeWidth = isMajor ? 2 : 1;
+                if (i !== 0) {
+                    // Right of center
+                    newGroup.add(new Konva.Line({
+                        points: [center.x + i, 0, center.x + i, height],
+                        stroke: strokeColor,
+                        strokeWidth: strokeWidth,
+                    }));
+                    // Left of center
+                    newGroup.add(new Konva.Line({
+                        points: [center.x - i, 0, center.x - i, height],
+                        stroke: strokeColor,
+                        strokeWidth: strokeWidth,
+                    }));
+                }
+            }
+
 newGroup.add(path);
             newGroup.moveToTop();
         };
