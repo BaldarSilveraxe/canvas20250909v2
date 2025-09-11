@@ -141,7 +141,8 @@ const board = (() => {
         };
 
         const makeGrid = () => {
-            const newGroup = new Konva.Group({ id: crypto.randomUUID(), name: config.grid.name }),
+            const maxSide = Math.max(config.world.height, config.world.width),
+                newGroup = new Konva.Group({ id: crypto.randomUUID(), name: config.grid.name }),
                 worldRoot = getNodeByName('world-pseudo-layer'),
                 center = { cx: config.world.width / 2, cy: config.world.height / 2},
                 makePath = (points, isMajor) => {
@@ -156,7 +157,7 @@ const board = (() => {
 
             worldRoot.add(newGroup);
 
-            for (let step = 0, i = 0; step <= center.cx; step += config.grid.minorLine, i++) {
+            for (let step = 0, i = 0; step <= maxSide; step += config.grid.minorLine, i++) {
                 if (i !== 0) {
                     newGroup.add(makePath(
                         [center.cx + step + 0.5, 0, center.cx + step + 0.5, config.world.height],
@@ -164,20 +165,26 @@ const board = (() => {
                     newGroup.add(makePath(
                         [center.cx - step - 0.5, 0, center.cx - step - 0.5, config.world.height],
                         ((i % config.grid.majorLineEvery === 0))));
-                }
-            }
-
-            for (let step = 0, i = 0; step <= center.cy; step += config.grid.minorLine, i++) {
-                if (i !== 0) {
                     newGroup.add(makePath(
                         [0, center.cy + step + 0.5, config.world.width, center.cy + step + 0.5],
-                        ((i % config.grid.majorLineEvery === 0))));;
+                        ((i % config.grid.majorLineEvery === 0))));
                     newGroup.add(makePath(
                         [0, center.cy - step - 0.5, config.world.width, center.cy - step - 0.5],
                         ((i % config.grid.majorLineEvery === 0))));
                 }
             }
-
+/*
+            for (let step = 0, i = 0; step <= center.cy; step += config.grid.minorLine, i++) {
+                if (i !== 0) {
+                    newGroup.add(makePath(
+                        [0, center.cy + step + 0.5, config.world.width, center.cy + step + 0.5],
+                        ((i % config.grid.majorLineEvery === 0))));
+                    newGroup.add(makePath(
+                        [0, center.cy - step - 0.5, config.world.width, center.cy - step - 0.5],
+                        ((i % config.grid.majorLineEvery === 0))));
+                }
+            }
+*/
             newGroup.add(makePath([center.cx, 0, center.cx, config.world.height], true));
             newGroup.add(makePath([0, center.cy, config.world.width, center.cy], true));
 
