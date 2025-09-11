@@ -141,26 +141,23 @@ const board = (() => {
         };
 
         const makeGrid = () => {
-            let makePath;
-            
             const groupId = crypto.randomUUID(),
                 groupName = config.grid.name,
                 newGroup = new Konva.Group({ id: groupId, name: groupName }),
                 worldRoot = getNodeByName('world-pseudo-layer'),
-                center = { cx: config.world.width / 2, cy: config.world.height / 2};
-            
-            worldRoot.add(newGroup);
-           
-            makePath = (points, isMajor) => {
-                return (new Konva.Line({
+                center = { cx: config.world.width / 2, cy: config.world.height / 2},
+                makePath = (points, isMajor) => {
+                    return (new Konva.Line({
                         id: crypto.randomUUID(),
                         name: 'grid-line',
                         points: points,
                         stroke: isMajor ? config.grid.colorMajor : config.grid.colorMinor,
                         strokeWidth: isMajor ? config.grid.strokeWidthMajor : config.grid.strokeWidthMinor
                     }));
-            };
+                };;
             
+            worldRoot.add(newGroup);
+
             for (let step = 0, i = 0; step <= center.cx; step += config.grid.minorLine, i++) {
                 if (i !== 0) {
                     newGroup.add(makePath(
@@ -214,7 +211,7 @@ const board = (() => {
         makeLayers();
         makePseudoLayers();
         makeWorldRect();
-makeGrid();
+        makeGrid();
 
 
         
