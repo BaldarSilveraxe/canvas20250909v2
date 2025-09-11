@@ -141,10 +141,14 @@ const board = (() => {
         };
 
         const makeGrid = () => {
-            const maxSide = Math.max(config.world.width, config.world.height),
+            const width = config.world.width,
+                height = config.world.height,
+                maxSide = Math.max(width, height),
                 newGroup = new Konva.Group({ id: crypto.randomUUID(), name: config.grid.name }),
                 worldRoot = getNodeByName('world-pseudo-layer'),
-                center = { cx: config.world.width / 2, cy: config.world.height / 2},
+                cx =  width / 2,
+                cy = height / 2,
+                center = { cx: width / 2, cy: height / 2},
                 makePath = (points, isMajor) => {
                     return (new Konva.Line({
                         id: crypto.randomUUID(),
@@ -160,16 +164,16 @@ const board = (() => {
             for (let step = 0, i = 0; step <= maxSide; step += config.grid.minorLine, i++) {
                 if (i !== 0) {
                     newGroup.add(makePath(
-                        [center.cx + step + 0.5, 0, center.cx + step + 0.5, config.world.height],
+                        [cx + step + 0.5, 0, cx + step + 0.5, height],
                         ((i % config.grid.majorLineEvery === 0))));
                     newGroup.add(makePath(
-                        [center.cx - step - 0.5, 0, center.cx - step - 0.5, config.world.height],
+                        [cx - step - 0.5, 0, cx - step - 0.5, height],
                         ((i % config.grid.majorLineEvery === 0))));
                     newGroup.add(makePath(
-                        [0, center.cy + step + 0.5, config.world.width, center.cy + step + 0.5],
+                        [0, cy + step + 0.5, width, cy + step + 0.5],
                         ((i % config.grid.majorLineEvery === 0))));
                     newGroup.add(makePath(
-                        [0, center.cy - step - 0.5, config.world.width, center.cy - step - 0.5],
+                        [0, cy - step - 0.5, width, cy - step - 0.5],
                         ((i % config.grid.majorLineEvery === 0))));
                 }
             }
@@ -185,8 +189,8 @@ const board = (() => {
                 }
             }
 */
-            newGroup.add(makePath([center.cx, 0, center.cx, config.world.height], true));
-            newGroup.add(makePath([0, center.cy, config.world.width, center.cy], true));
+            newGroup.add(makePath([cx, 0, cx, height], true));
+            newGroup.add(makePath([0, cy, width, cy], true));
 
             newGroup.moveToTop();
         };
