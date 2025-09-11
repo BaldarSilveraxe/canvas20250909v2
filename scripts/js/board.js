@@ -130,7 +130,8 @@ const board = (() => {
             makeStage,
             makeLayers,
             makePseudoLayers,
-            getNodeByName
+            getNodeByName,
+            makeWorldRect
         };
     };
 
@@ -155,8 +156,7 @@ const botLeft = new Konva.Rect({ x: 0, y: 3001, width: 3000, height: 3000, fill:
 const botRight = new Konva.Rect({ x: 3001, y: 3001, width: 3000, height: 3000, fill: '#055550', listening: true });
 
         
-const worldRoot  = getNodeByName('world-pseudo-layer');
-worldRoot.add(worldRect);
+makeWorldRect();
 
 worldRoot.add(topRight);
 worldRoot.add(botLeft);
