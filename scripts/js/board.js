@@ -26,7 +26,8 @@ const board = (() => {
             'items-pseudo-layer-z-20',
             'items-pseudo-layer-z-30',
             'items-pseudo-layer-z-40',
-            '_rect-stage'
+            '_rect-stage',
+            '_group-world-grid'
         ]),
         world: {
             x: 0,
@@ -130,6 +131,25 @@ const board = (() => {
             worldRoot.add(worldRect);
         };
 
+        const makeGrid = () => {
+            const groupId = crypto.randomUUID();
+            const groupName = '_group-world-grid',
+            const newGroup = new Konva.Group({ id: groupId, name: groupName });
+            worldRoot = getNodeByName('world-pseudo-layer');
+            worldRoot.add(newGroup);
+
+            var pathData = 'M10 10 L100 100';
+var path = new Konva.Path({
+  x: 50,
+  y: 50,
+  data: pathData,
+  stroke: 'red',
+  strokeWidth: 5,
+  fill: 'blue' // The fill will only be applied if the path is closed
+});
+newGroup.add(path);
+        };
+
         return {
             makeStage,
             makeLayers,
@@ -164,9 +184,10 @@ worldRoot.add(botLeft);
 worldRoot.add(botRight);
 //test code~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+        
 
-canvasState.stage.draw();
-console.log('finished');
+        canvasState.stage.draw();
+        console.log('finished');
 
         
         console.log(getNodeByName('items-pseudo-layer'));
