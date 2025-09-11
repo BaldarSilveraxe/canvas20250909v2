@@ -150,9 +150,9 @@ const board = (() => {
             worldRoot.add(newGroup);
             
             for (let step = 0, i = 0; step <= center.cx; step += config.grid.minorLine, i++) {
-                //const isMajor = ((config.grid.majorLineEvery > 1) && (i % (config.grid.minorLine * config.grid.majorLineEvery) === 0));
-                const strokeColor = '#000000' // isMajor ? '#FFFFFF' : '#000000';
-                const strokeWidth = 1 // isMajor ? 2 : 1;
+                const isMajor = ((config.grid.majorLineEvery > 1) && (i % config.grid.majorLineEvery === 0));
+                const strokeColor = isMajor ? '#FFFFFF' : '#000000';
+                const strokeWidth = isMajor ? 2 : 1;
                 if (i !== 0) {
                     // Right of center
                     newGroup.add(new Konva.Line({
