@@ -156,7 +156,7 @@ const botRight = new Konva.Rect({ x: 3001, y: 3001, width: 3000, height: 3000, f
 
         
 
-
+worldRoot = getNodeByName('world-pseudo-layer');
 worldRoot.add(topRight);
 worldRoot.add(botLeft);
 worldRoot.add(botRight);
