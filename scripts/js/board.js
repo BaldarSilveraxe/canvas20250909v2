@@ -167,10 +167,10 @@ const board = (() => {
                 if (i !== 0) {
                     if (step <= (width / 2)) {
                     newGroup.add(makePath(
-                        [cx + step + pixelTrick + xOffset, cy - (yOffset / 2), cx + step + pixelTrick + xOffset, cy + (yOffset / 2)],
+                        [cx + step + pixelTrick + xOffset, cy - yOffset, cx + step + pixelTrick + xOffset, cy + yOffset],
                         ((i % config.grid.majorLineEvery === 0))));
                     newGroup.add(makePath(
-                        [cx - step - pixelTrick - xOffset, yOffset, cx - step - pixelTrick - xOffset, cy + yOffset],
+                        [cx - step - pixelTrick - xOffset, cy - yOffset, cx - step - pixelTrick - xOffset, cy + yOffset],
                         ((i % config.grid.majorLineEvery === 0))));
                     }
                     if (step <= (height / 2)) {
