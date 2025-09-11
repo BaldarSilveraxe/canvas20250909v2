@@ -148,6 +148,7 @@ var path = new Konva.Path({
   fill: 'blue' // The fill will only be applied if the path is closed
 });
 newGroup.add(path);
+            newGroup.moveToTop();
         };
 
         return {
@@ -155,7 +156,8 @@ newGroup.add(path);
             makeLayers,
             makePseudoLayers,
             getNodeByName,
-            makeWorldRect
+            makeWorldRect,
+            makeGrid
         };
     };
 
@@ -166,13 +168,15 @@ newGroup.add(path);
             makeLayers,
             makePseudoLayers,
             getNodeByName,
-            makeWorldRect
+            makeWorldRect,
+            makeGrid
         } = build();
 
         makeStage(kCanvas);
         makeLayers();
         makePseudoLayers();
         makeWorldRect();
+makeGrid();
 
 //test code~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 const topRight = new Konva.Rect({ x: 3001, y: 0, width: 3000, height: 3000, fill: '#550055', listening: true });
