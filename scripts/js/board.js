@@ -142,14 +142,12 @@ const board = (() => {
 
         const makeGrid = () => {
             const width = 1000, // config.world.width,
-                height = 2000, // config.world.height,
+                height = 1000, // config.world.height,
                 maxSide = Math.max(width, height) / 2,
                 newGroup = new Konva.Group({ id: crypto.randomUUID(), name: config.grid.name }),
                 worldRoot = getNodeByName('world-pseudo-layer'),
                 cx =  width / 2,
                 cy = height / 2,
-                xOffset = (config.world.width / 2) - cx,
-                yOffset = (config.world.height / 2) - cy, 
                 pixelTrick   = 0.5,
                 makePath = (points, isMajor) => {
                     return (new Konva.Line({
@@ -167,18 +165,18 @@ const board = (() => {
                 if (i !== 0) {
                     if (step <= (width / 2)) {
                     newGroup.add(makePath(
-                        [cx + step + pixelTrick + xOffset, yOffset, cx + step + pixelTrick + xOffset, cy + yOffset],
+                        [cx + step + pixelTrick, 0, cx + step + pixelTrick + xOffset, height],
                         ((i % config.grid.majorLineEvery === 0))));
                     newGroup.add(makePath(
-                        [cx - step - pixelTrick - xOffset, cy, cx - step - pixelTrick - xOffset, cy + yOffset],
+                        [cx - step - pixelTrick - xOffset, cy, cx - step - pixelTrick - xOffset, height],
                         ((i % config.grid.majorLineEvery === 0))));
                     }
                     if (step <= (height / 2)) {
                     newGroup.add(makePath(
-                        [xOffset, cy + step + pixelTrick + yOffset, cx + xOffset, cy + step + pixelTrick + yOffset],
+                        [O, cy + step + pixelTrick + yOffset, cx, cy + step + pixelTrick + yOffset],
                         ((i % config.grid.majorLineEvery === 0))));
                     newGroup.add(makePath(
-                        [xOffset, cy - step - pixelTrick - yOffset, cx + xOffset, cy - step - pixelTrick - yOffset],
+                        [cx, cy - step - pixelTrick - yOffset, width, cy - step - pixelTrick - yOffset],
                         ((i % config.grid.majorLineEvery === 0))));
                     }
                 }
