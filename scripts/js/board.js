@@ -44,7 +44,7 @@ const board = (() => {
             colorMajor: '#96ADE9',
             strokeWidthMinor: 1,
             strokeWidthMajor: 2,
-            minorLine: 10,
+            minorLine: 100,
             majorLineEvery: 5
         },
         zoom: {
@@ -165,18 +165,18 @@ const board = (() => {
                 if (i !== 0) {
                     if (step <= (width / 2)) {
                     newGroup.add(makePath(
-                        [cx + step + pixelTrick, 0, cx + step + pixelTrick + xOffset, height],
+                        [cx + step + pixelTrick, 0, cx + step + pixelTrick, height],
                         ((i % config.grid.majorLineEvery === 0))));
                     newGroup.add(makePath(
-                        [cx - step - pixelTrick - xOffset, cy, cx - step - pixelTrick - xOffset, height],
+                        [cx - step - pixelTrick, cy, cx - step - pixelTrick, height],
                         ((i % config.grid.majorLineEvery === 0))));
                     }
                     if (step <= (height / 2)) {
                     newGroup.add(makePath(
-                        [O, cy + step + pixelTrick + yOffset, cx, cy + step + pixelTrick + yOffset],
+                        [O, cy + step + pixelTrick, cx, cy + step + pixelTrick],
                         ((i % config.grid.majorLineEvery === 0))));
                     newGroup.add(makePath(
-                        [cx, cy - step - pixelTrick - yOffset, width, cy - step - pixelTrick - yOffset],
+                        [cx, cy - step - pixelTrick, width, cy - step - pixelTrick],
                         ((i % config.grid.majorLineEvery === 0))));
                     }
                 }
