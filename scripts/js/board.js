@@ -143,7 +143,7 @@ const board = (() => {
         const makeGrid = () => {
             const width = config.world.width,
                 height = config.world.height,
-                maxSide = Math.max(width, height),
+                maxSide = Math.max(width, height) / 2,
                 newGroup = new Konva.Group({ id: crypto.randomUUID(), name: config.grid.name }),
                 worldRoot = getNodeByName('world-pseudo-layer'),
                 cx =  width / 2,
