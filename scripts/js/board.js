@@ -160,7 +160,7 @@ var path = new Konva.Path({
 });
             for (let i = 0; i <= center.cx; i += config.grid.minorLine) {
                 const isMajor = (i % config.grid.majorLine === 0);
-                const strokeColor = isMajor ? '#666' : '#ddd';
+                const strokeColor = isMajor ? '#FFFFFF' : '#000000';
                 const strokeWidth = isMajor ? 2 : 1;
                 if (i !== 0) {
                     // Right of center
