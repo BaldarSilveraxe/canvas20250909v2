@@ -156,7 +156,7 @@ const board = (() => {
                 if (i !== 0) {
                     // Right of center
                     newGroup.add(new Konva.Line({
-                        points: [center.cx + step, 0, center.cx + step, config.world.height],
+                        points: [center.cx + step, 0, center.cx, config.world.height],
                         stroke: strokeColor,
                         strokeWidth: strokeWidth,
                     }));
