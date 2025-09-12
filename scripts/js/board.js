@@ -141,10 +141,11 @@ const board = (() => {
         };
 
 const makeGrid = () => {
-  const W = config.world.width;
-  const H = config.world.height;
-  const cx = W / 2;
-  const cy = H / 2;
+  const W = config.world.width,
+      H = config.world.height,
+      cx = W / 2,
+      cy = H / 2,
+      halfPixel = 0.5;
 
   const {
     name,
@@ -156,14 +157,11 @@ const makeGrid = () => {
     strokeWidthMajor
   } = config.grid;
 
-  const halfPixel = 0.5;
-
   const group = new Konva.Group({
     id: crypto.randomUUID(),
     name,
     listening: false
   });
-  //group.hitStrokeWidth(0);
 
   const worldRoot = getNodeByName('world-pseudo-layer');
 
@@ -179,32 +177,27 @@ const makeGrid = () => {
 
   worldRoot.add(group);
 
-  // How many steps do we need at most from center to the furthest edge?
   const maxSteps = Math.ceil(Math.max(W, H) / 2 / minorLine);
 
   for (let i = 1; i <= maxSteps; i++) {
     const step = i * minorLine;
     const isMajor = (i % majorLineEvery) === 0;
 
-    // Vertical candidates
     const xPlus  = cx + step + halfPixel;
     const xMinus = cx - step - halfPixel;
     if (xPlus <= W)  group.add(makePath([xPlus, 0, xPlus, H], isMajor));
     if (xMinus >= 0) group.add(makePath([xMinus, 0, xMinus, H], isMajor));
 
-    // Horizontal candidates
     const yPlus  = cy + step + halfPixel;
     const yMinus = cy - step - halfPixel;
     if (yPlus <= H)  group.add(makePath([0, yPlus, W, yPlus], isMajor));
     if (yMinus >= 0) group.add(makePath([0, yMinus, W, yMinus], isMajor));
   }
-
-  // Center axes (also half-pixel aligned)
+    
   group.add(makePath([cx + halfPixel, 0, cx + halfPixel, H], true));
   group.add(makePath([0, cy + halfPixel, W, cy + halfPixel], true));
 
   group.moveToTop();
-  return group;
 };
 
 
