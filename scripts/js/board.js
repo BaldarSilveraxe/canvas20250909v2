@@ -70,6 +70,10 @@ const board = (() => {
         };
     };
     const build = () => {
+        const {
+            removeByName
+        } = utility();
+        
         const makeStage = (cnvs) => {
             const kCanvasContainer = (typeof cnvs === 'string') ? document.getElementById(cnvs) : cnvs;
             if (!kCanvasContainer) {
