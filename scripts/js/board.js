@@ -186,7 +186,8 @@ const board = (() => {
             const group = new Konva.Group({
                 id: crypto.randomUUID(),
                 name,
-                listening: false
+                listening: false,
+                hitGraphEnabled: false
             });
 
             const worldRoot = getNodeByName('world-pseudo-layer');
