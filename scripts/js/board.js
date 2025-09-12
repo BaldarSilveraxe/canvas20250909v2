@@ -208,36 +208,9 @@ const board = (() => {
         };
 
         const makePseudoLayers = () => {
-config.pseudoLayers.forEach((o) => {
-    console.log(o);
-});
-            
-            //for (var key1 in config.pseudoLayers) {
-                //if (config.pseudoLayers.hasOwnProperty(key1)) {
-                    //if (config.pseudoLayers[key1].hasOwnProperty(key2)) {
-                        //console.log(config.pseudoLayers[key1])
-                    //config.pseudoLayers[key].forEach((element, index) => {
-                        //if ('world' === key) {
-                           // console.log(`Element at index ${index}: ${element}`);
-                        //}    
-                    //});
-                    }
-                }
-            }
-            /*
-            for (let i = 0; i < 5; i++) {
-                const groupId = crypto.randomUUID(),
-                    groupName = `items-pseudo-layer-z-${(i * 10)}`,
-                    newGroup = new Konva.Group({ id: groupId, name: groupName });
-                let itemsGroup = null;
-                canvasState.pseudos[groupId] = newGroup;
-                canvasState.index[groupName] = groupId;
-                itemsGroup = getNodeByName('items-pseudo-layer'); //, 'pseudo'
-                if (itemsGroup) {
-                    itemsGroup.add(newGroup);
-                }
-            }
-            */
+            config.pseudoLayers.forEach((o) => {
+                console.log(o);
+            });
         };
         
         const makeLayers = () => {
