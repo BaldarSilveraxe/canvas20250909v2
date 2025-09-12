@@ -16,10 +16,10 @@ const board = (() => {
         RESERVED_NAMES: new Set([
             '_stage',
             'layer-world',
-            'world-pseudo-layer',
             'layer-items',
-            'items-pseudo-layer',
             'layer-ui',
+            'world-pseudo-layer',
+            'items-pseudo-layer',
             'ui-pseudo-layer',
             'items-pseudo-layer-z-0',
             'items-pseudo-layer-z-10',
