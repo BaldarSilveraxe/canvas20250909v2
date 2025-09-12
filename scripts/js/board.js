@@ -208,7 +208,9 @@ const board = (() => {
             for (var key in config.pseudoLayers) {
                 if (config.pseudoLayers.hasOwnProperty(key)) {
                     config.pseudoLayers[key].forEach((element, index) => {
-                        console.log(`Element at index ${index}: ${element}`);
+                        if ('world' === key) {
+                            console.log(`Element at index ${index}: ${element}`);
+                        }    
                     });
                 }
             }
