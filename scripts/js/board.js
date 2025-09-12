@@ -199,7 +199,6 @@ const board = (() => {
                 id: shapeId
             });
             canvasState.index[config.world.name] = shapeId;
-            canvasState.shapes[shapeId];
             theLayer.add(canvasState.shapes[shapeId]);
         };
 
