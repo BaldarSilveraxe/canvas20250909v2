@@ -118,126 +118,9 @@ const board = (() => {
             getNodeByName,
             teardown
         } = utility();
-// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-const makeGridSuperOptimized = () => {
-    removeByName(config.grid.name);
-    
-    const {
-        name,
-        minorLine,
-        majorLineEvery,
-        colorMinor,
-        colorMajor,
-        strokeWidthMinor,
-        strokeWidthMajor,
-        dashMinor,
-        dashMajor
-    } = config.grid;
-    
-    const w = config.world.width;
-    const h = config.world.height;
-    const cx = w / 2;
-    const cy = h / 2;
-    const halfPixel = 0.5;
-    const maxSteps = Math.ceil(Math.max(w, h) / 2 / minorLine);
-    
-    // Pre-calculate all line positions
-    const minorLines = [];
-    const majorLines = [];
-    
-    for (let i = 1; i <= maxSteps; i++) {
-        const step = i * minorLine;
-        const isMajor = (i % majorLineEvery === 0);
-        const lines = isMajor ? majorLines : minorLines;
-        
-        // Vertical lines
-        const xPlus = cx + step + halfPixel;
-        const xMinus = cx - step - halfPixel;
-        
-        if (xPlus <= w) lines.push(['vertical', xPlus, 0, xPlus, h]);
-        if (xMinus >= 0) lines.push(['vertical', xMinus, 0, xMinus, h]);
-        
-        // Horizontal lines
-        const yPlus = cy + step + halfPixel;
-        const yMinus = cy - step - halfPixel;
-        
-        if (yPlus <= h) lines.push(['horizontal', 0, yPlus, w, yPlus]);
-        if (yMinus >= 0) lines.push(['horizontal', 0, yMinus, w, yMinus]);
-    }
-    
-    // Add center lines to major
-    majorLines.push(['vertical', cx + halfPixel, 0, cx + halfPixel, h]);
-    majorLines.push(['horizontal', 0, cy + halfPixel, w, cy + halfPixel]);
-    
-    const gridShape = new Konva.Shape({
-        id: crypto.randomUUID(),
-        name: name,
-        listening: false,
-        perfectDrawEnabled: false,
-        shadowForStrokeEnabled: false,
-        strokeScaleEnabled: false,
-        transformsEnabled: 'position',
-        
-        sceneFunc: function(context, shape) {
-            context.save();
-            
-            // Draw minor lines
-            if (minorLines.length > 0) {
-                context.strokeStyle = colorMinor;
-                context.lineWidth = strokeWidthMinor;
-                context.setLineDash(dashMinor || []);
-                context.beginPath();
-                
-                minorLines.forEach(line => {
-                    context.moveTo(line[1], line[2]);
-                    context.lineTo(line[3], line[4]);
-                });
-                
-                context.stroke();
-            }
-            
-            // Draw major lines
-            if (majorLines.length > 0) {
-                context.strokeStyle = colorMajor;
-                context.lineWidth = strokeWidthMajor;
-                context.setLineDash(dashMajor || []);
-                context.beginPath();
-                
-                majorLines.forEach(line => {
-                    context.moveTo(line[1], line[2]);
-                    context.lineTo(line[3], line[4]);
-                });
-                
-                context.stroke();
-            }
-            
-            context.restore();
-        }
-    });
-    
-    // Store in canvas state
-    const shapeId = gridShape.id();
-    canvasState.shapes[shapeId] = gridShape;
-    canvasState.index[name] = shapeId;
-    
-    // Add to the grid pseudo layer
-    const thePseudoLayer = getNodeByName('group-world-pseudoLayer-grid');
-    if (!thePseudoLayer) {
-        throw new Error('[makeGridSuperOptimized] pseudo layer not found');
-    }
-    thePseudoLayer.add(gridShape);
-    
-    return gridShape;
-};
-// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
         const makeGrid = () => {
             removeByName(config.grid.name);
-            const halfPixel = 0.5,
-                w = config.world.width,
-                h = config.world.height,
-                cx = w / 2,
-                cy = h / 2,
-                groupId = crypto.randomUUID();
 
             const {
                 name,
@@ -251,84 +134,98 @@ const makeGridSuperOptimized = () => {
                 dashMajor
             } = config.grid;
 
-            canvasState.groups[groupId] = new Konva.Group({
-                id: groupId,
-                name,
-                listening: false
-            });
-            canvasState.index[name] = groupId;
-
-            const thePseudoLayer = getNodeByName('group-world-pseudoLayer-grid');
-            if (!thePseudoLayer) throw new Error('[makeGrid] pseudo layer not found');
-            thePseudoLayer.add(canvasState.groups[groupId]);
-
-            const makePath = (points, isMajor) =>
-                new Konva.Line({
-                    id: crypto.randomUUID(),
-                    name: 'grid-line',
-                    points,
-                    stroke: isMajor ? colorMajor : colorMinor,
-                    strokeWidth: isMajor ? strokeWidthMajor : strokeWidthMinor,
-                    dash: isMajor ? dashMajor : dashMinor,
-                    listening: false,
-                    perfectDrawEnabled: false,
-                    shadowForStrokeEnabled: false,
-                    // keep grid 1px in screen space when zooming:
-                    strokeScaleEnabled: false,
-                    transformsEnabled: 'position'
-                });
-
+            const w = config.world.width;
+            const h = config.world.height;
+            const cx = w / 2;
+            const cy = h / 2;
+            const halfPixel = 0.5;
             const maxSteps = Math.ceil(Math.max(w, h) / 2 / minorLine);
+
+            // Pre-calculate all line positions
+            const minorLines = [];
+            const majorLines = [];
 
             for (let i = 1; i <= maxSteps; i++) {
                 const step = i * minorLine;
-                const isMajor = (i % majorLineEvery) === 0;
+                const isMajor = (i % majorLineEvery === 0);
+                const lines = isMajor ? majorLines : minorLines;
 
+                // Vertical lines
                 const xPlus = cx + step + halfPixel;
                 const xMinus = cx - step - halfPixel;
-                if (xPlus <= w) canvasState.groups[groupId].add(makePath([xPlus, 0, xPlus, h], isMajor));
-                if (xMinus >= 0) canvasState.groups[groupId].add(makePath([xMinus, 0, xMinus, h], isMajor));
 
+                if (xPlus <= w) lines.push(['vertical', xPlus, 0, xPlus, h]);
+                if (xMinus >= 0) lines.push(['vertical', xMinus, 0, xMinus, h]);
+
+                // Horizontal lines
                 const yPlus = cy + step + halfPixel;
                 const yMinus = cy - step - halfPixel;
-                if (yPlus <= h) canvasState.groups[groupId].add(makePath([0, yPlus, w, yPlus], isMajor));
-                if (yMinus >= 0) canvasState.groups[groupId].add(makePath([0, yMinus, w, yMinus], isMajor));
+
+                if (yPlus <= h) lines.push(['horizontal', 0, yPlus, w, yPlus]);
+                if (yMinus >= 0) lines.push(['horizontal', 0, yMinus, w, yMinus]);
             }
 
-            canvasState.groups[groupId].add(makePath([cx + halfPixel, 0, cx + halfPixel, h], true));
-            canvasState.groups[groupId].add(makePath([0, cy + halfPixel, w, cy + halfPixel], true));
+            // Add center lines to major
+            majorLines.push(['vertical', cx + halfPixel, 0, cx + halfPixel, h]);
+            majorLines.push(['horizontal', 0, cy + halfPixel, w, cy + halfPixel]);
 
-            canvasState.groups[groupId].moveToTop();
-        };
+            const gridShape = new Konva.Shape({
+                id: crypto.randomUUID(),
+                name: name,
+                listening: false,
+                perfectDrawEnabled: false,
+                shadowForStrokeEnabled: false,
+                strokeScaleEnabled: false,
+                transformsEnabled: 'position',
 
-        const makeWorldRect = () => {
-            const shapeId = crypto.randomUUID(),
-                theLayer = getNodeByName('group-world-pseudoLayer-background');
-            if (!theLayer) throw new Error('[makeWorldRect] pseudo layer not found');
-            canvasState.shapes[shapeId] = new Konva.Rect({
-                ...config.world,
-                id: shapeId
+                sceneFunc: function(context, shape) {
+                    context.save();
+
+                    // Draw minor lines
+                    if (minorLines.length > 0) {
+                        context.strokeStyle = colorMinor;
+                        context.lineWidth = strokeWidthMinor;
+                        context.setLineDash(dashMinor || []);
+                        context.beginPath();
+
+                        minorLines.forEach(line => {
+                            context.moveTo(line[1], line[2]);
+                            context.lineTo(line[3], line[4]);
+                        });
+
+                        context.stroke();
+                    }
+
+                    // Draw major lines
+                    if (majorLines.length > 0) {
+                        context.strokeStyle = colorMajor;
+                        context.lineWidth = strokeWidthMajor;
+                        context.setLineDash(dashMajor || []);
+                        context.beginPath();
+
+                        majorLines.forEach(line => {
+                            context.moveTo(line[1], line[2]);
+                            context.lineTo(line[3], line[4]);
+                        });
+
+                        context.stroke();
+                    }
+
+                    context.restore();
+                }
             });
-            canvasState.index[config.world.name] = shapeId;
-            theLayer.add(canvasState.shapes[shapeId]);
-        };
 
-        const makePseudoLayers = () => {
-            let theLayer,
-                newGroupId;
-            Object.keys(config.pseudoLayers).forEach(key => {
-                theLayer = getNodeByName(config.pseudoLayers[key].layer);
-                if (!theLayer) throw new Error('[makePseudoLayers] pseudo layer not found');
-                config.pseudoLayers[key].pseudos.forEach(name => {
-                    newGroupId = crypto.randomUUID();
-                    canvasState.groups[newGroupId] = new Konva.Group({
-                        id: newGroupId,
-                        name: name
-                    });
-                    canvasState.index[name] = newGroupId;
-                    theLayer.add(canvasState.groups[newGroupId]);
-                });
-            });
+            // Store in canvas state
+            const shapeId = gridShape.id();
+            canvasState.shapes[shapeId] = gridShape;
+            canvasState.index[name] = shapeId;
+
+            // Add to the grid pseudo layer
+            const thePseudoLayer = getNodeByName('group-world-pseudoLayer-grid');
+            if (!thePseudoLayer) {
+                throw new Error('[makeGridSuperOptimized] pseudo layer not found');
+            }
+            thePseudoLayer.add(gridShape);
         };
 
         const makeLayers = () => {
@@ -364,7 +261,6 @@ const makeGridSuperOptimized = () => {
             makePseudoLayers,
             makeWorldRect,
             makeGrid,
-            makeGridSuperOptimized, //TESTING
             removeByName,
             getNodeByName,
             teardown
@@ -379,7 +275,6 @@ const makeGridSuperOptimized = () => {
             makePseudoLayers,
             makeWorldRect,
             makeGrid,
-            makeGridSuperOptimized, //TESTING
             removeByName,
             getNodeByName,
             teardown
@@ -393,8 +288,7 @@ const makeGridSuperOptimized = () => {
             makeLayers();
             makePseudoLayers();
             makeWorldRect();
-            //makeGrid();
-            makeGridSuperOptimized();
+            makeGrid();
 
             // One paint at the end:
             canvasState.stage.getLayers().forEach(l => l.batchDraw());
@@ -402,7 +296,7 @@ const makeGridSuperOptimized = () => {
             teardown();
             throw err; // surface the original error
         }
-        
+
         console.log('finished');;
         console.log(canvasState);
 
