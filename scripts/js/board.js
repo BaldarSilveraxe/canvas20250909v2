@@ -163,7 +163,7 @@ const makeGrid = () => {
     name,
     listening: false
   });
-  group.hitStrokeWidth(0);
+  //group.hitStrokeWidth(0);
 
   const worldRoot = getNodeByName('world-pseudo-layer');
 
