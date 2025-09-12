@@ -284,6 +284,25 @@ const board = (() => {
             makeGrid();
 
             //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~temp code
+            const testgGroup = new Konva.Group({
+                        id: newGroupId,
+                        name:'testgGrup'
+                    });
+            const rect = new Konva.Rect({
+                x: 20,
+                y: 60,
+                stroke: '#555',
+                strokeWidth: 5,
+                fill: '#ddd',
+                width: 300,
+                height: complexText.height(),
+                shadowColor: 'black',
+                shadowBlur: 10,
+                shadowOffsetX: 10,
+                shadowOffsetY: 10,
+                shadowOpacity: 0.2,
+                cornerRadius: 10
+            });
             const complexText = new Konva.Text({
                 x: 20,
                 y: 60,
@@ -295,7 +314,9 @@ const board = (() => {
                 padding: 20,
                 align: 'center'
             });
-            getNodeByName('group-items-pseudoLayer-z-0').add(complexText);
+            testgGroup.add(rect);
+            testgGroup.add(complexText);
+            getNodeByName('group-items-pseudoLayer-z-0').add(testgGroup);
             //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~temp code
 
             // One paint at the end:
