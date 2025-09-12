@@ -215,20 +215,14 @@ const board = (() => {
               group.moveToTop();
         };
         
-        const makeLayers = (props = {}) => {
+        const makeLayers = () => {
             config.layers.forEach(function(e, i) {
                 const layerId = crypto.randomUUID(),
-                    groupId = crypto.randomUUID(),
                     layerName = `layer-${e}`,
-                    groupName = `${e}-pseudo-layer`,
                     newLayer = new Konva.Layer({ id: layerId, name: layerName }),
-                    newGroup = new Konva.Group({ id: groupId, name: groupName });
                 canvasState.layers[layerId] = newLayer;
-                canvasState.pseudos[groupId] = newGroup;
                 canvasState.index[layerName] = layerId;
-                canvasState.index[groupName] = groupId;
                 canvasState.stage.add(newLayer);
-                newLayer.add(newGroup);
             });
         };
         
@@ -285,9 +279,9 @@ try {
     throw new Error('board.create: stage not created');
   }
   makeLayers();
-  makePseudoLayers();
-  makeWorldRect();
-  makeGrid();
+  //makePseudoLayers();
+  //makeWorldRect();
+  //makeGrid();
 
   // One paint at the end:
   canvasState.stage.getLayers().forEach(l => l.batchDraw());
