@@ -22,7 +22,7 @@ const board = (() => {
             },
             ui: {
                 layer: 'layer-ui',
-                pseudos: ['group-ui-main']
+                pseudos: ['group-ui-pseudoLayer-main']
             }
         },
         RESERVED_NAMES: new Set([
