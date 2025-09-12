@@ -166,12 +166,12 @@ const board = (() => {
         };
 
         const makeGrid = () => {
-            removeByName();
-            const W = config.world.width,
-            H = config.world.height,
-            cx = W / 2,
-            cy = H / 2,
-            halfPixel = 0.5;
+            removeByName(config.grid.name);
+            const halfPixel = 0.5,
+                w = config.world.width,
+                h = config.world.height,
+                cx = w / 2,
+                cy = h / 2;
 
             const {
                 name,
@@ -203,7 +203,7 @@ const board = (() => {
 
             worldRoot.add(group);
 
-            const maxSteps = Math.ceil(Math.max(W, H) / 2 / minorLine);
+            const maxSteps = Math.ceil(Math.max(w, h) / 2 / minorLine);
 
             for (let i = 1; i <= maxSteps; i++) {
                 const step = i * minorLine;
@@ -211,17 +211,17 @@ const board = (() => {
 
                 const xPlus  = cx + step + halfPixel;
                 const xMinus = cx - step - halfPixel;
-                if (xPlus <= W)  group.add(makePath([xPlus, 0, xPlus, H], isMajor));
-                if (xMinus >= 0) group.add(makePath([xMinus, 0, xMinus, H], isMajor));
+                if (xPlus <= w)  group.add(makePath([xPlus, 0, xPlus, h], isMajor));
+                if (xMinus >= 0) group.add(makePath([xMinus, 0, xMinus, h], isMajor));
 
                 const yPlus  = cy + step + halfPixel;
                 const yMinus = cy - step - halfPixel;
-                if (yPlus <= H)  group.add(makePath([0, yPlus, W, yPlus], isMajor));
-                if (yMinus >= 0) group.add(makePath([0, yMinus, W, yMinus], isMajor));
+                if (yPlus <= h)  group.add(makePath([0, yPlus, w, yPlus], isMajor));
+                if (yMinus >= 0) group.add(makePath([0, yMinus, w, yMinus], isMajor));
               }
     
-              group.add(makePath([cx + halfPixel, 0, cx + halfPixel, H], true));
-              group.add(makePath([0, cy + halfPixel, W, cy + halfPixel], true));
+              group.add(makePath([cx + halfPixel, 0, cx + halfPixel, h], true));
+              group.add(makePath([0, cy + halfPixel, w, cy + halfPixel], true));
 
               group.moveToTop();
         };
