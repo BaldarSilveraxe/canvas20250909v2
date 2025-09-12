@@ -235,8 +235,8 @@ const board = (() => {
             });
         };
 
-        const makeStage = (cnvs) => {
-            const kCanvasContainer = (typeof cnvs === 'string') ? document.getElementById(cnvs) : cnvs;
+        const makeStage = (kCanvas) => {
+            const kCanvasContainer = (typeof kCanvas === 'string') ? document.getElementById(kCanvas) : kCanvas;
             if (!kCanvasContainer) {
                 throw new Error('board.create: container not found');
             }
