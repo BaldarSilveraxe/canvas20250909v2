@@ -315,7 +315,8 @@ const board = (() => {
             });
             testgGroup.add(rect);
             testgGroup.add(complexText);
-            getNodeByName('group-items-pseudoLayer-z-0').add(testgGroup);
+            const pseudoLayer = getNodeByName('group-items-pseudoLayer-z-0').add(testgGroup);
+            pseudoLayer.add(testgGroup);
             //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~temp code
 
             // One paint at the end:
