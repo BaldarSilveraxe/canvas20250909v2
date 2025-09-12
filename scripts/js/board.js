@@ -129,16 +129,6 @@ const board = (() => {
             teardown
         } = utility();
 
-
-        const makeWorldRect = () => {
-            const shapeId = crypto.randomUUID(),
-                theLayer = getNodeByName('group-world-pseudoLayer-background');
-            canvasState.shapes[shapeId] = new Konva.Rect({...config.world, id: shapeId});
-            canvasState.index[config.world.name] = shapeId;
-            canvasState.shapes[shapeId];
-            theLayer.add(worldRect);
-        };
-
         const makeGrid = () => {
             removeByName(config.grid.name);
             const halfPixel = 0.5,
@@ -208,7 +198,16 @@ const board = (() => {
 
               group.moveToTop();
         };
-
+        
+        const makeWorldRect = () => {
+            const shapeId = crypto.randomUUID(),
+                theLayer = getNodeByName('group-world-pseudoLayer-background');
+            canvasState.shapes[shapeId] = new Konva.Rect({...config.world, id: shapeId});
+            canvasState.index[config.world.name] = shapeId;
+            canvasState.shapes[shapeId];
+            theLayer.add(canvasState.shapes[shapeId]);
+        };
+        
         const makePseudoLayers = () => {
             let theLayer,
                 newGroupId;
