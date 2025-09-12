@@ -301,7 +301,7 @@ const makeGrid = () => {
                 newGroupId;
             Object.keys(config.pseudoLayers).forEach(key => {
                 targetGroup = getNodeByName(config.pseudoLayers[key].group);
-                if (!theLayer) throw new Error('[makePseudoLayers] pseudo layer not found');
+                if (!targetGroup) throw new Error('[makePseudoLayers] target group not found');
                 config.pseudoLayers[key].pseudos.forEach(name => {
                     newGroupId = crypto.randomUUID();
                     canvasState.groups[newGroupId] = new Konva.Group({
