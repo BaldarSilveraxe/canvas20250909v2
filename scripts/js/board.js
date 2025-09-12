@@ -145,7 +145,7 @@ const attachDragCamera = () => {
              y: Math.max(minY, Math.min(pos.y, maxY)) };
   };
 
-  camWorld.dragBoundFunc(clamp);
+  //camWorld.dragBoundFunc(clamp); commented for testing.
   camWorld.on('dragmove',  sync);
 
   // nice UX: cursor + prevent text selection while dragging
