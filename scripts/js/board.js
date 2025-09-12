@@ -47,7 +47,7 @@ const board = (() => {
             name: '_rect-stage',
             width: 6000,
             height: 6000,
-            fill: '#EEEEEE',
+            fill: '#EEEEFF',
             listening: true
         },
         grid: {
@@ -135,12 +135,12 @@ const board = (() => {
 
 
         const makeWorldRect = () => {
-            const shapeId = crypto.randomUUID(),
-                worldRect = new Konva.Rect({...config.world, id: shapeId}),
-                worldRoot = getNodeByName('world-pseudo-layer');
-            canvasState.shapes[shapeId] = worldRect;
-            canvasState.index[config.world.name] = shapeId;     
-            worldRoot.add(worldRect);
+            let shapeId = crypto.randomUUID(),
+                theLayer = getNodeByName('group-world-pseudoLayer-background');
+            canvasState.shapes[shapeId] = new Konva.Rect({...config.world, id: shapeId});
+            canvasState.index[config.world.name] = shapeId;
+            canvasState.shapes[shapeId];
+            theLayer.add(worldRect);
         };
 
         const makeGrid = () => {
@@ -291,7 +291,7 @@ try {
   }
   makeLayers();
   makePseudoLayers();
-  //makeWorldRect();
+  makeWorldRect();
   //makeGrid();
 
   // One paint at the end:
