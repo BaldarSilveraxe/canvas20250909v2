@@ -154,6 +154,7 @@ const board = (() => {
             canvasState.index[name] = groupId;
 
             const thePseudoLayer = getNodeByName('group-world-pseudoLayer-grid');
+            if (!thePseudoLayer) throw new Error('[makeGrid] pseudo layer not found');
             thePseudoLayer.add(canvasState.groups[groupId]);
             
             const makePath = (points, isMajor) =>
@@ -198,6 +199,7 @@ const board = (() => {
         const makeWorldRect = () => {
             const shapeId = crypto.randomUUID(),
                 theLayer = getNodeByName('group-world-pseudoLayer-background');
+            if (!theLayer) throw new Error('[makeWorldRect] pseudo layer not found');
             canvasState.shapes[shapeId] = new Konva.Rect({...config.world, id: shapeId});
             canvasState.index[config.world.name] = shapeId;
             canvasState.shapes[shapeId];
@@ -209,6 +211,7 @@ const board = (() => {
                 newGroupId;
             Object.keys(config.pseudoLayers).forEach(key => {
                 theLayer = getNodeByName(config.pseudoLayers[key].layer, 'layer');
+                if (!theLayer) throw new Error('[makePseudoLayers] pseudo layer not found');
                 config.pseudoLayers[key].pseudos.forEach(name => {
                     newGroupId = crypto.randomUUID();
                     canvasState.groups[newGroupId] = new Konva.Group({ id: newGroupId, name: name });
