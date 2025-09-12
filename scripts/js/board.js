@@ -12,8 +12,8 @@ const board = (() => {
     const config = {
         layers: ['world', 'items', 'ui'],
         pseudoLayers: {
-            world: ['group-world-pseudolayer-background', 'group-world-pseudolayer-grid'],
-            items: ['group-items-pseudolayer-z-0', 'group-items-pseudolayer-z-10', 'group-items-pseudolayer-z-20', 'group-items-pseudolayer-z-30', 'group-items-pseudolayer-z-40'],
+            world: ['group-world-pseudoLayer-background', 'group-world-pseudoLayer-grid'],
+            items: ['group-items-pseudoLayer-z-0', 'group-items-pseudoLayer-z-10', 'group-items-pseudoLayer-z-20', 'group-items-pseudoLayer-z-30', 'group-items-pseudoLayer-z-40'],
             ui: ['group-ui-main'],
         },
         RESERVED_NAMES: new Set([
@@ -21,13 +21,13 @@ const board = (() => {
             'layer-world',
             'layer-items',
             'layer-ui',
-            'group-world-pseudolayer-background',
-            'group-world-pseudolayer-grid',
-            'group-items-pseudolayer-z-0',
-            'group-items-pseudolayer-z-10',
-            'group-items-pseudolayer-z-20',
-            'group-items-pseudolayer-z-30',
-            'group-items-pseudolayer-z-40'',
+            'group-world-pseudoLayer-background',
+            'group-world-pseudoLayer-grid',
+            'group-items-pseudoLayer-z-0',
+            'group-items-pseudoLayer-z-10',
+            'group-items-pseudoLayer-z-20',
+            'group-items-pseudoLayer-z-30',
+            'group-items-pseudoLayer-z-40'',
             'group-ui-main',
             '_rect-stage',
             '_group-world-grid'
@@ -125,21 +125,6 @@ const board = (() => {
         } = utility();
 
 
-        const makePseudoLayers = (props = {}) => {
-            for (let i = 0; i < 5; i++) {
-                const groupId = crypto.randomUUID(),
-                    groupName = `items-pseudo-layer-z-${(i * 10)}`,
-                    newGroup = new Konva.Group({ id: groupId, name: groupName });
-                let itemsGroup = null;
-                canvasState.pseudos[groupId] = newGroup;
-                canvasState.index[groupName] = groupId;
-                itemsGroup = getNodeByName('items-pseudo-layer'); //, 'pseudo'
-                if (itemsGroup) {
-                    itemsGroup.add(newGroup);
-                }
-            }
-        };
-
         const makeWorldRect = () => {
             const shapeId = crypto.randomUUID(),
                 worldRect = new Konva.Rect({...config.world, id: shapeId}),
@@ -218,6 +203,28 @@ const board = (() => {
 
               group.moveToTop();
         };
+
+        const makePseudoLayers = () => {
+            for (var key in config.pseudoLayer) {
+                if (config.pseudoLayer.hasOwnProperty(key)) {
+                console.log(key + " has " + config.pseudoLayer[key]);
+                }
+            }
+            /*
+            for (let i = 0; i < 5; i++) {
+                const groupId = crypto.randomUUID(),
+                    groupName = `items-pseudo-layer-z-${(i * 10)}`,
+                    newGroup = new Konva.Group({ id: groupId, name: groupName });
+                let itemsGroup = null;
+                canvasState.pseudos[groupId] = newGroup;
+                canvasState.index[groupName] = groupId;
+                itemsGroup = getNodeByName('items-pseudo-layer'); //, 'pseudo'
+                if (itemsGroup) {
+                    itemsGroup.add(newGroup);
+                }
+            }
+            */
+        };
         
         const makeLayers = () => {
             config.layers.forEach(function(e, i) {
@@ -283,7 +290,7 @@ try {
     throw new Error('board.create: stage not created');
   }
   makeLayers();
-  //makePseudoLayers();
+  makePseudoLayers();
   //makeWorldRect();
   //makeGrid();
 
