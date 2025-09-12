@@ -119,159 +119,172 @@ const board = (() => {
             teardown
         } = utility();
 
-        const makeGrid = () => {
-            removeByName(config.grid.name);
+const makeGrid = () => {
+    removeByName(config.grid.name);
 
-            const {
-                name,
-                minorLine,
-                majorLineEvery,
-                colorMinor,
-                colorMajor,
-                strokeWidthMinor,
-                strokeWidthMajor,
-                dashMinor,
-                dashMajor
-            } = config.grid;
+    const {
+        name,
+        minorLine,
+        majorLineEvery,
+        colorMinor,
+        colorMajor,
+        strokeWidthMinor,
+        strokeWidthMajor,
+        dashMinor,
+        dashMajor
+    } = config.grid;
 
-            const w = config.world.width;
-            const h = config.world.height;
-            const cx = w / 2;
-            const cy = h / 2;
-            const halfPixel = 0.5;
-            const maxSteps = Math.ceil(Math.max(w, h) / 2 / minorLine);
+    const w = config.world.width;
+    const h = config.world.height;
+    const cx = w / 2;
+    const cy = h / 2;
+    const maxSteps = Math.ceil(Math.max(w, h) / 2 / minorLine);
 
-            // Pre-calculate all line positions
-            const minorLines = [];
-            const majorLines = [];
+    // Pre-split arrays to avoid per-frame filtering
+    const minorV = [];
+    const minorH = [];
+    const majorV = [];
+    const majorH = [];
 
-            for (let i = 1; i <= maxSteps; i++) {
-                const step = i * minorLine;
-                const isMajor = (i % majorLineEvery === 0);
-                const lines = isMajor ? majorLines : minorLines;
+    for (let i = 1; i <= maxSteps; i++) {
+        const step = i * minorLine;
+        const isMajor = (i % majorLineEvery === 0);
 
-                // Vertical lines
-                const xPlus = cx + step + halfPixel;
-                const xMinus = cx - step - halfPixel;
+        // Vertical lines (no half-pixel baked in)
+        const xPlus = cx + step;
+        const xMinus = cx - step;
 
-                if (xPlus <= w) lines.push(['vertical', xPlus, 0, xPlus, h]);
-                if (xMinus >= 0) lines.push(['vertical', xMinus, 0, xMinus, h]);
-
-                // Horizontal lines
-                const yPlus = cy + step + halfPixel;
-                const yMinus = cy - step - halfPixel;
-
-                if (yPlus <= h) lines.push(['horizontal', 0, yPlus, w, yPlus]);
-                if (yMinus >= 0) lines.push(['horizontal', 0, yMinus, w, yMinus]);
-            }
-
-            // Add center lines to major
-            majorLines.push(['vertical', cx + halfPixel, 0, cx + halfPixel, h]);
-            majorLines.push(['horizontal', 0, cy + halfPixel, w, cy + halfPixel]);
-
-            const gridShape = new Konva.Shape({
-                id: crypto.randomUUID(),
-                name: name,
-                listening: false,
-                perfectDrawEnabled: false,
-                shadowForStrokeEnabled: false,
-
-sceneFunc: function(context, shape) {
-    context.save();
-    
-    // Get current scale to compensate for zoom
-    const scale = shape.getAbsoluteScale();
-    
-    // Compensate line widths for scaling
-    const lwMinorV = strokeWidthMinor / scale.x;
-    const lwMinorH = strokeWidthMinor / scale.y; 
-    const lwMajorV = strokeWidthMajor / scale.x;
-    const lwMajorH = strokeWidthMajor / scale.y;
-    
-    // Scale dash patterns
-    const scaleDash = (dash, axisScale) =>
-        (dash && dash.length) ? dash.map(d => d / axisScale) : [];
-    
-    // Draw minor lines
-    if (minorLines.length > 0) {
-        // Vertical minor lines
-        const minorVerticals = minorLines.filter(line => line[0] === 'vertical');
-        if (minorVerticals.length > 0) {
-            context.strokeStyle = colorMinor;
-            context.lineWidth = lwMinorV;
-            context.setLineDash(scaleDash(dashMinor, scale.x));
-            context.beginPath();
-            minorVerticals.forEach(line => {
-                context.moveTo(line[1], line[2]);
-                context.lineTo(line[3], line[4]);
-            });
-            context.stroke();
+        if (xPlus <= w) {
+            (isMajor ? majorV : minorV).push([xPlus, 0, xPlus, h]);
         }
-        
-        // Horizontal minor lines
-        const minorHorizontals = minorLines.filter(line => line[0] === 'horizontal');
-        if (minorHorizontals.length > 0) {
-            context.strokeStyle = colorMinor;
-            context.lineWidth = lwMinorH;
-            context.setLineDash(scaleDash(dashMinor, scale.y));
-            context.beginPath();
-            minorHorizontals.forEach(line => {
-                context.moveTo(line[1], line[2]);
-                context.lineTo(line[3], line[4]);
-            });
-            context.stroke();
+        if (xMinus >= 0) {
+            (isMajor ? majorV : minorV).push([xMinus, 0, xMinus, h]);
+        }
+
+        // Horizontal lines (no half-pixel baked in)
+        const yPlus = cy + step;
+        const yMinus = cy - step;
+
+        if (yPlus <= h) {
+            (isMajor ? majorH : minorH).push([0, yPlus, w, yPlus]);
+        }
+        if (yMinus >= 0) {
+            (isMajor ? majorH : minorH).push([0, yMinus, w, yMinus]);
         }
     }
-    
-    // Draw major lines (same pattern)
-    if (majorLines.length > 0) {
-        // Vertical major lines
-        const majorVerticals = majorLines.filter(line => line[0] === 'vertical');
-        if (majorVerticals.length > 0) {
-            context.strokeStyle = colorMajor;
-            context.lineWidth = lwMajorV;
-            context.setLineDash(scaleDash(dashMajor, scale.x));
-            context.beginPath();
-            majorVerticals.forEach(line => {
-                context.moveTo(line[1], line[2]);
-                context.lineTo(line[3], line[4]);
-            });
-            context.stroke();
-        }
-        
-        // Horizontal major lines
-        const majorHorizontals = majorLines.filter(line => line[0] === 'horizontal');
-        if (majorHorizontals.length > 0) {
-            context.strokeStyle = colorMajor;
-            context.lineWidth = lwMajorH;
-            context.setLineDash(scaleDash(dashMajor, scale.y));
-            context.beginPath();
-            majorHorizontals.forEach(line => {
-                context.moveTo(line[1], line[2]);
-                context.lineTo(line[3], line[4]);
-            });
-            context.stroke();
-        }
-    }
-    
-    context.restore();
-}
-            });
 
-            // Store in canvas state
-            const shapeId = gridShape.id();
-            canvasState.shapes[shapeId] = gridShape;
-            canvasState.index[name] = shapeId;
+    // Add center lines to major arrays
+    majorV.push([cx, 0, cx, h]);
+    majorH.push([0, cy, w, cy]);
 
-            // Add to the grid pseudo layer
-            const thePseudoLayer = getNodeByName('group-world-pseudoLayer-grid');
-            if (!thePseudoLayer) {
-                throw new Error('[makeGridSuperOptimized] pseudo layer not found');
+    const gridShape = new Konva.Shape({
+        id: crypto.randomUUID(),
+        name: name,
+        listening: false,
+        perfectDrawEnabled: false,
+        shadowForStrokeEnabled: false,
+
+        sceneFunc: function(context, shape) {
+            context.save();
+            
+            const scale = shape.getAbsoluteScale();
+            
+            // Scale-compensated line widths
+            const lwMinorV = strokeWidthMinor / scale.x;
+            const lwMinorH = strokeWidthMinor / scale.y;
+            const lwMajorV = strokeWidthMajor / scale.x;
+            const lwMajorH = strokeWidthMajor / scale.y;
+            
+            // Scale-compensated dash patterns
+            const dashX = (dash) => (dash && dash.length) ? dash.map(d => d / scale.x) : [];
+            const dashY = (dash) => (dash && dash.length) ? dash.map(d => d / scale.y) : [];
+            
+            // Scale-aware half-pixel alignment
+            const alignX = 0.5 / scale.x;
+            const alignY = 0.5 / scale.y;
+
+            // Draw vertical minor lines
+            if (minorV.length > 0) {
+                context.save();
+                context.translate(alignX, 0);
+                context.strokeStyle = colorMinor;
+                context.lineWidth = lwMinorV;
+                context.setLineDash(dashX(dashMinor));
+                context.beginPath();
+                for (const [x1, y1, x2, y2] of minorV) {
+                    context.moveTo(x1, y1);
+                    context.lineTo(x2, y2);
+                }
+                context.stroke();
+                context.restore();
             }
-            thePseudoLayer.add(gridShape);
 
-            return gridShape;
-        };
+            // Draw horizontal minor lines
+            if (minorH.length > 0) {
+                context.save();
+                context.translate(0, alignY);
+                context.strokeStyle = colorMinor;
+                context.lineWidth = lwMinorH;
+                context.setLineDash(dashY(dashMinor));
+                context.beginPath();
+                for (const [x1, y1, x2, y2] of minorH) {
+                    context.moveTo(x1, y1);
+                    context.lineTo(x2, y2);
+                }
+                context.stroke();
+                context.restore();
+            }
+
+            // Draw vertical major lines
+            if (majorV.length > 0) {
+                context.save();
+                context.translate(alignX, 0);
+                context.strokeStyle = colorMajor;
+                context.lineWidth = lwMajorV;
+                context.setLineDash(dashX(dashMajor));
+                context.beginPath();
+                for (const [x1, y1, x2, y2] of majorV) {
+                    context.moveTo(x1, y1);
+                    context.lineTo(x2, y2);
+                }
+                context.stroke();
+                context.restore();
+            }
+
+            // Draw horizontal major lines
+            if (majorH.length > 0) {
+                context.save();
+                context.translate(0, alignY);
+                context.strokeStyle = colorMajor;
+                context.lineWidth = lwMajorH;
+                context.setLineDash(dashY(dashMajor));
+                context.beginPath();
+                for (const [x1, y1, x2, y2] of majorH) {
+                    context.moveTo(x1, y1);
+                    context.lineTo(x2, y2);
+                }
+                context.stroke();
+                context.restore();
+            }
+
+            context.restore();
+        }
+    });
+
+    // Store in canvas state
+    const shapeId = gridShape.id();
+    canvasState.shapes[shapeId] = gridShape;
+    canvasState.index[name] = shapeId;
+
+    // Add to the grid pseudo layer
+    const thePseudoLayer = getNodeByName('group-world-pseudoLayer-grid');
+    if (!thePseudoLayer) {
+        throw new Error('[makeGrid] pseudo layer not found');
+    }
+    thePseudoLayer.add(gridShape);
+
+    return gridShape;
+};
 
         const makeWorldRect = () => {
             const shapeId = crypto.randomUUID(),
