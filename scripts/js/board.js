@@ -113,6 +113,7 @@ const board = (() => {
             teardown
         };
     };
+
     const build = () => {
         const {
             removeByName,
