@@ -66,13 +66,44 @@ const board = (() => {
             delete canvasState.index[name];
         };
 
+        function getNodeByName(name, type = true) {
+            const nodeId = canvasState.index[name];
+            if (!nodeId) {
+                return null;
+            }
+            if (type === true) {
+                // If type is not specified, search all stores
+                if (canvasState.layers[nodeId]) return canvasState.layers[nodeId];
+                if (canvasState.pseudos[nodeId]) return canvasState.pseudos[nodeId];
+                if (canvasState.groups[nodeId]) return canvasState.groups[nodeId];
+                if (canvasState.shapes[nodeId]) return canvasState.shapes[nodeId];
+            } else {
+                // If a specific type is requested, search only that store
+                switch (type) {
+                    case 'layer':
+                        return canvasState.layers[nodeId] || null;
+                    case 'pseudos':
+                        return canvasState.pseudos[nodeId] || null;
+                    case 'group':
+                        return canvasState.groups[nodeId] || null;
+                    case 'shape':
+                        return canvasState.shapes[nodeId] || null;
+                    default:
+                        return null;
+                }
+            }
+            return null; // Fallback return if nothing is found
+        };
+
         return {
-            removeByName
+            removeByName,
+            getNodeByName
         };
     };
     const build = () => {
         const {
-            removeByName
+            removeByName,
+            getNodeByName
         } = utility();
         
         const makeStage = (cnvs) => {
@@ -108,34 +139,7 @@ const board = (() => {
             });
         };
 
-        function getNodeByName(name, type = true) {
-            const nodeId = canvasState.index[name];
-            if (!nodeId) {
-                return null;
-            }
-            if (type === true) {
-                // If type is not specified, search all stores
-                if (canvasState.layers[nodeId]) return canvasState.layers[nodeId];
-                if (canvasState.pseudos[nodeId]) return canvasState.pseudos[nodeId];
-                if (canvasState.groups[nodeId]) return canvasState.groups[nodeId];
-                if (canvasState.shapes[nodeId]) return canvasState.shapes[nodeId];
-            } else {
-                // If a specific type is requested, search only that store
-                switch (type) {
-                    case 'layer':
-                        return canvasState.layers[nodeId] || null;
-                    case 'pseudos':
-                        return canvasState.pseudos[nodeId] || null;
-                    case 'group':
-                        return canvasState.groups[nodeId] || null;
-                    case 'shape':
-                        return canvasState.shapes[nodeId] || null;
-                    default:
-                        return null;
-                }
-            }
-            return null; // Fallback return if nothing is found
-        };
+
         
         const makePseudoLayers = (props = {}) => {
             for (let i = 0; i < 5; i++) {
@@ -242,6 +246,11 @@ const board = (() => {
             makeWorldRect,
             makeGrid
         } = build();
+
+        const {
+            removeByName,
+            getNodeByName
+        } = utility();
 
         makeStage(kCanvas);
         makeLayers();
