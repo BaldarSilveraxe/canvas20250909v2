@@ -45,7 +45,7 @@ const board = (() => {
             strokeWidthMinor: 1,
             strokeWidthMajor: 2,
             minorLine: 100,
-            majorLineEvery: 5
+            majorLineEvery: 0
         },
         zoom: {
             scaleMin: 0.10,
