@@ -131,13 +131,12 @@ const board = (() => {
 
 
         const makeWorldRect = () => {
-            let shapeId = crypto.randomUUID(),
+            const shapeId = crypto.randomUUID(),
                 theLayer = getNodeByName('group-world-pseudoLayer-background');
-            //console.log(theLayer);
-            //canvasState.shapes[shapeId] = new Konva.Rect({...config.world, id: shapeId});
-            //canvasState.index[config.world.name] = shapeId;
-            //canvasState.shapes[shapeId];
-            //theLayer.add(worldRect);
+            canvasState.shapes[shapeId] = new Konva.Rect({...config.world, id: shapeId});
+            canvasState.index[config.world.name] = shapeId;
+            canvasState.shapes[shapeId];
+            theLayer.add(worldRect);
         };
 
         const makeGrid = () => {
