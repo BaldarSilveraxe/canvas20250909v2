@@ -198,7 +198,11 @@ const board = (() => {
                 points,
                 stroke: isMajor ? colorMajor : colorMinor,
                 strokeWidth: isMajor ? strokeWidthMajor : strokeWidthMinor,
-                listening: false
+                listening: false,
+                perfectDrawEnabled: false,
+                shadowForStrokeEnabled: false,
+                // keep grid 1px in screen space when zooming:
+                strokeScaleEnabled: false
             });
 
             worldRoot.add(group);
