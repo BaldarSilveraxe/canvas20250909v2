@@ -136,16 +136,36 @@ const attachDragCamera = () => {
   };
 
   // clamp so you can’t fling the world off-screen (no zoom yet)
-  const clamp = (pos) => {
-    const vw = stage.width(), vh = stage.height();
-    const W  = config.world.width, H = config.world.height;
-    const minX = Math.min(0, vw - W), maxX = 0;
-    const minY = Math.min(0, vh - H), maxY = 0;
-    return { x: Math.max(minX, Math.min(pos.x, maxX)),
-             y: Math.max(minY, Math.min(pos.y, maxY)) };
+// replace your clamp with this (works with future zoom too)
+const clamp = (pos) => {
+  const container = stage.container();
+  const vw = container.clientWidth  || stage.width();   // viewport width
+  const vh = container.clientHeight || stage.height();  // viewport height
+
+  const s = camWorld.scaleX() || 1;                     // camera scale
+  const W = config.world.width  * s;                    // content width in screen px
+  const H = config.world.height * s;                    // content height
+
+  // If content is larger than viewport: allow panning within [vw - W, 0]
+  // If smaller: lock centered (same min & max)
+  const clampAxis = (val, view, content) => {
+    if (content <= view) {
+      const center = Math.round((view - content) / 2);
+      return center; // locked center
+    }
+    const min = view - content; // negative
+    const max = 0;
+    return Math.max(min, Math.min(val, max));
   };
 
-  //camWorld.dragBoundFunc(clamp); commented for testing.
+  return {
+    x: clampAxis(pos.x, vw, W),
+    y: clampAxis(pos.y, vh, H),
+  };
+};
+
+
+  camWorld.dragBoundFunc(clamp); 
   camWorld.on('dragmove',  sync);
 
   // nice UX: cursor + prevent text selection while dragging
