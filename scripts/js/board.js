@@ -44,6 +44,8 @@ const board = (() => {
             colorMajor: '#647CA6',
             strokeWidthMinor: 1,
             strokeWidthMajor: 1,
+            dashMinor: [4, 4],
+            dashMajor: [10, 10],
             minorLine: 100,
             majorLineEvery: 3
         },
@@ -180,7 +182,9 @@ const board = (() => {
                 colorMinor,
                 colorMajor,
                 strokeWidthMinor,
-                strokeWidthMajor
+                strokeWidthMajor,
+                dashMinor,
+                dashMajor
             } = config.grid;
 
             const group = new Konva.Group({
@@ -199,7 +203,7 @@ const board = (() => {
                 points,
                 stroke: isMajor ? colorMajor : colorMinor,
                 strokeWidth: isMajor ? strokeWidthMajor : strokeWidthMinor,
-                dash: isMajor ? [] : [4, 4],
+                dash: isMajor ? dashMajor : dashMinor,
                 listening: false,
                 perfectDrawEnabled: false,
                 shadowForStrokeEnabled: false,
