@@ -97,15 +97,27 @@ const board = (() => {
             return null; // Fallback return if nothing is found
         };
 
+        const teardown = () => {
+            try { canvasState.stage?.destroy(); } catch {}
+            canvasState.stage = null;
+            canvasState.layers = {};
+            canvasState.pseudos = {};
+            canvasState.groups = {};
+            canvasState.shapes = {};
+            canvasState.index = {};
+        };
+
         return {
             removeByName,
-            getNodeByName
+            getNodeByName,
+            teardown
         };
     };
     const build = () => {
         const {
             removeByName,
-            getNodeByName
+            getNodeByName,
+            teardown
         } = utility();
         
 
@@ -247,7 +259,8 @@ const board = (() => {
             makeWorldRect,
             makeGrid,
             removeByName,
-            getNodeByName
+            getNodeByName,
+            teardown
         };
     };
 
@@ -260,20 +273,33 @@ const board = (() => {
             makeWorldRect,
             makeGrid,
             removeByName,
-            getNodeByName
+            getNodeByName,
+            teardown
         } = build();
 
-        makeStage(kCanvas);
-        if (!canvasState.stage)  {
-                throw new Error('board.create: stage not created');
-            return;
-        }
-        makeLayers();
-        makePseudoLayers();
-        makeWorldRect();
-        makeGrid();
+        //makeStage(kCanvas);
+        //makeLayers();
+       // makePseudoLayers();
+        //makeWorldRect();
+        //makeGrid();
 
-        canvasState.stage.draw();
+        //canvasState.stage.draw();
+try {
+  makeStage(kCanvas);                         // may throw
+  if (!(canvasState.stage instanceof Konva.Stage)) {
+    throw new Error('board.create: stage not created');
+  }
+  makeLayers();
+  makePseudoLayers();
+  makeWorldRect();
+  makeGrid();
+
+  // One paint at the end:
+  canvasState.stage.getLayers().forEach(l => l.batchDraw());
+} catch (err) {
+  teardown();
+  throw err;  // surface the original error
+}
         console.log('finished');
 
         console.log(getNodeByName('items-pseudo-layer'));
