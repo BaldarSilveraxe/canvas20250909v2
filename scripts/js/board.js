@@ -199,6 +199,7 @@ const board = (() => {
                 points,
                 stroke: isMajor ? colorMajor : colorMinor,
                 strokeWidth: isMajor ? strokeWidthMajor : strokeWidthMinor,
+                dash: isMajor ? [] : [4, 4],
                 listening: false,
                 perfectDrawEnabled: false,
                 shadowForStrokeEnabled: false,
