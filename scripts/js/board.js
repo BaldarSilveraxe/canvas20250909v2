@@ -16,8 +16,14 @@ const board = (() => {
                 layer: 'layer-world',
                 pseudos: ['group-world-pseudoLayer-background', 'group-world-pseudoLayer-grid']
             },
-            items: ['group-items-pseudoLayer-z-0', 'group-items-pseudoLayer-z-10', 'group-items-pseudoLayer-z-20', 'group-items-pseudoLayer-z-30', 'group-items-pseudoLayer-z-40'],
-            ui: ['group-ui-main'],
+            items: {
+                layer: 'layer-items',
+                pseudos: ['group-items-pseudoLayer-z-0', 'group-items-pseudoLayer-z-10', 'group-items-pseudoLayer-z-20', 'group-items-pseudoLayer-z-30', 'group-items-pseudoLayer-z-40']
+            },
+            ui: {
+                layer: 'layer-ui',
+                pseudos: ['group-ui-main']
+            }
         },
         RESERVED_NAMES: new Set([
             '_stage',
