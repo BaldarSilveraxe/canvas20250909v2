@@ -4,7 +4,6 @@ const board = (() => {
     const canvasState = {
         stage: null,
         layers: {},
-        pseudos: {},
         groups: {},
         shapes: {},
         index: {},
