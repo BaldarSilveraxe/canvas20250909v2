@@ -251,7 +251,6 @@ const board = (() => {
             makeStage,
             makeLayers,
             makePseudoLayers,
-            getNodeByName,
             makeWorldRect,
             makeGrid,
             removeByName,
