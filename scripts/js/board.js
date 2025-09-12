@@ -118,17 +118,17 @@ const board = (() => {
         } = utility();
         
 const attachDragCamera = () => {
-  const stage    = canvasState.stage;
-  const camWorld = getNodeByName('group-world-pseudoLayer-camera-wrap');
-  const camItems = getNodeByName('group-items-pseudoLayer-camera-wrap');
-  if (!camWorld || !camItems) throw new Error('[camera] wrappers missing');
+    const stage    = canvasState.stage;
+      const camWorld = getNodeByName('group-world-pseudoLayer-camera-wrap');
+      const camItems = getNodeByName('group-items-pseudoLayer-camera-wrap');
+      if (!camWorld || !camItems) throw new Error('[camera] wrappers missing');
 
-  // ensure only world camera is draggable
-  camWorld.draggable(true);
-  camItems.draggable(false);
+      // ensure only world camera is draggable
+      camWorld.draggable(true);
+      camItems.draggable(false);
 
-  // keep items camera in lockstep
-  const sync = () => {
+      // keep items camera in lockstep
+      const sync = () => {
     const p = camWorld.position();
     camItems.position(p);
     camWorld.getLayer()?.batchDraw();
@@ -163,6 +163,13 @@ const clamp = (pos) => {
     y: clampAxis(pos.y, vh, H),
   };
 };
+
+// snap once into bounds so the initial position is valid
+const p0 = clamp(camWorld.position());
+camWorld.position(p0);
+camItems.position(p0);
+camWorld.getLayer()?.batchDraw();
+camItems.getLayer()?.batchDraw();
 
 
   camWorld.dragBoundFunc(clamp); 
@@ -419,19 +426,35 @@ const makeGrid = () => {
             });
         };
 
-        const makeStage = (kCanvas) => {
-            const kCanvasContainer = (typeof kCanvas === 'string') ? document.getElementById(kCanvas) : kCanvas;
-            if (!kCanvasContainer) {
-                throw new Error('board.create: container not found');
-            }
-            canvasState.stage = new Konva.Stage({
-                id: crypto.randomUUID(),
-                name: '_stage',
-                container: kCanvasContainer,
-                width: config.world.width,
-                height: config.world.height,
-            });
-        };
+const makeStage = (kCanvas) => {
+  const container = (typeof kCanvas === 'string') ? document.getElementById(kCanvas) : kCanvas;
+  if (!container) throw new Error('board.create: container not found');
+
+  // Ensure the container is viewport-sized and doesn't scroll
+  container.style.width = '100%';
+  container.style.height = '100%';
+  container.style.overflow = 'hidden';
+
+  const w = container.clientWidth;
+  const h = container.clientHeight;
+
+  canvasState.stage = new Konva.Stage({
+    id: crypto.randomUUID(),
+    name: '_stage',
+    container,
+    width: w,                // <— viewport width
+    height: h,               // <— viewport height
+  });
+
+  // Keep stage sized to viewport on window resize
+  const onResize = () => {
+    const nw = container.clientWidth;
+    const nh = container.clientHeight;
+    canvasState.stage.size({ width: nw, height: nh });
+  };
+  window.addEventListener('resize', onResize);
+};
+
 
         return {
             makeStage,
