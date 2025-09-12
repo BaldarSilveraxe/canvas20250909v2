@@ -53,6 +53,22 @@ const board = (() => {
         },
     };
 
+    const utility = () => {
+        const removeByName = (name) => {
+          const id = canvasState.index[name];
+          if (!id) return;
+          const node = canvasState.layers[id] || canvasState.pseudos[id] || canvasState.groups[id] || canvasState.shapes[id];
+          if (node) node.destroy();
+          delete canvasState.layers[id];
+          delete canvasState.pseudos[id];
+          delete canvasState.groups[id];
+          delete canvasState.shapes[id];
+          delete canvasState.index[name];
+    };
+        return {
+            removeByName
+        };
+    };
     const build = () => {
         const makeStage = (cnvs) => {
             const kCanvasContainer = (typeof cnvs === 'string') ? document.getElementById(cnvs) : cnvs;
@@ -140,66 +156,65 @@ const board = (() => {
             worldRoot.add(worldRect);
         };
 
-const makeGrid = () => {
-  const W = config.world.width,
-      H = config.world.height,
-      cx = W / 2,
-      cy = H / 2,
-      halfPixel = 0.5;
+        const makeGrid = () => {
+            const W = config.world.width,
+            H = config.world.height,
+            cx = W / 2,
+            cy = H / 2,
+            halfPixel = 0.5;
 
-  const {
-    name,
-    minorLine,
-    majorLineEvery,
-    colorMinor,
-    colorMajor,
-    strokeWidthMinor,
-    strokeWidthMajor
-  } = config.grid;
+            const {
+                name,
+                minorLine,
+                majorLineEvery,
+                colorMinor,
+                colorMajor,
+                strokeWidthMinor,
+                strokeWidthMajor
+            } = config.grid;
 
-  const group = new Konva.Group({
-    id: crypto.randomUUID(),
-    name,
-    listening: false
-  });
+            const group = new Konva.Group({
+                id: crypto.randomUUID(),
+                name,
+                listening: false
+            });
 
-  const worldRoot = getNodeByName('world-pseudo-layer');
+            const worldRoot = getNodeByName('world-pseudo-layer');
 
-  const makePath = (points, isMajor) =>
-    new Konva.Line({
-      id: crypto.randomUUID(),
-      name: 'grid-line',
-      points,
-      stroke: isMajor ? colorMajor : colorMinor,
-      strokeWidth: isMajor ? strokeWidthMajor : strokeWidthMinor,
-      listening: false
-    });
+            const makePath = (points, isMajor) =>
+            new Konva.Line({
+                id: crypto.randomUUID(),
+                name: 'grid-line',
+                points,
+                stroke: isMajor ? colorMajor : colorMinor,
+                strokeWidth: isMajor ? strokeWidthMajor : strokeWidthMinor,
+                listening: false
+            });
 
-  worldRoot.add(group);
+            worldRoot.add(group);
 
-  const maxSteps = Math.ceil(Math.max(W, H) / 2 / minorLine);
+            const maxSteps = Math.ceil(Math.max(W, H) / 2 / minorLine);
 
-  for (let i = 1; i <= maxSteps; i++) {
-    const step = i * minorLine;
-    const isMajor = (i % majorLineEvery) === 0;
+            for (let i = 1; i <= maxSteps; i++) {
+                const step = i * minorLine;
+                const isMajor = (i % majorLineEvery) === 0;
 
-    const xPlus  = cx + step + halfPixel;
-    const xMinus = cx - step - halfPixel;
-    if (xPlus <= W)  group.add(makePath([xPlus, 0, xPlus, H], isMajor));
-    if (xMinus >= 0) group.add(makePath([xMinus, 0, xMinus, H], isMajor));
+                const xPlus  = cx + step + halfPixel;
+                const xMinus = cx - step - halfPixel;
+                if (xPlus <= W)  group.add(makePath([xPlus, 0, xPlus, H], isMajor));
+                if (xMinus >= 0) group.add(makePath([xMinus, 0, xMinus, H], isMajor));
 
-    const yPlus  = cy + step + halfPixel;
-    const yMinus = cy - step - halfPixel;
-    if (yPlus <= H)  group.add(makePath([0, yPlus, W, yPlus], isMajor));
-    if (yMinus >= 0) group.add(makePath([0, yMinus, W, yMinus], isMajor));
-  }
+                const yPlus  = cy + step + halfPixel;
+                const yMinus = cy - step - halfPixel;
+                if (yPlus <= H)  group.add(makePath([0, yPlus, W, yPlus], isMajor));
+                if (yMinus >= 0) group.add(makePath([0, yMinus, W, yMinus], isMajor));
+              }
     
-  group.add(makePath([cx + halfPixel, 0, cx + halfPixel, H], true));
-  group.add(makePath([0, cy + halfPixel, W, cy + halfPixel], true));
+              group.add(makePath([cx + halfPixel, 0, cx + halfPixel, H], true));
+              group.add(makePath([0, cy + halfPixel, W, cy + halfPixel], true));
 
-  group.moveToTop();
-};
-
+              group.moveToTop();
+        };
 
         return {
             makeStage,
