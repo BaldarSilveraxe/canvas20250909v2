@@ -157,8 +157,8 @@ const board = (() => {
             canvasState.groups[group._id] = group;
             canvasState.index[name] = group._id;
 
-            const worldRoot = getNodeByName('world-pseudo-layer');
-            worldRoot.add(group);
+            const thePseudoLayer = getNodeByName('group-world-pseudoLayer-grid');
+            thePseudoLayer.add(group);
             
             const makePath = (points, isMajor) =>
             new Konva.Line({
@@ -287,7 +287,7 @@ try {
   makeLayers();
   makePseudoLayers();
   makeWorldRect();
-  //makeGrid();
+  makeGrid();
 
   // One paint at the end:
   canvasState.stage.getLayers().forEach(l => l.batchDraw());
