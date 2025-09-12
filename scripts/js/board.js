@@ -118,7 +118,7 @@ const board = (() => {
             getNodeByName,
             teardown
         } = utility();
-/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 const makeGridSuperOptimized = () => {
     removeByName(config.grid.name);
     
@@ -229,7 +229,7 @@ const makeGridSuperOptimized = () => {
     
     return gridShape;
 };
-/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         const makeGrid = () => {
             removeByName(config.grid.name);
             const halfPixel = 0.5,
@@ -378,7 +378,7 @@ const makeGridSuperOptimized = () => {
             makePseudoLayers,
             makeWorldRect,
             makeGrid,
-            makeGridSuperOptimized, /*TESTING
+            makeGridSuperOptimized, //TESTING
             removeByName,
             getNodeByName,
             teardown
