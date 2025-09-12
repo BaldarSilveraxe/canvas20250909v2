@@ -12,7 +12,10 @@ const board = (() => {
     const config = {
         layers: ['world', 'items', 'ui'],
         pseudoLayers: {
-            world: ['group-world-pseudoLayer-background', 'group-world-pseudoLayer-grid'],
+            world: {
+                layer: 'layer-world',
+                pseudos: ['group-world-pseudoLayer-background', 'group-world-pseudoLayer-grid']
+            },
             items: ['group-items-pseudoLayer-z-0', 'group-items-pseudoLayer-z-10', 'group-items-pseudoLayer-z-20', 'group-items-pseudoLayer-z-30', 'group-items-pseudoLayer-z-40'],
             ui: ['group-ui-main'],
         },
@@ -206,12 +209,15 @@ const board = (() => {
 
         const makePseudoLayers = () => {
             for (var key in config.pseudoLayers) {
-                if (config.pseudoLayers.hasOwnProperty(key)) {
-                    config.pseudoLayers[key].forEach((element, index) => {
-                        if ('world' === key) {
+                if (config.pseudoLayers.hasOwnProperty(key1)) {
+                    if (config.pseudoLayers[key1].hasOwnProperty(key2)) {
+                        console.log(config.pseudoLayers[key1])
+                    //config.pseudoLayers[key].forEach((element, index) => {
+                        //if ('world' === key) {
                             console.log(`Element at index ${index}: ${element}`);
-                        }    
-                    });
+                        //}    
+                    //});
+                    }
                 }
             }
             /*
