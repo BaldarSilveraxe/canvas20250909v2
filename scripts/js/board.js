@@ -218,7 +218,7 @@ config.pseudoLayers.forEach((o) => {
                         //console.log(config.pseudoLayers[key1])
                     //config.pseudoLayers[key].forEach((element, index) => {
                         //if ('world' === key) {
-                            console.log(`Element at index ${index}: ${element}`);
+                           // console.log(`Element at index ${index}: ${element}`);
                         //}    
                     //});
                     }
