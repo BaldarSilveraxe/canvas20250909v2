@@ -265,6 +265,10 @@ const board = (() => {
         } = utility();
 
         makeStage(kCanvas);
+        if (!canvasState.stage)  {
+                throw new Error('board.create: stage not created');
+            return;
+        }
         makeLayers();
         makePseudoLayers();
         makeWorldRect();
