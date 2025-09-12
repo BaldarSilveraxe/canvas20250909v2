@@ -95,10 +95,9 @@ const board = (() => {
 
         const teardown = () => {
             try {
+                canvasState.stage?.off();
                 canvasState.stage?.destroy();
             } catch {}
-            canvasState.stage?.off();
-            canvasState.stage?.destroy()
             canvasState.stage = null;
             canvasState.layers = {};
             canvasState.groups = {};
