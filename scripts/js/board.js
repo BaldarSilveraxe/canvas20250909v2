@@ -227,11 +227,10 @@ const board = (() => {
         const makeLayers = () => {
             config.layers.forEach(function(e, i) {
                 const layerId = crypto.randomUUID(),
-                    layerName = `layer-${e}`,
-                    newLayer = new Konva.Layer({ id: layerId, name: layerName });
-                canvasState.layers[layerId] = newLayer;
+                    layerName = `layer-${e}`;
+                canvasState.layers[layerId] = new Konva.Layer({ id: layerId, name: layerName });
                 canvasState.index[layerName] = layerId;
-                canvasState.stage.add(newLayer);
+                canvasState.stage.add(canvasState.layers[layerId]);
             });
         };
         
