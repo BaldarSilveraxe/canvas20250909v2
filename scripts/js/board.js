@@ -37,21 +37,21 @@ const board = (() => {
             'group-items-pseudoLayer-z-20',
             'group-items-pseudoLayer-z-30',
             'group-items-pseudoLayer-z-40',
-            'group-ui-main',
-            '_rect-stage',
-            '_group-world-grid'
+            'group-ui-pseudoLayer-main',
+            'shape-pseudoLayer-background-rect',
+            'group-world-grid'
         ]),
         world: {
             x: 0,
             y: 0,
-            name: '_rect-stage',
+            name: 'shape-pseudoLayer-background-rect',
             width: 6000,
             height: 6000,
             fill: '#EEEEFF',
             listening: true
         },
         grid: {
-            name: '_group-world-grid',
+            name: 'group-world-grid',
             colorMinor: '#96ADE9',
             colorMajor: '#647CA6',
             strokeWidthMinor: 1,
