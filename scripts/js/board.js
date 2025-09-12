@@ -339,7 +339,7 @@ const makeGrid = () => {
                 canvasState.layers[layerId] = new Konva.Layer({
                     id: layerId,
                     name: layerName,
-                    listening: listening
+                    listening
                 });
                 canvasState.index[layerName] = layerId;
                 canvasState.stage.add(canvasState.layers[layerId]);
