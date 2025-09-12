@@ -97,6 +97,8 @@ const board = (() => {
             try {
                 canvasState.stage?.destroy();
             } catch {}
+            canvasState.stage?.off();
+            canvasState.stage?.destroy()
             canvasState.stage = null;
             canvasState.layers = {};
             canvasState.groups = {};
