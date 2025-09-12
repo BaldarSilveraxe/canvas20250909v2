@@ -14,11 +14,11 @@ const board = (() => {
         pseudoLayers: {
             world: {
                 layer: 'layer-world',
-                pseudos: ['group-world-pseudoLayer-camera-wrap', 'group-world-pseudoLayer-background', 'group-world-pseudoLayer-grid']
+                pseudos: ['group-world-pseudoLayer-background', 'group-world-pseudoLayer-grid']
             },
             items: {
                 layer: 'layer-items',
-                pseudos: ['group-items-pseudoLayer-camera-wrap', 'group-items-pseudoLayer-z-0', 'group-items-pseudoLayer-z-10', 'group-items-pseudoLayer-z-20', 'group-items-pseudoLayer-z-30', 'group-items-pseudoLayer-z-40']
+                pseudos: ['group-items-pseudoLayer-z-0', 'group-items-pseudoLayer-z-10', 'group-items-pseudoLayer-z-20', 'group-items-pseudoLayer-z-30', 'group-items-pseudoLayer-z-40']
             },
             ui: {
                 layer: 'layer-ui',
@@ -316,6 +316,11 @@ const makeGrid = () => {
                     theLayer.add(canvasState.groups[newGroupId]);
                 });
             });
+        };
+
+        const makeCameraWrappers = () => {
+            let name1 = 'group-world-pseudoLayer-camera-wrap';
+            let name2 = 'group-items-pseudoLayer-camera-wrap';
         };
 
         const makeLayers = () => {
