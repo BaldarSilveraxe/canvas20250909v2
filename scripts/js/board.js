@@ -41,9 +41,9 @@ const board = (() => {
         grid: {
             name: '_group-world-grid',
             colorMinor: '#96ADE9',
-            colorMajor: '#96ADE9',
+            colorMajor: '#647CA6',
             strokeWidthMinor: 1,
-            strokeWidthMajor: 2,
+            strokeWidthMajor: 1,
             minorLine: 100,
             majorLineEvery: 3
         },
