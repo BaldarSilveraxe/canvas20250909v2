@@ -177,41 +177,75 @@ const board = (() => {
                 shadowForStrokeEnabled: false,
                 strokeScaleEnabled: false,
 
-        sceneFunc: function(context, shape) {
-            context.save();
+sceneFunc: function(context, shape) {
+    context.save();
+    
+    // Get absolute scale for per-axis line width compensation
+    const scale = shape.getAbsoluteScale(); // { x, y }
+    
+    // Calculate axis-specific line widths (compensate for scaling)
+    const lwMinorV = strokeWidthMinor / scale.x; // Vertical lines
+    const lwMinorH = strokeWidthMinor / scale.y; // Horizontal lines  
+    const lwMajorV = strokeWidthMajor / scale.x;
+    const lwMajorH = strokeWidthMajor / scale.y;
+    
+    // Scale dash patterns per axis
+    const scaleDash = (dash, axisScale) =>
+        (dash && dash.length) ? dash.map(d => d / axisScale) : [];
+    
+    // Helper to draw lines with different scaling per axis
+    const drawLines = (lines, color, lwVertical, lwHorizontal, dashV, dashH) => {
+        // Draw vertical lines
+        const verticals = lines.filter(line => line[0] === 'vertical');
+        if (verticals.length > 0) {
+            context.strokeStyle = color;
+            context.lineWidth = lwVertical;
+            context.setLineDash(dashV);
+            context.beginPath();
             
-            // Draw minor lines
-            if (minorLines.length > 0) {
-                context.strokeStyle = colorMinor;
-                context.lineWidth = strokeWidthMinor;
-                context.setLineDash(dashMinor || []);
-                context.beginPath();
-                
-                minorLines.forEach(line => {
-                    context.moveTo(line[1], line[2]);
-                    context.lineTo(line[3], line[4]);
-                });
-                
-                context.stroke();
-            }
+            verticals.forEach(line => {
+                context.moveTo(line[1], line[2]);
+                context.lineTo(line[3], line[4]);
+            });
             
-            // Draw major lines
-            if (majorLines.length > 0) {
-                context.strokeStyle = colorMajor;
-                context.lineWidth = strokeWidthMajor;
-                context.setLineDash(dashMajor || []);
-                context.beginPath();
-                
-                majorLines.forEach(line => {
-                    context.moveTo(line[1], line[2]);
-                    context.lineTo(line[3], line[4]);
-                });
-                
-                context.stroke();
-            }
-            
-            context.restore();
+            context.stroke();
         }
+        
+        // Draw horizontal lines
+        const horizontals = lines.filter(line => line[0] === 'horizontal');
+        if (horizontals.length > 0) {
+            context.strokeStyle = color;
+            context.lineWidth = lwHorizontal;
+            context.setLineDash(dashH);
+            context.beginPath();
+            
+            horizontals.forEach(line => {
+                context.moveTo(line[1], line[2]);
+                context.lineTo(line[3], line[4]);
+            });
+            
+            context.stroke();
+        }
+    };
+    
+    // Draw minor lines with per-axis scaling
+    drawLines(
+        minorLines,
+        colorMinor,
+        lwMinorV, lwMinorH,
+        scaleDash(dashMinor, scale.x), scaleDash(dashMinor, scale.y)
+    );
+    
+    // Draw major lines with per-axis scaling
+    drawLines(
+        majorLines,
+        colorMajor,
+        lwMajorV, lwMajorH,
+        scaleDash(dashMajor, scale.x), scaleDash(dashMajor, scale.y)
+    );
+    
+    context.restore();
+}
             });
 
             // Store in canvas state
