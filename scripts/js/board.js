@@ -245,7 +245,9 @@ const board = (() => {
             makePseudoLayers,
             getNodeByName,
             makeWorldRect,
-            makeGrid
+            makeGrid,
+            removeByName,
+            getNodeByName
         };
     };
 
@@ -256,13 +258,10 @@ const board = (() => {
             makeLayers,
             makePseudoLayers,
             makeWorldRect,
-            makeGrid
-        } = build();
-
-        const {
+            makeGrid,
             removeByName,
             getNodeByName
-        } = utility();
+        } = build();
 
         makeStage(kCanvas);
         if (!canvasState.stage)  {
