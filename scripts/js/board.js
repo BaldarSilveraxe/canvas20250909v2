@@ -141,7 +141,7 @@ const board = (() => {
         };
 
         const makeGrid = () => {
-            const width = 1000, // config.world.width,
+            const width = 2000, // config.world.width,
                 height = 1000, // config.world.height,
                 maxSide = Math.max(width, height) / 2,
                 newGroup = new Konva.Group({ id: crypto.randomUUID(), name: config.grid.name }),
