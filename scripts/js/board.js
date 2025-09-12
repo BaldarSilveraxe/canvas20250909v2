@@ -249,7 +249,7 @@ const board = (() => {
                 width: config.world.width,
                 height: config.world.height,
             });
-            console.log(`canvasState.stage.id: ${canvasState.stage.id}, canvasState.stage.id() ${canvasState.stage.id()}`);
+            console.log(`canvasState.stage._id: ${canvasState.stage._id}, canvasState.stage.id() ${canvasState.stage.id()}`);
         };
 
         return {
