@@ -177,41 +177,41 @@ const board = (() => {
                 shadowForStrokeEnabled: false,
                 strokeScaleEnabled: false,
 
-                sceneFunc: function(context, shape) {
-                    context.save();
-
-                    // Draw minor lines
-                    if (minorLines.length > 0) {
-                        context.strokeStyle = colorMinor;
-                        context.lineWidth = strokeWidthMinor;
-                        context.setLineDash(dashMinor || []);
-                        context.beginPath();
-
-                        minorLines.forEach(line => {
-                            context.moveTo(line[1], line[2]);
-                            context.lineTo(line[3], line[4]);
-                        });
-
-                        context.stroke();
-                    }
-
-                    // Draw major lines
-                    if (majorLines.length > 0) {
-                        context.strokeStyle = colorMajor;
-                        context.lineWidth = strokeWidthMajor;
-                        context.setLineDash(dashMajor || []);
-                        context.beginPath();
-
-                        majorLines.forEach(line => {
-                            context.moveTo(line[1], line[2]);
-                            context.lineTo(line[3], line[4]);
-                        });
-
-                        context.stroke();
-                    }
-
-                    context.restore();
-                }
+        sceneFunc: function(context, shape) {
+            context.save();
+            
+            // Draw minor lines
+            if (minorLines.length > 0) {
+                context.strokeStyle = colorMinor;
+                context.lineWidth = strokeWidthMinor;
+                context.setLineDash(dashMinor || []);
+                context.beginPath();
+                
+                minorLines.forEach(line => {
+                    context.moveTo(line[1], line[2]);
+                    context.lineTo(line[3], line[4]);
+                });
+                
+                context.stroke();
+            }
+            
+            // Draw major lines
+            if (majorLines.length > 0) {
+                context.strokeStyle = colorMajor;
+                context.lineWidth = strokeWidthMajor;
+                context.setLineDash(dashMajor || []);
+                context.beginPath();
+                
+                majorLines.forEach(line => {
+                    context.moveTo(line[1], line[2]);
+                    context.lineTo(line[3], line[4]);
+                });
+                
+                context.stroke();
+            }
+            
+            context.restore();
+        }
             });
 
             // Store in canvas state
