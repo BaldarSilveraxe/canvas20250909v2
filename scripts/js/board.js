@@ -285,7 +285,6 @@ const board = (() => {
 
             //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~temp code
             const testgGroup = new Konva.Group({
-                        id: newGroupId,
                         name:'testgGrup'
                     });
             const rect = new Konva.Rect({
