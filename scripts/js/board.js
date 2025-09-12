@@ -55,11 +55,11 @@ const board = (() => {
             colorMinor: '#96ADE9',
             colorMajor: '#647CA6',
             strokeWidthMinor: 1,
-            strokeWidthMajor: 4,
+            strokeWidthMajor: 1,
             dashMinor: [4, 4],
-            dashMajor: [4, 4],
-            minorLine: 100,
-            majorLineEvery: 3
+            dashMajor: [],
+            minorLine: 70,
+            majorLineEvery: 10
         },
         zoom: {
             scaleMin: 0.10,
