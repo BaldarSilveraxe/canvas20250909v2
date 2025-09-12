@@ -10,21 +10,25 @@ const board = (() => {
     };
     
     const config = {
-        layers: ['world', 'items', 'ui'], // Used for creating layers and pseudo-layer 'layer-world' 'world-pseudo-layer' etc
-        pseudoLayers: ['items-pseudo-layer-z-0', 'items-pseudo-layer-z-10', 'items-pseudo-layer-z-20', 'items-pseudo-layer-z-30', 'items-pseudo-layer-z-40'],
+        layers: ['world', 'items', 'ui'],
+        pseudoLayers: {
+            world: ['group-world-pseudolayer-background', 'group-world-pseudolayer-grid'],
+            items: ['group-items-pseudolayer-z-0', 'group-items-pseudolayer-z-10', 'group-items-pseudolayer-z-20', 'group-items-pseudolayer-z-30', 'group-items-pseudolayer-z-40'],
+            ui: ['group-ui-main'],
+        },
         RESERVED_NAMES: new Set([
             '_stage',
             'layer-world',
             'layer-items',
             'layer-ui',
-            'world-pseudo-layer',
-            'items-pseudo-layer',
-            'ui-pseudo-layer',
-            'items-pseudo-layer-z-0',
-            'items-pseudo-layer-z-10',
-            'items-pseudo-layer-z-20',
-            'items-pseudo-layer-z-30',
-            'items-pseudo-layer-z-40',
+            'group-world-pseudolayer-background',
+            'group-world-pseudolayer-grid',
+            'group-items-pseudolayer-z-0',
+            'group-items-pseudolayer-z-10',
+            'group-items-pseudolayer-z-20',
+            'group-items-pseudolayer-z-30',
+            'group-items-pseudolayer-z-40'',
+            'group-ui-main',
             '_rect-stage',
             '_group-world-grid'
         ]),
