@@ -140,53 +140,73 @@ const board = (() => {
             worldRoot.add(worldRect);
         };
 
-        const makeGrid = () => {
-            const width = config.world.width,
-                height = config.world.height,
-                maxSide = Math.max(width, height) / 2,
-                newGroup = new Konva.Group({ id: crypto.randomUUID(), name: config.grid.name }),
-                worldRoot = getNodeByName('world-pseudo-layer'),
-                cx =  width / 2,
-                cy = height / 2,
-                pixelTrick   = 0.5,
-                makePath = (points, isMajor) => {
-                    return (new Konva.Line({
-                        id: crypto.randomUUID(),
-                        name: 'grid-line',
-                        points: points,
-                        stroke: isMajor ? config.grid.colorMajor : config.grid.colorMinor,
-                        strokeWidth: isMajor ? config.grid.strokeWidthMajor : config.grid.strokeWidthMinor
-                    }));
-                };
+const makeGrid = () => {
+  const W = config.world.width;
+  const H = config.world.height;
+  const cx = W / 2;
+  const cy = H / 2;
 
-            worldRoot.add(newGroup);
+  const {
+    name,
+    minorLine,
+    majorLineEvery,
+    colorMinor,
+    colorMajor,
+    strokeWidthMinor,
+    strokeWidthMajor
+  } = config.grid;
 
-            for (let step = 0, i = 0; step <= maxSide; step += config.grid.minorLine, i++) {
-                if (i !== 0) {
-                    if (step <= (width / 2)) {
-                    newGroup.add(makePath(
-                        [cx + step + pixelTrick, 0, cx + step + pixelTrick, height],
-                        ((i % config.grid.majorLineEvery === 0))));
-                    newGroup.add(makePath(
-                        [cx - step - pixelTrick, 0, cx - step - pixelTrick, height],
-                        ((i % config.grid.majorLineEvery === 0))));
-                    }
-                    if (step <= (height / 2)) {
-                    newGroup.add(makePath(
-                        [0, cy + step + pixelTrick, width, cy + step + pixelTrick],
-                        ((i % config.grid.majorLineEvery === 0))));
-                    newGroup.add(makePath(
-                        [0, cy - step - pixelTrick, width, cy - step - pixelTrick],
-                        ((i % config.grid.majorLineEvery === 0))));
-                    }
-                }
-            }
+  const halfPixel = 0.5;
 
-            newGroup.add(makePath([cx, 0, cx, height], true));
-            newGroup.add(makePath([0, cy, width, cy], true));
+  const group = new Konva.Group({
+    id: crypto.randomUUID(),
+    name,
+    listening: false
+  });
+  group.hitStrokeWidth(0);
 
-            newGroup.moveToTop();
-        };
+  const worldRoot = getNodeByName('world-pseudo-layer');
+
+  const makePath = (points, isMajor) =>
+    new Konva.Line({
+      id: crypto.randomUUID(),
+      name: 'grid-line',
+      points,
+      stroke: isMajor ? colorMajor : colorMinor,
+      strokeWidth: isMajor ? strokeWidthMajor : strokeWidthMinor,
+      listening: false
+    });
+
+  worldRoot.add(group);
+
+  // How many steps do we need at most from center to the furthest edge?
+  const maxSteps = Math.ceil(Math.max(W, H) / 2 / minorLine);
+
+  for (let i = 1; i <= maxSteps; i++) {
+    const step = i * minorLine;
+    const isMajor = (i % majorLineEvery) === 0;
+
+    // Vertical candidates
+    const xPlus  = cx + step + halfPixel;
+    const xMinus = cx - step - halfPixel;
+    if (xPlus <= W)  group.add(makePath([xPlus, 0, xPlus, H], isMajor));
+    if (xMinus >= 0) group.add(makePath([xMinus, 0, xMinus, H], isMajor));
+
+    // Horizontal candidates
+    const yPlus  = cy + step + halfPixel;
+    const yMinus = cy - step - halfPixel;
+    if (yPlus <= H)  group.add(makePath([0, yPlus, W, yPlus], isMajor));
+    if (yMinus >= 0) group.add(makePath([0, yMinus, W, yMinus], isMajor));
+  }
+
+  // Center axes (also half-pixel aligned)
+  group.add(makePath([cx + halfPixel, 0, cx + halfPixel, H], true));
+  group.add(makePath([0, cy + halfPixel, W, cy + halfPixel], true));
+
+  group.moveToTop();
+  return group;
+};
+
 
         return {
             makeStage,
