@@ -385,7 +385,7 @@ const makeGrid = () => {
             throw err; // surface the original error
         }
 
-        console.log('finished');;
+        console.log('finished');
         console.log(canvasState);
 
         // Public API
