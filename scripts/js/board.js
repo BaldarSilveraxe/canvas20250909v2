@@ -135,7 +135,8 @@ const board = (() => {
                 w = config.world.width,
                 h = config.world.height,
                 cx = w / 2,
-                cy = h / 2;
+                cy = h / 2,
+                groupId = crypto.randomUUID();
 
             const {
                 name,
@@ -149,16 +150,11 @@ const board = (() => {
                 dashMajor
             } = config.grid;
 
-            const group = new Konva.Group({
-                id: crypto.randomUUID(),
-                name,
-                listening: false
-            });
-            canvasState.groups[group._id] = group;
-            canvasState.index[name] = group._id;
+            canvasState.groups[groupId] = new Konva.Group({ id: groupId, name, listening: false });
+            canvasState.index[name] = groupId;
 
             const thePseudoLayer = getNodeByName('group-world-pseudoLayer-grid');
-            thePseudoLayer.add(group);
+            thePseudoLayer.add(canvasState.groups[groupId]);
             
             const makePath = (points, isMajor) =>
             new Konva.Line({
@@ -184,19 +180,19 @@ const board = (() => {
 
                 const xPlus  = cx + step + halfPixel;
                 const xMinus = cx - step - halfPixel;
-                if (xPlus <= w)  group.add(makePath([xPlus, 0, xPlus, h], isMajor));
-                if (xMinus >= 0) group.add(makePath([xMinus, 0, xMinus, h], isMajor));
+                if (xPlus <= w)  canvasState.groups[groupId].add(makePath([xPlus, 0, xPlus, h], isMajor));
+                if (xMinus >= 0) canvasState.groups[groupId].add(makePath([xMinus, 0, xMinus, h], isMajor));
 
                 const yPlus  = cy + step + halfPixel;
                 const yMinus = cy - step - halfPixel;
-                if (yPlus <= h)  group.add(makePath([0, yPlus, w, yPlus], isMajor));
-                if (yMinus >= 0) group.add(makePath([0, yMinus, w, yMinus], isMajor));
+                if (yPlus <= h)  canvasState.groups[groupId].add(makePath([0, yPlus, w, yPlus], isMajor));
+                if (yMinus >= 0) canvasState.groups[groupId].add(makePath([0, yMinus, w, yMinus], isMajor));
               }
     
-              group.add(makePath([cx + halfPixel, 0, cx + halfPixel, h], true));
-              group.add(makePath([0, cy + halfPixel, w, cy + halfPixel], true));
+              canvasState.groups[groupId].add(makePath([cx + halfPixel, 0, cx + halfPixel, h], true));
+              canvasState.groups[groupId].add(makePath([0, cy + halfPixel, w, cy + halfPixel], true));
 
-              group.moveToTop();
+              canvasState.groups[groupId].moveToTop();
         };
         
         const makeWorldRect = () => {
