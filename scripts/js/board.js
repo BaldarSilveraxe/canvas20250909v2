@@ -193,9 +193,12 @@ const board = (() => {
                 listening: false,
                 hitGraphEnabled: false
             });
+            canvasState.groups[group._id] = group;
+            canvasState.index[name] = group._id;
 
             const worldRoot = getNodeByName('world-pseudo-layer');
-
+            worldRoot.add(group);
+            
             const makePath = (points, isMajor) =>
             new Konva.Line({
                 id: crypto.randomUUID(),
@@ -210,8 +213,6 @@ const board = (() => {
                 // keep grid 1px in screen space when zooming:
                 strokeScaleEnabled: false
             });
-
-            worldRoot.add(group);
 
             const maxSteps = Math.ceil(Math.max(w, h) / 2 / minorLine);
 
