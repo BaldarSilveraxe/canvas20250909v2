@@ -332,14 +332,14 @@ const makeGrid = () => {
         };
 
         const makeLayers = () => {
-            const listening = layerName === 'layer-ui' ? false : true;
+            let listening;
             config.layers.forEach(function(e, i) {
                 const layerId = crypto.randomUUID(),
                     layerName = `layer-${e}`;
                 canvasState.layers[layerId] = new Konva.Layer({
                     id: layerId,
                     name: layerName,
-                    listening
+                    listening: layerName === 'layer-ui' ? false : true
                 });
                 canvasState.index[layerName] = layerId;
                 canvasState.stage.add(canvasState.layers[layerId]);
