@@ -287,6 +287,17 @@ const board = (() => {
             const testgGroup = new Konva.Group({
                         name:'testgGrup'
                     });
+            const complexText = new Konva.Text({
+                x: 20,
+                y: 60,
+                text: "COMPLEX TEXT\n\nAll the world's a stage, and all the men and women merely players. They have their exits and their entrances.",
+                fontSize: 18,
+                fontFamily: 'Calibri',
+                fill: '#555',
+                width: 300,
+                padding: 20,
+                align: 'center'
+            });
             const rect = new Konva.Rect({
                 x: 20,
                 y: 60,
@@ -302,17 +313,7 @@ const board = (() => {
                 shadowOpacity: 0.2,
                 cornerRadius: 10
             });
-            const complexText = new Konva.Text({
-                x: 20,
-                y: 60,
-                text: "COMPLEX TEXT\n\nAll the world's a stage, and all the men and women merely players. They have their exits and their entrances.",
-                fontSize: 18,
-                fontFamily: 'Calibri',
-                fill: '#555',
-                width: 300,
-                padding: 20,
-                align: 'center'
-            });
+            
             testgGroup.add(rect);
             testgGroup.add(complexText);
             const pseudoLayer = getNodeByName('group-items-pseudoLayer-z-0').add(testgGroup);
