@@ -162,7 +162,7 @@ const board = (() => {
         };
 
         const makeGrid = () => {
-            utility.removeByName();
+            removeByName();
             const W = config.world.width,
             H = config.world.height,
             cx = W / 2,
