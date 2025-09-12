@@ -221,8 +221,8 @@ const board = (() => {
                 config.pseudoLayers[key].pseudos.forEach(name => {
                     newGroupId = crypto.randomUUID();
                     canvasState.groups[newGroupId] = new Konva.Group({ id: newGroupId, name: name });
-                    canvasState.index[name] = layerId;
-                    theLayer.add(canvasState.groups[layerId]);
+                    canvasState.index[name] = newGroupId;
+                    theLayer.add(canvasState.groups[newGroupId]);
                 });
             });
         };
