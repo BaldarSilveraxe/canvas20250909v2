@@ -109,7 +109,6 @@ const board = (() => {
             try { canvasState.stage?.destroy(); } catch {}
             canvasState.stage = null;
             canvasState.layers = {};
-            canvasState.pseudos = {};
             canvasState.groups = {};
             canvasState.shapes = {};
             canvasState.index = {};
