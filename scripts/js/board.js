@@ -13,17 +13,13 @@ const board = (() => {
         layers: ['world', 'items', 'ui'],
         pseudoLayers: {
             world: {
-                layer: 'layer-world',
+                group: 'group-world-pseudoLayer-camera-wrap',
                 pseudos: ['group-world-pseudoLayer-background', 'group-world-pseudoLayer-grid']
             },
             items: {
-                layer: 'layer-items',
+                group: 'group-world-pseudoLayer-camera-wrap',
                 pseudos: ['group-items-pseudoLayer-z-0', 'group-items-pseudoLayer-z-10', 'group-items-pseudoLayer-z-20', 'group-items-pseudoLayer-z-30', 'group-items-pseudoLayer-z-40']
             },
-            ui: {
-                layer: 'layer-ui',
-                pseudos: ['group-ui-pseudoLayer-main']
-            }
         },
         RESERVED_NAMES: new Set([
             '_stage',
@@ -301,10 +297,10 @@ const makeGrid = () => {
         };
 
         const makePseudoLayers = () => {
-            let theLayer,
+            let targetGroup,
                 newGroupId;
             Object.keys(config.pseudoLayers).forEach(key => {
-                theLayer = getNodeByName(config.pseudoLayers[key].layer);
+                targetGroup = getNodeByName(config.pseudoLayers[key].group);
                 if (!theLayer) throw new Error('[makePseudoLayers] pseudo layer not found');
                 config.pseudoLayers[key].pseudos.forEach(name => {
                     newGroupId = crypto.randomUUID();
@@ -313,7 +309,7 @@ const makeGrid = () => {
                         name: name
                     });
                     canvasState.index[name] = newGroupId;
-                    theLayer.add(canvasState.groups[newGroupId]);
+                    targetGroup.add(canvasState.groups[newGroupId]);
                 });
             });
         };
