@@ -216,9 +216,10 @@ const board = (() => {
         const makePseudoLayers = () => {
             Object.keys(config.pseudoLayers).forEach(key => {
                 const theLayer = getNodeByName(config.pseudoLayers[key].layer, 'layer');
-                console.log(theLayer);
                 config.pseudoLayers[key].pseudos.forEach(name => {
-                  console.log(name);
+                    const newGroupId = crypto.randomUUID()
+                    const newGroup = new Konva.Group({ id: newGroupId, name: name });
+                    theLayer.add(newGroup);
                 });
             });
         };
