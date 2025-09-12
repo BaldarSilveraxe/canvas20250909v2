@@ -364,6 +364,7 @@ const makeGridSuperOptimized = () => {
             makePseudoLayers,
             makeWorldRect,
             makeGrid,
+            makeGridSuperOptimized, //TESTING
             removeByName,
             getNodeByName,
             teardown
