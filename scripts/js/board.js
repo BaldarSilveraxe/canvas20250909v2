@@ -55,16 +55,17 @@ const board = (() => {
 
     const utility = () => {
         const removeByName = (name) => {
-          const id = canvasState.index[name];
-          if (!id) return;
-          const node = canvasState.layers[id] || canvasState.pseudos[id] || canvasState.groups[id] || canvasState.shapes[id];
-          if (node) node.destroy();
-          delete canvasState.layers[id];
-          delete canvasState.pseudos[id];
-          delete canvasState.groups[id];
-          delete canvasState.shapes[id];
-          delete canvasState.index[name];
-    };
+            const id = canvasState.index[name];
+            if (!id) return;
+            const node = canvasState.layers[id] || canvasState.pseudos[id] || canvasState.groups[id] || canvasState.shapes[id];
+            if (node) node.destroy();
+            delete canvasState.layers[id];
+            delete canvasState.pseudos[id];
+            delete canvasState.groups[id];
+            delete canvasState.shapes[id];
+            delete canvasState.index[name];
+        };
+
         return {
             removeByName
         };
