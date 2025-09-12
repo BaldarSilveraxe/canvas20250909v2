@@ -55,9 +55,9 @@ const board = (() => {
             colorMinor: '#96ADE9',
             colorMajor: '#647CA6',
             strokeWidthMinor: 1,
-            strokeWidthMajor: 1,
+            strokeWidthMajor: 4,
             dashMinor: [4, 4],
-            dashMajor: [],
+            dashMajor: [4, 4],
             minorLine: 100,
             majorLineEvery: 3
         },
