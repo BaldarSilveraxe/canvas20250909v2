@@ -208,10 +208,14 @@ const board = (() => {
         };
 
         const makePseudoLayers = () => {
-            for (var key in config.pseudoLayers) {
-                if (config.pseudoLayers.hasOwnProperty(key1)) {
-                    if (config.pseudoLayers[key1].hasOwnProperty(key2)) {
-                        console.log(config.pseudoLayers[key1])
+config.pseudoLayers.forEach((o) => {
+    console.log(o);
+});
+            
+            //for (var key1 in config.pseudoLayers) {
+                //if (config.pseudoLayers.hasOwnProperty(key1)) {
+                    //if (config.pseudoLayers[key1].hasOwnProperty(key2)) {
+                        //console.log(config.pseudoLayers[key1])
                     //config.pseudoLayers[key].forEach((element, index) => {
                         //if ('world' === key) {
                             console.log(`Element at index ${index}: ${element}`);
