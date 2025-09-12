@@ -29,7 +29,7 @@ const board = (() => {
             'group-world-pseudoLayer-camera-wrap',
             'group-world-pseudoLayer-background',
             'group-world-pseudoLayer-grid',
-            'group-world-pseudoLayer-camera-wrap',
+            'group-items-pseudoLayer-camera-wrap',
             'group-items-pseudoLayer-z-0',
             'group-items-pseudoLayer-z-10',
             'group-items-pseudoLayer-z-20',
@@ -326,18 +326,20 @@ const makeGrid = () => {
             worldLayer.add(canvasState.groups[camWorldNameId]);
 
             let camItemsNameId = crypto.randomUUID();
-            canvasState.groups[camItemsNameId] = new Konva.Group({ id: camItemsNameId, name: camItemsName, draggable: true });
+            canvasState.groups[camItemsNameId] = new Konva.Group({ id: camItemsNameId, name: camItemsName, draggable: false });
             canvasState.index[camItemsName] = camItemsNameId;
             itemsLayer.add(canvasState.groups[camItemsNameId]);
         };
 
         const makeLayers = () => {
+            const listening = layerName === 'layer-ui' ? false : true;
             config.layers.forEach(function(e, i) {
                 const layerId = crypto.randomUUID(),
                     layerName = `layer-${e}`;
                 canvasState.layers[layerId] = new Konva.Layer({
                     id: layerId,
-                    name: layerName
+                    name: layerName,
+                    listening: listening
                 });
                 canvasState.index[layerName] = layerId;
                 canvasState.stage.add(canvasState.layers[layerId]);
@@ -395,6 +397,47 @@ const makeGrid = () => {
             makePseudoLayers();
             makeWorldRect();
             makeGrid();
+
+const attachDragCamera = () => {
+  const stage     = canvasState.stage;
+  const camWorld  = getNodeByName('group-world-pseudoLayer-camera-wrap');
+  const camItems  = getNodeByName('group-items-pseudoLayer-camera-wrap');
+  if (!camWorld || !camItems) throw new Error('[camera] wrappers missing');
+
+  // keep items in lockstep with world
+  const sync = () => {
+    const p = camWorld.position();
+    camItems.position(p);
+    camWorld.getLayer()?.batchDraw();
+    camItems.getLayer()?.batchDraw();
+  };
+
+  // simple clamp (no zoom yet)
+  const clamp = (pos) => {
+    const vw = stage.width(), vh = stage.height();
+    const W  = config.world.width, H = config.world.height;
+    const minX = Math.min(0, vw - W), maxX = 0;
+    const minY = Math.min(0, vh - H), maxY = 0;
+    return { x: Math.max(minX, Math.min(pos.x, maxX)),
+             y: Math.max(minY, Math.min(pos.y, maxY)) };
+  };
+
+  camWorld.dragBoundFunc(clamp);
+  camWorld.on('dragmove', sync);
+  camWorld.on('dragstart', () => (stage.container().style.cursor = 'grabbing'));
+  camWorld.on('dragend',   () => (stage.container().style.cursor = 'default'));
+
+  // initial align
+  sync();
+};
+
+attachDragCamera();
+
+
+
+
+
+            
 
             // One paint at the end:
             canvasState.stage.getLayers().forEach(l => l.batchDraw());
