@@ -175,74 +175,84 @@ const board = (() => {
                 listening: false,
                 perfectDrawEnabled: false,
                 shadowForStrokeEnabled: false,
-                strokeScaleEnabled: false,
 
 sceneFunc: function(context, shape) {
     context.save();
     
-    // Get absolute scale for per-axis line width compensation
-    const scale = shape.getAbsoluteScale(); // { x, y }
+    // Get current scale to compensate for zoom
+    const scale = shape.getAbsoluteScale();
     
-    // Calculate axis-specific line widths (compensate for scaling)
-    const lwMinorV = strokeWidthMinor / scale.x; // Vertical lines
-    const lwMinorH = strokeWidthMinor / scale.y; // Horizontal lines  
+    // Compensate line widths for scaling
+    const lwMinorV = strokeWidthMinor / scale.x;
+    const lwMinorH = strokeWidthMinor / scale.y; 
     const lwMajorV = strokeWidthMajor / scale.x;
     const lwMajorH = strokeWidthMajor / scale.y;
     
-    // Scale dash patterns per axis
+    // Scale dash patterns
     const scaleDash = (dash, axisScale) =>
         (dash && dash.length) ? dash.map(d => d / axisScale) : [];
     
-    // Helper to draw lines with different scaling per axis
-    const drawLines = (lines, color, lwVertical, lwHorizontal, dashV, dashH) => {
-        // Draw vertical lines
-        const verticals = lines.filter(line => line[0] === 'vertical');
-        if (verticals.length > 0) {
-            context.strokeStyle = color;
-            context.lineWidth = lwVertical;
-            context.setLineDash(dashV);
+    // Draw minor lines
+    if (minorLines.length > 0) {
+        // Vertical minor lines
+        const minorVerticals = minorLines.filter(line => line[0] === 'vertical');
+        if (minorVerticals.length > 0) {
+            context.strokeStyle = colorMinor;
+            context.lineWidth = lwMinorV;
+            context.setLineDash(scaleDash(dashMinor, scale.x));
             context.beginPath();
-            
-            verticals.forEach(line => {
+            minorVerticals.forEach(line => {
                 context.moveTo(line[1], line[2]);
                 context.lineTo(line[3], line[4]);
             });
-            
             context.stroke();
         }
         
-        // Draw horizontal lines
-        const horizontals = lines.filter(line => line[0] === 'horizontal');
-        if (horizontals.length > 0) {
-            context.strokeStyle = color;
-            context.lineWidth = lwHorizontal;
-            context.setLineDash(dashH);
+        // Horizontal minor lines
+        const minorHorizontals = minorLines.filter(line => line[0] === 'horizontal');
+        if (minorHorizontals.length > 0) {
+            context.strokeStyle = colorMinor;
+            context.lineWidth = lwMinorH;
+            context.setLineDash(scaleDash(dashMinor, scale.y));
             context.beginPath();
-            
-            horizontals.forEach(line => {
+            minorHorizontals.forEach(line => {
                 context.moveTo(line[1], line[2]);
                 context.lineTo(line[3], line[4]);
             });
-            
             context.stroke();
         }
-    };
+    }
     
-    // Draw minor lines with per-axis scaling
-    drawLines(
-        minorLines,
-        colorMinor,
-        lwMinorV, lwMinorH,
-        scaleDash(dashMinor, scale.x), scaleDash(dashMinor, scale.y)
-    );
-    
-    // Draw major lines with per-axis scaling
-    drawLines(
-        majorLines,
-        colorMajor,
-        lwMajorV, lwMajorH,
-        scaleDash(dashMajor, scale.x), scaleDash(dashMajor, scale.y)
-    );
+    // Draw major lines (same pattern)
+    if (majorLines.length > 0) {
+        // Vertical major lines
+        const majorVerticals = majorLines.filter(line => line[0] === 'vertical');
+        if (majorVerticals.length > 0) {
+            context.strokeStyle = colorMajor;
+            context.lineWidth = lwMajorV;
+            context.setLineDash(scaleDash(dashMajor, scale.x));
+            context.beginPath();
+            majorVerticals.forEach(line => {
+                context.moveTo(line[1], line[2]);
+                context.lineTo(line[3], line[4]);
+            });
+            context.stroke();
+        }
+        
+        // Horizontal major lines
+        const majorHorizontals = majorLines.filter(line => line[0] === 'horizontal');
+        if (majorHorizontals.length > 0) {
+            context.strokeStyle = colorMajor;
+            context.lineWidth = lwMajorH;
+            context.setLineDash(scaleDash(dashMajor, scale.y));
+            context.beginPath();
+            majorHorizontals.forEach(line => {
+                context.moveTo(line[1], line[2]);
+                context.lineTo(line[3], line[4]);
+            });
+            context.stroke();
+        }
+    }
     
     context.restore();
 }
