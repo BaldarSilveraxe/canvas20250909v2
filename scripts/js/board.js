@@ -206,7 +206,7 @@ const board = (() => {
             let theLayer,
                 newGroupId;
             Object.keys(config.pseudoLayers).forEach(key => {
-                theLayer = getNodeByName(config.pseudoLayers[key].layer, 'layer');
+                theLayer = getNodeByName(config.pseudoLayers[key].layer);
                 if (!theLayer) throw new Error('[makePseudoLayers] pseudo layer not found');
                 config.pseudoLayers[key].pseudos.forEach(name => {
                     newGroupId = crypto.randomUUID();
@@ -282,6 +282,21 @@ const board = (() => {
             makePseudoLayers();
             makeWorldRect();
             makeGrid();
+
+            //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~temp code
+            const complexText = new Konva.Text({
+                x: 20,
+                y: 60,
+                text: "COMPLEX TEXT\n\nAll the world's a stage, and all the men and women merely players. They have their exits and their entrances.",
+                fontSize: 18,
+                fontFamily: 'Calibri',
+                fill: '#555',
+                width: 300,
+                padding: 20,
+                align: 'center'
+            });
+            getNodeByName('group-items-pseudoLayer-z-0').add(complexText);
+            //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~temp code
 
             // One paint at the end:
             canvasState.stage.getLayers().forEach(l => l.batchDraw());
