@@ -319,8 +319,13 @@ const makeGrid = () => {
         };
 
         const makeCameraWrappers = () => {
-            let name1 = 'group-world-pseudoLayer-camera-wrap';
+            let camWorldName = 'group-world-pseudoLayer-camera-wrap';
             let name2 = 'group-items-pseudoLayer-camera-wrap';
+            let camWorldNameId = crypto.randomUUID();
+            camWorld = new Konva.Group({ id: camWorldNameId, name: camWorldName, draggable: true });
+            canvasState.groups[camWorldNameId] = new Konva.Group({ id: camWorldNameId, name: camWorldName, draggable: true });
+            canvasState.index[camWorldName] = camWorldNameId;
+            worldLayer.add(camWorld);
         };
 
         const makeLayers = () => {
