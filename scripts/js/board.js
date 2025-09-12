@@ -119,8 +119,6 @@ const board = (() => {
             getNodeByName,
             teardown
         } = utility();
-        
-
 
         const makeLayers = (props = {}) => {
             config.layers.forEach(function(e, i) {
@@ -139,8 +137,6 @@ const board = (() => {
             });
         };
 
-
-        
         const makePseudoLayers = (props = {}) => {
             for (let i = 0; i < 5; i++) {
                 const groupId = crypto.randomUUID(),
@@ -234,7 +230,24 @@ const board = (() => {
 
               group.moveToTop();
         };
-
+        
+        const makeLayers = (props = {}) => {
+            config.layers.forEach(function(e, i) {
+                const layerId = crypto.randomUUID(),
+                    groupId = crypto.randomUUID(),
+                    layerName = `layer-${e}`,
+                    groupName = `${e}-pseudo-layer`,
+                    newLayer = new Konva.Layer({ id: layerId, name: layerName }),
+                    newGroup = new Konva.Group({ id: groupId, name: groupName });
+                canvasState.layers[layerId] = newLayer;
+                canvasState.pseudos[groupId] = newGroup;
+                canvasState.index[layerName] = layerId;
+                canvasState.index[groupName] = groupId;
+                canvasState.stage.add(newLayer);
+                newLayer.add(newGroup);
+            });
+        };
+        
         const makeStage = (cnvs) => {
             const kCanvasContainer = (typeof cnvs === 'string') ? document.getElementById(cnvs) : cnvs;
             if (!kCanvasContainer) {
