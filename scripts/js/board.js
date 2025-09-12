@@ -17,7 +17,7 @@ const board = (() => {
                 pseudos: ['group-world-pseudoLayer-background', 'group-world-pseudoLayer-grid']
             },
             items: {
-                group: 'group-world-pseudoLayer-camera-wrap',
+                group: 'group-items-pseudoLayer-camera-wrap',
                 pseudos: ['group-items-pseudoLayer-z-0', 'group-items-pseudoLayer-z-10', 'group-items-pseudoLayer-z-20', 'group-items-pseudoLayer-z-30', 'group-items-pseudoLayer-z-40']
             },
         },
