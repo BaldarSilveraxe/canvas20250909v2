@@ -208,8 +208,8 @@ const board = (() => {
         };
 
         const makePseudoLayers = () => {
-            config.pseudoLayers.keys(obj).forEach(key => {
-                console.log(obj[key]);
+            Object.keys(config.pseudoLayers).forEach(key => {
+                console.log(config.pseudoLayers[key]);
             });
         };
         
