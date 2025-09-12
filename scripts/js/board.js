@@ -45,7 +45,7 @@ const board = (() => {
             strokeWidthMinor: 1,
             strokeWidthMajor: 1,
             dashMinor: [4, 4],
-            dashMajor: [10, 10],
+            dashMajor: [],
             minorLine: 100,
             majorLineEvery: 3
         },
