@@ -205,6 +205,7 @@ const board = (() => {
         };
 
         const makePseudoLayers = () => {
+            console.log(config.pseudoLayer);
             for (var key in config.pseudoLayer) {
                 if (config.pseudoLayer.hasOwnProperty(key)) {
                 console.log(key + " has " + config.pseudoLayer[key]);
