@@ -118,8 +118,8 @@ const board = (() => {
             getNodeByName,
             teardown
         } = utility();
-
-        const makeGrid = () => {
+        // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        const makeGridSuperOptimized = () => {
             removeByName(config.grid.name);
 
             const {
@@ -226,6 +226,109 @@ const board = (() => {
                 throw new Error('[makeGridSuperOptimized] pseudo layer not found');
             }
             thePseudoLayer.add(gridShape);
+
+            return gridShape;
+        };
+        // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        const makeGrid = () => {
+            removeByName(config.grid.name);
+            const halfPixel = 0.5,
+                w = config.world.width,
+                h = config.world.height,
+                cx = w / 2,
+                cy = h / 2,
+                groupId = crypto.randomUUID();
+
+            const {
+                name,
+                minorLine,
+                majorLineEvery,
+                colorMinor,
+                colorMajor,
+                strokeWidthMinor,
+                strokeWidthMajor,
+                dashMinor,
+                dashMajor
+            } = config.grid;
+
+            canvasState.groups[groupId] = new Konva.Group({
+                id: groupId,
+                name,
+                listening: false
+            });
+            canvasState.index[name] = groupId;
+
+            const thePseudoLayer = getNodeByName('group-world-pseudoLayer-grid');
+            if (!thePseudoLayer) throw new Error('[makeGrid] pseudo layer not found');
+            thePseudoLayer.add(canvasState.groups[groupId]);
+
+            const makePath = (points, isMajor) =>
+                new Konva.Line({
+                    id: crypto.randomUUID(),
+                    name: 'grid-line',
+                    points,
+                    stroke: isMajor ? colorMajor : colorMinor,
+                    strokeWidth: isMajor ? strokeWidthMajor : strokeWidthMinor,
+                    dash: isMajor ? dashMajor : dashMinor,
+                    listening: false,
+                    perfectDrawEnabled: false,
+                    shadowForStrokeEnabled: false,
+                    // keep grid 1px in screen space when zooming:
+                    strokeScaleEnabled: false,
+                    transformsEnabled: 'position'
+                });
+
+            const maxSteps = Math.ceil(Math.max(w, h) / 2 / minorLine);
+
+            for (let i = 1; i <= maxSteps; i++) {
+                const step = i * minorLine;
+                const isMajor = (i % majorLineEvery) === 0;
+
+                const xPlus = cx + step + halfPixel;
+                const xMinus = cx - step - halfPixel;
+                if (xPlus <= w) canvasState.groups[groupId].add(makePath([xPlus, 0, xPlus, h], isMajor));
+                if (xMinus >= 0) canvasState.groups[groupId].add(makePath([xMinus, 0, xMinus, h], isMajor));
+
+                const yPlus = cy + step + halfPixel;
+                const yMinus = cy - step - halfPixel;
+                if (yPlus <= h) canvasState.groups[groupId].add(makePath([0, yPlus, w, yPlus], isMajor));
+                if (yMinus >= 0) canvasState.groups[groupId].add(makePath([0, yMinus, w, yMinus], isMajor));
+            }
+
+            canvasState.groups[groupId].add(makePath([cx + halfPixel, 0, cx + halfPixel, h], true));
+            canvasState.groups[groupId].add(makePath([0, cy + halfPixel, w, cy + halfPixel], true));
+
+            canvasState.groups[groupId].moveToTop();
+        };
+
+        const makeWorldRect = () => {
+            const shapeId = crypto.randomUUID(),
+                theLayer = getNodeByName('group-world-pseudoLayer-background');
+            if (!theLayer) throw new Error('[makeWorldRect] pseudo layer not found');
+            canvasState.shapes[shapeId] = new Konva.Rect({
+                ...config.world,
+                id: shapeId
+            });
+            canvasState.index[config.world.name] = shapeId;
+            theLayer.add(canvasState.shapes[shapeId]);
+        };
+
+        const makePseudoLayers = () => {
+            let theLayer,
+                newGroupId;
+            Object.keys(config.pseudoLayers).forEach(key => {
+                theLayer = getNodeByName(config.pseudoLayers[key].layer);
+                if (!theLayer) throw new Error('[makePseudoLayers] pseudo layer not found');
+                config.pseudoLayers[key].pseudos.forEach(name => {
+                    newGroupId = crypto.randomUUID();
+                    canvasState.groups[newGroupId] = new Konva.Group({
+                        id: newGroupId,
+                        name: name
+                    });
+                    canvasState.index[name] = newGroupId;
+                    theLayer.add(canvasState.groups[newGroupId]);
+                });
+            });
         };
 
         const makeLayers = () => {
@@ -261,6 +364,7 @@ const board = (() => {
             makePseudoLayers,
             makeWorldRect,
             makeGrid,
+            makeGridSuperOptimized, //TESTING
             removeByName,
             getNodeByName,
             teardown
@@ -275,6 +379,7 @@ const board = (() => {
             makePseudoLayers,
             makeWorldRect,
             makeGrid,
+            makeGridSuperOptimized, //TESTING
             removeByName,
             getNodeByName,
             teardown
@@ -288,7 +393,8 @@ const board = (() => {
             makeLayers();
             makePseudoLayers();
             makeWorldRect();
-            makeGrid();
+            //makeGrid();
+            makeGridSuperOptimized();
 
             // One paint at the end:
             canvasState.stage.getLayers().forEach(l => l.batchDraw());
