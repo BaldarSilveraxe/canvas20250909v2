@@ -190,8 +190,7 @@ const board = (() => {
             const group = new Konva.Group({
                 id: crypto.randomUUID(),
                 name,
-                listening: false,
-                hitGraphEnabled: false
+                listening: false
             });
             canvasState.groups[group._id] = group;
             canvasState.index[name] = group._id;
@@ -211,7 +210,8 @@ const board = (() => {
                 perfectDrawEnabled: false,
                 shadowForStrokeEnabled: false,
                 // keep grid 1px in screen space when zooming:
-                strokeScaleEnabled: false
+                strokeScaleEnabled: false,
+                transformsEnabled: 'position'
             });
 
             const maxSteps = Math.ceil(Math.max(w, h) / 2 / minorLine);
