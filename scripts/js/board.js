@@ -320,12 +320,17 @@ const makeGrid = () => {
 
         const makeCameraWrappers = () => {
             let camWorldName = 'group-world-pseudoLayer-camera-wrap';
-            let name2 = 'group-items-pseudoLayer-camera-wrap';
+            let camItemsName = 'group-items-pseudoLayer-camera-wrap';
+            
             let camWorldNameId = crypto.randomUUID();
-            camWorld = new Konva.Group({ id: camWorldNameId, name: camWorldName, draggable: true });
             canvasState.groups[camWorldNameId] = new Konva.Group({ id: camWorldNameId, name: camWorldName, draggable: true });
             canvasState.index[camWorldName] = camWorldNameId;
-            worldLayer.add(camWorld);
+            worldLayer.add(canvasState.groups[camWorldNameId]);
+
+            let camItemsNameId = crypto.randomUUID();
+            canvasState.groups[camItemsNameId] = new Konva.Group({ id: camItemsNameId, name: camItemsName, draggable: true });
+            canvasState.index[camItemsName] = camItemsNameId;
+            worldLayer.add(canvasState.groups[camItemsNameId]);
         };
 
         const makeLayers = () => {
@@ -358,6 +363,7 @@ const makeGrid = () => {
         return {
             makeStage,
             makeLayers,
+            makeCameraWrappers,
             makePseudoLayers,
             makeWorldRect,
             makeGrid,
@@ -372,6 +378,7 @@ const makeGrid = () => {
         const {
             makeStage,
             makeLayers,
+            makeCameraWrappers,
             makePseudoLayers,
             makeWorldRect,
             makeGrid,
@@ -386,6 +393,7 @@ const makeGrid = () => {
                 throw new Error('board.create: stage not created');
             }
             makeLayers();
+            makeCameraWrappers();
             makePseudoLayers();
             makeWorldRect();
             makeGrid();
