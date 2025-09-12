@@ -215,7 +215,7 @@ const board = (() => {
 
         const makePseudoLayers = () => {
             Object.keys(config.pseudoLayers).forEach(key => {
-                const theLayer = getNodeByName(config.pseudoLayers[key].layer, type 'layer');
+                const theLayer = getNodeByName(config.pseudoLayers[key].layer, 'layer');
                 console.log(theLayer);
                 console.log(config.pseudoLayers[key]);
             });
