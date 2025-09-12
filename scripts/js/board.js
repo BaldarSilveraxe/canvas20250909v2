@@ -79,30 +79,18 @@ const board = (() => {
             delete canvasState.index[name];
         };
 
-        function getNodeByName(name, type = true) {
+        function getNodeByName(name) {
             const nodeId = canvasState.index[name];
-            if (!nodeId) {
-                return null;
-            }
-            if (type === true) {
-                // If type is not specified, search all stores
-                if (canvasState.layers[nodeId]) return canvasState.layers[nodeId];
-                if (canvasState.groups[nodeId]) return canvasState.groups[nodeId];
-                if (canvasState.shapes[nodeId]) return canvasState.shapes[nodeId];
-            } else {
-                // If a specific type is requested, search only that store
-                switch (type) {
-                    case 'layer':
-                        return canvasState.layers[nodeId] || null;
-                    case 'group':
-                        return canvasState.groups[nodeId] || null;
-                    case 'shape':
-                        return canvasState.shapes[nodeId] || null;
-                    default:
-                        return null;
+            if (!nodeId) return null;
+    
+            const stores = [canvasState.layers, canvasState.groups, canvasState.shapes];
+    
+            for (const store of stores) {
+                if (store[nodeId]) {
+                    return store[nodeId];
                 }
             }
-            return null; // Fallback return if nothing is found
+        return null;
         };
 
         const teardown = () => {
