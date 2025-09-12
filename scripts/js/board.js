@@ -27,7 +27,7 @@ const board = (() => {
             'group-items-pseudoLayer-z-10',
             'group-items-pseudoLayer-z-20',
             'group-items-pseudoLayer-z-30',
-            'group-items-pseudoLayer-z-40'',
+            'group-items-pseudoLayer-z-40',
             'group-ui-main',
             '_rect-stage',
             '_group-world-grid'
