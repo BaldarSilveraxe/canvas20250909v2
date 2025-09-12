@@ -116,6 +116,59 @@ const board = (() => {
             getNodeByName,
             teardown
         } = utility();
+        
+const attachDragCamera = () => {
+  const stage    = canvasState.stage;
+  const camWorld = getNodeByName('group-world-pseudoLayer-camera-wrap');
+  const camItems = getNodeByName('group-items-pseudoLayer-camera-wrap');
+  if (!camWorld || !camItems) throw new Error('[camera] wrappers missing');
+
+  // ensure only world camera is draggable
+  camWorld.draggable(true);
+  camItems.draggable(false);
+
+  // keep items camera in lockstep
+  const sync = () => {
+    const p = camWorld.position();
+    camItems.position(p);
+    camWorld.getLayer()?.batchDraw();
+    camItems.getLayer()?.batchDraw();
+  };
+
+  // clamp so you can’t fling the world off-screen (no zoom yet)
+  const clamp = (pos) => {
+    const vw = stage.width(), vh = stage.height();
+    const W  = config.world.width, H = config.world.height;
+    const minX = Math.min(0, vw - W), maxX = 0;
+    const minY = Math.min(0, vh - H), maxY = 0;
+    return { x: Math.max(minX, Math.min(pos.x, maxX)),
+             y: Math.max(minY, Math.min(pos.y, maxY)) };
+  };
+
+  camWorld.dragBoundFunc(clamp);
+  camWorld.on('dragmove',  sync);
+
+  // nice UX: cursor + prevent text selection while dragging
+  const c = stage.container();
+  camWorld.on('mouseenter', () => (c.style.cursor = 'grab'));
+  camWorld.on('mousedown',  () => { c.style.cursor = 'grabbing'; c.style.userSelect = 'none'; });
+  camWorld.on('dragend',    () => { c.style.cursor = 'default';  c.style.userSelect = 'auto'; });
+
+  // initial align (in case something pre-set positions)
+  sync();
+
+  // tiny API if you want to move programmatically
+  return {
+    setCamera: (x, y) => {
+      const bounded = clamp({ x, y });
+      camWorld.position(bounded);
+      camItems.position(bounded);
+      camWorld.getLayer()?.batchDraw();
+      camItems.getLayer()?.batchDraw();
+    },
+    getCamera: () => ({ ...camWorld.position() })
+  };
+};
 
 const makeGrid = () => {
     removeByName(config.grid.name);
@@ -367,6 +420,7 @@ const makeGrid = () => {
             makePseudoLayers,
             makeWorldRect,
             makeGrid,
+            attachDragCamera,
             removeByName,
             getNodeByName,
             teardown
@@ -382,6 +436,7 @@ const makeGrid = () => {
             makePseudoLayers,
             makeWorldRect,
             makeGrid,
+            attachDragCamera,
             removeByName,
             getNodeByName,
             teardown
@@ -397,42 +452,7 @@ const makeGrid = () => {
             makePseudoLayers();
             makeWorldRect();
             makeGrid();
-
-const attachDragCamera = () => {
-  const stage     = canvasState.stage;
-  const camWorld  = getNodeByName('group-world-pseudoLayer-camera-wrap');
-  const camItems  = getNodeByName('group-items-pseudoLayer-camera-wrap');
-  if (!camWorld || !camItems) throw new Error('[camera] wrappers missing');
-
-  // keep items in lockstep with world
-  const sync = () => {
-    const p = camWorld.position();
-    camItems.position(p);
-    camWorld.getLayer()?.batchDraw();
-    camItems.getLayer()?.batchDraw();
-  };
-
-  // simple clamp (no zoom yet)
-  const clamp = (pos) => {
-    const vw = stage.width(), vh = stage.height();
-    const W  = config.world.width, H = config.world.height;
-    const minX = Math.min(0, vw - W), maxX = 0;
-    const minY = Math.min(0, vh - H), maxY = 0;
-    return { x: Math.max(minX, Math.min(pos.x, maxX)),
-             y: Math.max(minY, Math.min(pos.y, maxY)) };
-  };
-
-  camWorld.dragBoundFunc(clamp);
-  camWorld.on('dragmove', sync);
-  camWorld.on('dragstart', () => (stage.container().style.cursor = 'grabbing'));
-  camWorld.on('dragend',   () => (stage.container().style.cursor = 'default'));
-
-  // initial align
-  sync();
-};
-
-attachDragCamera();
-
+            attachDragCamera();
 
 
 
