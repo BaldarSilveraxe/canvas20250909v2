@@ -176,7 +176,6 @@ const board = (() => {
                 perfectDrawEnabled: false,
                 shadowForStrokeEnabled: false,
                 strokeScaleEnabled: false,
-                transformsEnabled: 'position',
 
                 sceneFunc: function(context, shape) {
                     context.save();
