@@ -108,21 +108,7 @@ const board = (() => {
             getNodeByName
         } = utility();
         
-        const makeStage = (cnvs) => {
-            const kCanvasContainer = (typeof cnvs === 'string') ? document.getElementById(cnvs) : cnvs;
-            if (!kCanvasContainer) {
-                throw new Error('board.create: container not found');
-            }
-            const stageId = crypto.randomUUID();
-            const stageName = "_stage";
-            canvasState.stage = new Konva.Stage({
-                id: stageId,
-                name: stageName,
-                container: kCanvasContainer,
-                width: config.world.width,
-                height: config.world.height,
-            });
-        };
+
 
         const makeLayers = (props = {}) => {
             config.layers.forEach(function(e, i) {
@@ -235,6 +221,22 @@ const board = (() => {
               group.add(makePath([0, cy + halfPixel, w, cy + halfPixel], true));
 
               group.moveToTop();
+        };
+
+        const makeStage = (cnvs) => {
+            const kCanvasContainer = (typeof cnvs === 'string') ? document.getElementById(cnvs) : cnvs;
+            if (!kCanvasContainer) {
+                throw new Error('board.create: container not found');
+            }
+            const stageId = crypto.randomUUID();
+            const stageName = "_stage";
+            canvasState.stage = new Konva.Stage({
+                id: stageId,
+                name: stageName,
+                container: kCanvasContainer,
+                width: config.world.width,
+                height: config.world.height,
+            });
         };
 
         return {
