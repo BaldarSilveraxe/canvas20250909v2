@@ -118,7 +118,118 @@ const board = (() => {
             getNodeByName,
             teardown
         } = utility();
-
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+const makeGridSuperOptimized = () => {
+    removeByName(config.grid.name);
+    
+    const {
+        name,
+        minorLine,
+        majorLineEvery,
+        colorMinor,
+        colorMajor,
+        strokeWidthMinor,
+        strokeWidthMajor,
+        dashMinor,
+        dashMajor
+    } = config.grid;
+    
+    const w = config.world.width;
+    const h = config.world.height;
+    const cx = w / 2;
+    const cy = h / 2;
+    const halfPixel = 0.5;
+    const maxSteps = Math.ceil(Math.max(w, h) / 2 / minorLine);
+    
+    // Pre-calculate all line positions
+    const minorLines = [];
+    const majorLines = [];
+    
+    for (let i = 1; i <= maxSteps; i++) {
+        const step = i * minorLine;
+        const isMajor = (i % majorLineEvery === 0);
+        const lines = isMajor ? majorLines : minorLines;
+        
+        // Vertical lines
+        const xPlus = cx + step + halfPixel;
+        const xMinus = cx - step - halfPixel;
+        
+        if (xPlus <= w) lines.push(['vertical', xPlus, 0, xPlus, h]);
+        if (xMinus >= 0) lines.push(['vertical', xMinus, 0, xMinus, h]);
+        
+        // Horizontal lines
+        const yPlus = cy + step + halfPixel;
+        const yMinus = cy - step - halfPixel;
+        
+        if (yPlus <= h) lines.push(['horizontal', 0, yPlus, w, yPlus]);
+        if (yMinus >= 0) lines.push(['horizontal', 0, yMinus, w, yMinus]);
+    }
+    
+    // Add center lines to major
+    majorLines.push(['vertical', cx + halfPixel, 0, cx + halfPixel, h]);
+    majorLines.push(['horizontal', 0, cy + halfPixel, w, cy + halfPixel]);
+    
+    const gridShape = new Konva.Shape({
+        id: crypto.randomUUID(),
+        name: name,
+        listening: false,
+        perfectDrawEnabled: false,
+        shadowForStrokeEnabled: false,
+        strokeScaleEnabled: false,
+        transformsEnabled: 'position',
+        
+        sceneFunc: function(context, shape) {
+            context.save();
+            
+            // Draw minor lines
+            if (minorLines.length > 0) {
+                context.strokeStyle = colorMinor;
+                context.lineWidth = strokeWidthMinor;
+                context.setLineDash(dashMinor || []);
+                context.beginPath();
+                
+                minorLines.forEach(line => {
+                    context.moveTo(line[1], line[2]);
+                    context.lineTo(line[3], line[4]);
+                });
+                
+                context.stroke();
+            }
+            
+            // Draw major lines
+            if (majorLines.length > 0) {
+                context.strokeStyle = colorMajor;
+                context.lineWidth = strokeWidthMajor;
+                context.setLineDash(dashMajor || []);
+                context.beginPath();
+                
+                majorLines.forEach(line => {
+                    context.moveTo(line[1], line[2]);
+                    context.lineTo(line[3], line[4]);
+                });
+                
+                context.stroke();
+            }
+            
+            context.restore();
+        }
+    });
+    
+    // Store in canvas state
+    const shapeId = gridShape.id();
+    canvasState.shapes[shapeId] = gridShape;
+    canvasState.index[name] = shapeId;
+    
+    // Add to the grid pseudo layer
+    const thePseudoLayer = getNodeByName('group-world-pseudoLayer-grid');
+    if (!thePseudoLayer) {
+        throw new Error('[makeGridSuperOptimized] pseudo layer not found');
+    }
+    thePseudoLayer.add(gridShape);
+    
+    return gridShape;
+};
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         const makeGrid = () => {
             removeByName(config.grid.name);
             const halfPixel = 0.5,
@@ -267,6 +378,7 @@ const board = (() => {
             makePseudoLayers,
             makeWorldRect,
             makeGrid,
+            makeGridSuperOptimized, /*TESTING
             removeByName,
             getNodeByName,
             teardown
@@ -280,7 +392,8 @@ const board = (() => {
             makeLayers();
             makePseudoLayers();
             makeWorldRect();
-            makeGrid();
+            //makeGrid();
+            makeGridSuperOptimized();
 
             // One paint at the end:
             canvasState.stage.getLayers().forEach(l => l.batchDraw());
