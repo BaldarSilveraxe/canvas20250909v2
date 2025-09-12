@@ -71,10 +71,9 @@ const board = (() => {
         const removeByName = (name) => {
             const id = canvasState.index[name];
             if (!id) return;
-            const node = canvasState.layers[id] || canvasState.pseudos[id] || canvasState.groups[id] || canvasState.shapes[id];
+            const node = canvasState.layers[id] || canvasState.groups[id] || canvasState.shapes[id];
             if (node) node.destroy();
             delete canvasState.layers[id];
-            delete canvasState.pseudos[id];
             delete canvasState.groups[id];
             delete canvasState.shapes[id];
             delete canvasState.index[name];
@@ -88,7 +87,6 @@ const board = (() => {
             if (type === true) {
                 // If type is not specified, search all stores
                 if (canvasState.layers[nodeId]) return canvasState.layers[nodeId];
-                if (canvasState.pseudos[nodeId]) return canvasState.pseudos[nodeId];
                 if (canvasState.groups[nodeId]) return canvasState.groups[nodeId];
                 if (canvasState.shapes[nodeId]) return canvasState.shapes[nodeId];
             } else {
@@ -96,8 +94,6 @@ const board = (() => {
                 switch (type) {
                     case 'layer':
                         return canvasState.layers[nodeId] || null;
-                    case 'pseudos':
-                        return canvasState.pseudos[nodeId] || null;
                     case 'group':
                         return canvasState.groups[nodeId] || null;
                     case 'shape':
