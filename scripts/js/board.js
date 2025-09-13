@@ -585,11 +585,9 @@ const onResize = () => {
     : null;
   if (!camWorld || !camItems) return;
 
+  // dynamic min scale: shortest side fit
   const worldMinSide = Math.min(config.world.width, config.world.height);
-  const minScale = Math.max(
-    config.zoom.scaleMin,
-    Math.min(nw, nh) / worldMinSide
-  );
+  const minScale = Math.max(config.zoom.scaleMin, Math.min(nw, nh) / worldMinSide);
 
   const s = camWorld.scaleX() || 1;
   if (s < minScale) {
@@ -597,18 +595,32 @@ const onResize = () => {
     camItems.scale({ x: minScale, y: minScale });
   }
 
-  // center after potential scale change
-  const W = config.world.width  * (camWorld.scaleX() || 1);
-  const H = config.world.height * (camWorld.scaleY() || 1);
-  const cx = Math.round((nw - W) / 2);
-  const cy = Math.round((nh - H) / 2);
-  camWorld.position({ x: cx, y: cy });
-  camItems.position({ x: cx, y: cy });
+  // re-clamp the current position (don’t force center unless smaller than viewport)
+  const abs = camWorld.getAbsoluteScale();
+  const sx  = abs.x || 1;
+  const sy  = abs.y || 1;
+  const W   = Math.round(config.world.width  * sx);
+  const H   = Math.round(config.world.height * sy);
+
+  const clampAxis = (val, view, content) => {
+    if (content <= view) return Math.round((view - content) / 2);
+    const min = Math.floor(view - content);
+    const max = 0;
+    const v   = Math.round(val);
+    return Math.max(min, Math.min(v, max));
+  };
+
+  const bounded = {
+    x: clampAxis(camWorld.x(), nw, W),
+    y: clampAxis(camWorld.y(), nh, H),
+  };
+  camWorld.position(bounded);
+  camItems.position(bounded);
 
   camWorld.getLayer()?.batchDraw();
   camItems.getLayer()?.batchDraw();
 };
-;
+
             window.addEventListener('resize', onResize);
         };
 
