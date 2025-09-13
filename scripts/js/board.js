@@ -401,17 +401,19 @@ const kObj  = new Konva.Group({
     draggable: true
 });
 const bgr = new Konva.Rect({
-    x: 50,
-    y: 100,
-    width: 100,
-    height: 50,
-    cornerRadius: [25, 25, 25, 25],
+    x: 0,
+    y: 0,
+    width: 96,
+    height: 48,
+    cornerRadius: [24, 24, 24, 24],
     fill: 'black',
     stroke: 'white',
     strokeWidth: 1,
     opacity: 0.75
 });
 const bg = new Konva.Circle({
+    x: 0,
+    y: 0,
     radius: 24,
     fill: 'black',
     stroke: 'white',
@@ -419,7 +421,8 @@ const bg = new Konva.Circle({
     opacity: 0.75
 });
 const bgc = new Konva.Circle({
-    Y: 250,
+    x: 0,
+    y: 0,
     radius: 24,
     fill: 'black',
     stroke: 'white',
