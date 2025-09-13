@@ -513,6 +513,7 @@ const board = (() => {
             makeWorldRect,
             makeGrid,
             attachDragCamera,
+            makeUi,
             removeByName,
             getNodeByName,
             teardown
@@ -529,6 +530,7 @@ const board = (() => {
             makeWorldRect,
             makeGrid,
             attachDragCamera,
+            makeUi,
             removeByName,
             getNodeByName,
             teardown
@@ -545,6 +547,7 @@ const board = (() => {
             makeWorldRect();
             makeGrid();
             attachDragCamera();
+            makeUi();
 
 const redBox = new Konva.Rect({ x: 50, y: 50, width: 150, height: 100, fill: 'red' });
 const yellowTransparentBox = new Konva.Rect({  x: 250,  y: 150,  width: 150, height: 100, fill: 'yellow', opacity: 0.4 });
