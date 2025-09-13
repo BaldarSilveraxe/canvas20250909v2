@@ -440,7 +440,7 @@ const bgr = new Konva.Rect({
 
 const bg = new Konva.Circle({
     x: 25,
-    y: 100,
+    y: 25,
     offsetX: 0,
     offsetY: 0,
     radius: 21,
@@ -450,7 +450,7 @@ const bg = new Konva.Circle({
 });
 const bgc = new Konva.Circle({
     x: 25,
-    y: 200,
+    y: 225,
     offsetX: 0,
     offsetY: 0,
     radius: 21,
