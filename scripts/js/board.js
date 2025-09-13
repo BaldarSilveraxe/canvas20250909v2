@@ -676,6 +676,7 @@ const getScaleConstraints = () => {
             makeUi,
             removeByName,
             getNodeByName,
+            clampAxis,
             teardown
         } = build();
 
