@@ -405,7 +405,7 @@ const bgr = new Konva.Rect({
     y: 100,
     width: 100,
     height: 50,
-    cornerRadius: [25, 25, 25, 25]
+    cornerRadius: [25, 25, 25, 25],
     fill: 'black',
     stroke: 'white',
     strokeWidth: 1,
