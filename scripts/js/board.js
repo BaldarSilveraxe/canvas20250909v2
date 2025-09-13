@@ -757,6 +757,7 @@ const targetGroup = getNodeByName('group-ui-pseudoLayer-main');
             makeGrid();
             cameraAPI = attachDragCamera(); // Assign to the declared variable
             makeUi();
+            makeBoardControls();
 
             const redTextGroup = new Konva.Group({
                 draggable: true,
