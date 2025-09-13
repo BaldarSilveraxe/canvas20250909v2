@@ -67,6 +67,13 @@ const board = (() => {
     };
 
     const utility = () => {
+        const addNode = (type, name, konvaNode) => {
+            const id = crypto.randomUUID();
+            konvaNode.id(id);
+            canvasState[type][id] = konvaNode;
+            canvasState.index[name] = id;
+        };
+        
         const clampAxis = (val, view, content) => {
             if (content <= view) return Math.round((view - content) / 2);
             const min = Math.floor(view - content);
