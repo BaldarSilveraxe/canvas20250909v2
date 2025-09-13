@@ -408,7 +408,7 @@ const track1 = new Konva.Rect({
     width: 10,
     height: 200,
     fill: 'black',
-    stroke: 'white',
+    stroke: '#36454F',
     strokeWidth: 1
 });
 const bgr = new Konva.Rect({
@@ -420,7 +420,7 @@ const bgr = new Konva.Rect({
     height: 42,
     cornerRadius: 21,
     fill: 'black',
-    stroke: 'white',
+    stroke: '#36454F',
     strokeWidth: 1,
 });
 
@@ -431,7 +431,7 @@ const bg = new Konva.Circle({
     offsetY: 0,
     radius: 21,
     fill: 'black',
-    stroke: 'white',
+    stroke: '#36454F',
     strokeWidth: 1
 });
 const bgc = new Konva.Circle({
@@ -441,12 +441,12 @@ const bgc = new Konva.Circle({
     offsetY: 0,
     radius: 21,
     fill: 'black',
-    stroke: 'white',
+    stroke: '#36454F',
     strokeWidth: 1
 });
-bgr.cache(); // important: do this before filters
-bgr.filters([Konva.Filters.Blur]);
-bgr.blurRadius(2); // try 1–3 for subtle softness
+//bgr.cache(); // important: do this before filters
+//bgr.filters([Konva.Filters.Blur]);
+//bgr.blurRadius(2); // try 1–3 for subtle softness
     
 kObj.add(track1);
 kObj.add(bgr);    
