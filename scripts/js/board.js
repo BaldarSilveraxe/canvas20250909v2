@@ -398,6 +398,8 @@ const kObj  = new Konva.Group({
     name: 'contolGroup',
     x: 100,
     y: 100,
+    width: 50,
+    height: 500,
     draggable: true // False later
 });
 const container  = new Konva.Rect({
@@ -405,15 +407,15 @@ const container  = new Konva.Rect({
     x: 0,
     y: 0,
     width: 50,
-    height: 800,
+    height: 500,
     fill: '#F5F5F5',
     stroke: '#696969',
     strokeWidth: 1,
     draggable: true // False later
 });
 const track1 = new Konva.Rect({
-    x: 0,
-    y: 0,
+    x: 25,
+    y: 5,
     offsetX: 5,
     offsetY: 0,
     width: 10,
