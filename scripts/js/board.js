@@ -455,7 +455,7 @@ targetGroup.add( kObj);
 
     canvasState.stage.on('click', (e) => {
       const g = e.target.findAncestor('Group');
-      if (g && cards.includes(g)) tr.nodes([g]); else tr.nodes([]);
+      if (g /*&& cards.includes(g)*/) tr.nodes([g]); else tr.nodes([]);
     });
     tr.on('transform transformend', () => { for (const l of links) l.update(); });
 };
