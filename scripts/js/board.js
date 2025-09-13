@@ -439,20 +439,20 @@ const bgr = new Konva.Rect({
 });
 
 const bg = new Konva.Circle({
-    x: 0,
+    x: 25,
     y: 100,
-    offsetX: 50,
-    offsetY: 50,
+    offsetX: 0,
+    offsetY: 0,
     radius: 21,
     fill: '#36454F',
     stroke: '#c9bab0',
     strokeWidth: 1
 });
 const bgc = new Konva.Circle({
-    x: 0,
+    x: 25,
     y: 200,
-    offsetX: 50,
-    offsetY: 50,
+    offsetX: 0,
+    offsetY: 0,
     radius: 21,
     fill: '#36454F',
     stroke: '#c9bab0',
