@@ -130,7 +130,7 @@ const makeUi = () => {
 
 //Test stuff
   const complexText = new Konva.Text({
-    x: 150, y: 100, width: 150, height: 100, padding: 20, align: 'center', fontSize: 18, fill: '#000000',
+    x: 150, y: 100, width: 150, height: 100, padding: 5, align: 'center', fontSize: 10, fill: '#000000',
     text: "This is a simple text frame example.\n\n" +
           "Its within the UI layer and doesn't move with the camera."
 });
