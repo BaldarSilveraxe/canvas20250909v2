@@ -601,7 +601,7 @@ const board = (() => {
             let itemsLayer = getNodeByName('layer-items');
             let kObj  = new Konva.Group({ name: camWorldName, draggable: true });
             let { node } = addNode({ stateType: 'groups', name: camWorldName, konvaNode: kObj });
-            itemsLayer.stage.add(node);
+            itemsLayer.add(node);
 
             //let camWorldNameId = crypto.randomUUID();
             //canvasState.groups[camWorldNameId] = new Konva.Group({
