@@ -602,17 +602,23 @@ const board = (() => {
             let { node } = addNode({ stateType: 'groups', name: name, konvaNode: kObj });
             theLayer.add(node);
 
-            let camItemsName = config.cameraWraps.itemsCamera;
-            let itemsLayer = getNodeByName('layer-items');
+            name = config.config.cameraWraps.itemsCamera;
+            theLayer = getNodeByName('layer-items');
+            kObj  = new Konva.Group({ name: name, draggable: true });
+            let { node } = addNode({ stateType: 'groups', name: name, konvaNode: kObj });
+            theLayer.add(node);
             
-            let camItemsNameId = crypto.randomUUID();
-            canvasState.groups[camItemsNameId] = new Konva.Group({
-                id: camItemsNameId,
-                name: camItemsName,
-                draggable: false
-            });
-            canvasState.index[camItemsName] = camItemsNameId;
-            itemsLayer.add(canvasState.groups[camItemsNameId]);
+            //let camItemsName = config.cameraWraps.itemsCamera;
+            //let itemsLayer = getNodeByName('layer-items');
+            
+            //let camItemsNameId = crypto.randomUUID();
+            //canvasState.groups[camItemsNameId] = new Konva.Group({
+            //    id: camItemsNameId,
+            //    name: camItemsName,
+            //    draggable: false
+            //});
+            //canvasState.index[camItemsName] = camItemsNameId;
+            //itemsLayer.add(canvasState.groups[camItemsNameId]);
         };
 
         //const makeLayers = () => {
