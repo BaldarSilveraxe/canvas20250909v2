@@ -196,21 +196,33 @@ const attachDragCamera = () => {
   };
 
   // Clamp that works for both pan & zoom
-  const clamp = (pos) => {
-    const { vw, vh } = getViewportSize();
-    const s = camWorld.scaleX() || 1;
-    const W = config.world.width  * s;
-    const H = config.world.height * s;
+// Clamp that works for both pan & zoom (axis-aware, absolute scale, integer bounds)
+const clamp = (pos) => {
+  const { vw, vh } = getViewportSize();
 
-    const clampAxis = (val, view, content) => {
-      if (content <= view) return Math.round((view - content) / 2); // center when smaller
-      const min = view - content; // negative
-      const max = 0;
-      return Math.max(min, Math.min(val, max));
-    };
+  // use absolute scale in case a parent (layer) gets transformed in future
+  const abs = camWorld.getAbsoluteScale();
+  const sx = abs.x || 1;
+  const sy = abs.y || 1;
 
-    return { x: clampAxis(pos.x, vw, W), y: clampAxis(pos.y, vh, H) };
+  const W = Math.round(config.world.width  * sx);
+  const H = Math.round(config.world.height * sy);
+
+  // integer clamp avoids subpixel drift leaving 1px gutters
+  const clampAxis = (val, view, content) => {
+    if (content <= view) {
+      // locked center when content smaller than viewport on that axis
+      return Math.round((view - content) / 2);
+    }
+    const min = Math.floor(view - content); // most negative allowed
+    const max = 0;                          // most positive allowed
+    const v   = Math.round(val);
+    return Math.max(min, Math.min(v, max));
   };
+
+  return { x: clampAxis(pos.x, vw, W), y: clampAxis(pos.y, vh, H) };
+};
+
 
   // --- PAN -------------------------------------------------------------------
   camWorld.draggable(true);
