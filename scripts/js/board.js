@@ -117,6 +117,19 @@ const board = (() => {
             teardown
         } = utility();
 
+        const makeUi = () => {
+            const groupId = crypto.randomUUID();
+            canvasState.groups[groupId] = new Konva.Group({
+                id: groupId,
+                name: 'group-ui-pseudoLayer-main',
+                draggable: true
+            });
+            canvasState.index['group-ui-pseudoLayer-main'] = groupId;
+
+            const greyBox = new Konva.Rect({ x: 150,  y: 100, width: 150, height: 100, fill: 'gray' });
+            canvasState.groups[groupId].add(greyBox);
+        };
+        
         const attachDragCamera = () => {
             const stage = canvasState.stage;
             const camWorld = getNodeByName('group-world-pseudoLayer-camera-wrap');
@@ -534,7 +547,6 @@ const board = (() => {
             attachDragCamera();
 
 const redBox = new Konva.Rect({ x: 50, y: 50, width: 150, height: 100, fill: 'red' });
-const greyBox = new Konva.Rect({ x: 150,  y: 100, width: 150, height: 100, fill: 'gray' });
 const yellowTransparentBox = new Konva.Rect({  x: 250,  y: 150,  width: 150, height: 100, fill: 'yellow', opacity: 0.4 });
 let stringLayer = getNodeByName('group-items-pseudoLayer-z-0');
 let hostLayer = getNodeByName('group-items-pseudoLayer-z-40');
