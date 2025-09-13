@@ -171,9 +171,22 @@ const attachDragCamera = () => {
   const camItems = getNodeByName('group-items-pseudoLayer-camera-wrap');
   if (!camWorld || !camItems) throw new Error('[camera] wrappers missing');
 
-  // PAN (unchanged)
-  camWorld.draggable(true);
-  camItems.draggable(false);
+  // --- helpers ---------------------------------------------------------------
+  const getViewportSize = () => {
+    const c = stage.container();
+    return {
+      vw: c.clientWidth  || stage.width(),
+      vh: c.clientHeight || stage.height(),
+    };
+  };
+
+  // Dynamic min scale: world must never be smaller than the viewport's shortest side
+  const getMinScaleForViewport = () => {
+    const { vw, vh } = getViewportSize();
+    const minViewport  = Math.min(vw, vh);
+    const worldMinSide = Math.min(config.world.width, config.world.height);
+    return Math.max(config.zoom.scaleMin, minViewport / worldMinSide);
+  };
 
   const sync = () => {
     const p = camWorld.position();
@@ -182,21 +195,15 @@ const attachDragCamera = () => {
     camItems.getLayer()?.batchDraw();
   };
 
-  // clamp that works for both pan & zoom
+  // Clamp that works for both pan & zoom
   const clamp = (pos) => {
-    const container = stage.container();
-    const vw = container.clientWidth  || stage.width();
-    const vh = container.clientHeight || stage.height();
-
+    const { vw, vh } = getViewportSize();
     const s = camWorld.scaleX() || 1;
     const W = config.world.width  * s;
     const H = config.world.height * s;
 
     const clampAxis = (val, view, content) => {
-      if (content <= view) {
-        // center when world smaller than viewport
-        return Math.round((view - content) / 2);
-      }
+      if (content <= view) return Math.round((view - content) / 2); // center when smaller
       const min = view - content; // negative
       const max = 0;
       return Math.max(min, Math.min(val, max));
@@ -205,23 +212,16 @@ const attachDragCamera = () => {
     return { x: clampAxis(pos.x, vw, W), y: clampAxis(pos.y, vh, H) };
   };
 
-  // snap once into bounds so the initial position is valid
-  {
-    const p0 = clamp(camWorld.position());
-    camWorld.position(p0);
-    camItems.position(p0);
-    camWorld.getLayer()?.batchDraw();
-    camItems.getLayer()?.batchDraw();
-  }
-
+  // --- PAN -------------------------------------------------------------------
+  camWorld.draggable(true);
+  camItems.draggable(false);
   camWorld.dragBoundFunc(clamp);
   camWorld.on('dragmove', sync);
 
-  // UX niceties
+  // --- UX niceties -----------------------------------------------------------
   const c = stage.container();
   const setCursor = (v) => { c.style.cursor = v; };
   const setSelect = (v) => { c.style.userSelect = v; };
-
   camWorld.on('mouseenter', () => setCursor('grab'));
   camWorld.on('mouseleave', () => setCursor('default'));
   camWorld.on('dragstart',  () => { setCursor('grabbing'); setSelect('none'); });
@@ -229,54 +229,64 @@ const attachDragCamera = () => {
   camWorld.on('dragend', endDrag);
   stage.on('contentMouseup contentTouchend contentMouseout', endDrag);
 
-  // === ZOOM (Alt/Option + wheel) ===
+  // --- ZOOM (Alt/Option + wheel), with dynamic min-scale ---------------------
   stage.on('wheel', (e) => {
-    if (!e.evt.altKey) return;            // only when Alt is held
-    e.evt.preventDefault();               // stop page scroll
+    if (!e.evt.altKey) return;           // only when Alt is held
+    e.evt.preventDefault();              // stop page scroll
 
     const oldScale = camWorld.scaleX() || 1;
     const scaleBy  = 1.1;
     const dir      = e.evt.deltaY > 0 ? 1 : -1;
     let newScale   = dir > 0 ? oldScale / scaleBy : oldScale * scaleBy;
 
-    // clamp zoom
-    newScale = Math.max(config.zoom.scaleMin, Math.min(config.zoom.scaleMax, newScale));
-    if (newScale === oldScale) return;    // nothing to do
+    // clamp zoom to dynamic min (and configured max)
+    const minScale = getMinScaleForViewport();
+    newScale = Math.max(minScale, Math.min(config.zoom.scaleMax, newScale));
+    if (newScale === oldScale) return;
 
-    // zoom around pointer
     const pointer = stage.getPointerPosition();
     if (!pointer) return;
 
-    // where the pointer is in "world" coords (before scaling)
+    // anchor zoom at pointer
     const mousePointTo = {
       x: (pointer.x - camWorld.x()) / oldScale,
       y: (pointer.y - camWorld.y()) / oldScale
     };
-
-    // new camera position so the pointer stays anchored
     const newPos = {
       x: pointer.x - mousePointTo.x * newScale,
       y: pointer.y - mousePointTo.y * newScale
     };
 
-    // apply scale to both cameras
     camWorld.scale({ x: newScale, y: newScale });
     camItems.scale({ x: newScale, y: newScale });
 
-    // clamp and apply position to both cameras
     const bounded = clamp(newPos);
     camWorld.position(bounded);
     camItems.position(bounded);
 
-    // redraw
     camWorld.getLayer()?.batchDraw();
     camItems.getLayer()?.batchDraw();
   });
 
+  // --- Initial snap: enforce min scale & bounds ------------------------------
+  {
+    const s = camWorld.scaleX() || 1;
+    const minScale = getMinScaleForViewport();
+    if (s < minScale) {
+      camWorld.scale({ x: minScale, y: minScale });
+      camItems.scale({ x: minScale, y: minScale });
+    }
+    const p0 = clamp(camWorld.position());
+    camWorld.position(p0);
+    camItems.position(p0);
+    camWorld.getLayer()?.batchDraw();
+    camItems.getLayer()?.batchDraw();
+  }
+
   // initial align
   sync();
 
-  // tiny API if you want to move programmatically
+  // tiny API
   return {
     setCamera: (x, y) => {
       const bounded = clamp({ x, y });
@@ -549,14 +559,44 @@ const attachDragCamera = () => {
             });
 
             // Keep stage sized to viewport on window resize
-            const onResize = () => {
-                const nw = container.clientWidth;
-                const nh = container.clientHeight;
-                canvasState.stage.size({
-                    width: nw,
-                    height: nh
-                });
-            };
+// inside makeStage -> onResize
+const onResize = () => {
+  const nw = container.clientWidth;
+  const nh = container.clientHeight;
+  canvasState.stage.size({ width: nw, height: nh });
+
+  const camWorld = (canvasState.index['group-world-pseudoLayer-camera-wrap'])
+    ? canvasState.groups[canvasState.index['group-world-pseudoLayer-camera-wrap']]
+    : null;
+  const camItems = (canvasState.index['group-items-pseudoLayer-camera-wrap'])
+    ? canvasState.groups[canvasState.index['group-items-pseudoLayer-camera-wrap']]
+    : null;
+  if (!camWorld || !camItems) return;
+
+  const worldMinSide = Math.min(config.world.width, config.world.height);
+  const minScale = Math.max(
+    config.zoom.scaleMin,
+    Math.min(nw, nh) / worldMinSide
+  );
+
+  const s = camWorld.scaleX() || 1;
+  if (s < minScale) {
+    camWorld.scale({ x: minScale, y: minScale });
+    camItems.scale({ x: minScale, y: minScale });
+  }
+
+  // center after potential scale change
+  const W = config.world.width  * (camWorld.scaleX() || 1);
+  const H = config.world.height * (camWorld.scaleY() || 1);
+  const cx = Math.round((nw - W) / 2);
+  const cy = Math.round((nh - H) / 2);
+  camWorld.position({ x: cx, y: cy });
+  camItems.position({ x: cx, y: cy });
+
+  camWorld.getLayer()?.batchDraw();
+  camItems.getLayer()?.batchDraw();
+};
+;
             window.addEventListener('resize', onResize);
         };
 
