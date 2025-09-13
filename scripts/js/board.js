@@ -615,17 +615,32 @@ const board = (() => {
             itemsLayer.add(canvasState.groups[camItemsNameId]);
         };
 
+        //const makeLayers = () => {
+        //    config.layers.forEach(function(e, i) {
+        //        const layerId = crypto.randomUUID(),
+        //            layerName = `layer-${e}`;
+        //        canvasState.layers[layerId] = new Konva.Layer({
+        //            id: layerId,
+        //            name: layerName,
+        //            listening: true
+        //        });
+        //        canvasState.index[layerName] = layerId;
+        //        canvasState.stage.add(canvasState.layers[layerId]);
+        //    });
+        //};
         const makeLayers = () => {
             config.layers.forEach(function(e, i) {
-                const layerId = crypto.randomUUID(),
-                    layerName = `layer-${e}`;
-                canvasState.layers[layerId] = new Konva.Layer({
-                    id: layerId,
-                    name: layerName,
+                let name = `layer-${e}`;
+                let kObj  = new Konva.Layer({
+                    name: name,
                     listening: true
                 });
-                canvasState.index[layerName] = layerId;
-                canvasState.stage.add(canvasState.layers[layerId]);
+                const newlyAdded = addNode({
+                    stateType: 'layers',
+                    name: name,
+                    konvaNode: kObj
+                });
+                canvasState.stage.add(newlyAdded);
             });
         };
 
