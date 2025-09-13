@@ -400,16 +400,16 @@ const kObj  = new Konva.Group({
     Y: 100,
     draggable: true
 });
-  const bg = new Konva.Circle({
+const bg = new Konva.Circle({
     radius: 24,
     fill: 'black',
     stroke: 'white',
     strokeWidth: 4,
-      opacity: 0.5
-  });
-     kObj.add(bg);
+    opacity: 0.75
+});
+kObj.add(bg);
 const targetGroup = getNodeByName('group-ui-pseudoLayer-main');
-    targetGroup.add( kObj);
+targetGroup.add( kObj);
 };
 
         const makeGrid = () => {
