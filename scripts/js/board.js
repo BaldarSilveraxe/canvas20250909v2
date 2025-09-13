@@ -602,7 +602,7 @@ const board = (() => {
             ({ node } = addNode({ stateType: 'groups', name: name, konvaNode: kObj }));
             theLayer.add(node);
 
-            name = config.config.cameraWraps.itemsCamera;
+            name = config.cameraWraps.itemsCamera;
             theLayer = getNodeByName('layer-items');
             kObj  = new Konva.Group({ name: name, draggable: true });
             ({ node } = addNode({ stateType: 'groups', name: name, konvaNode: kObj }))
