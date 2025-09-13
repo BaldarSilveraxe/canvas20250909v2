@@ -396,7 +396,7 @@ const teardown = () => {
 const makeBoardControls = () => {
   const bg = new Konva.Circle({
     radius: 24,
-    fill: color,
+    fill: 'white',
     shadowColor: 'black',
     shadowBlur: 16,
     shadowOffsetY: Math.round(size * 0.14), // elevation feel
