@@ -402,7 +402,7 @@ const kObj  = new Konva.Group({
 });
 const bgr = new Konva.Rect({
     x: 0,
-    y: 0,
+    y: 100,
     offsetX: 48,
     offsetY: 24,
     width: 96,
@@ -426,7 +426,7 @@ const bg = new Konva.Circle({
 });
 const bgc = new Konva.Circle({
     x: 0,
-    y: 0,
+    y: 200,
     offsetX: 0,
     offsetY: 0,
     radius: 24,
