@@ -22,6 +22,10 @@ const board = (() => {
                 pseudos: ['group-items-pseudoLayer-z-0', 'group-items-pseudoLayer-z-10', 'group-items-pseudoLayer-z-20', 'group-items-pseudoLayer-z-30', 'group-items-pseudoLayer-z-40']
             },
         },
+        cameraWraps: {
+            worldCamera: 'group-world-pseudoLayer-camera-wrap', 
+            itemsCamera: 'group-items-pseudoLayer-camera-wrap'
+        },
         RESERVED_NAMES: new Set([
             '_stage',
             'layer-world',
