@@ -577,21 +577,32 @@ const board = (() => {
         };
 
         const makePseudoLayers = () => {
-            let targetGroup,
-                newGroupId;
+            let targetGroup, kObj, node;
             Object.keys(config.pseudoLayers).forEach(key => {
                 targetGroup = getNodeByName(config.pseudoLayers[key].group);
                 if (!targetGroup) throw new Error('[makePseudoLayers] target group not found');
                 config.pseudoLayers[key].pseudos.forEach(name => {
-                    newGroupId = crypto.randomUUID();
-                    canvasState.groups[newGroupId] = new Konva.Group({
-                        id: newGroupId,
-                        name: name
-                    });
-                    canvasState.index[name] = newGroupId;
-                    targetGroup.add(canvasState.groups[newGroupId]);
+                    kObj= new Konva.Group({ name: name });
+                    ({ node } = addNode({ stateType: 'groups', name: name, konvaNode: kObj }));
+                    targetGroup.add(node);
                 });
             });
+            
+            //let targetGroup,
+            //    newGroupId;
+            //Object.keys(config.pseudoLayers).forEach(key => {
+            //    targetGroup = getNodeByName(config.pseudoLayers[key].group);
+            //    if (!targetGroup) throw new Error('[makePseudoLayers] target group not found');
+            //    config.pseudoLayers[key].pseudos.forEach(name => {
+            //        newGroupId = crypto.randomUUID();
+            //        canvasState.groups[newGroupId] = new Konva.Group({
+            //            id: newGroupId,
+            //            name: name
+            //        });
+            //        canvasState.index[name] = newGroupId;
+            //        targetGroup.add(canvasState.groups[newGroupId]);
+            //    });
+            //});
         };
 
         const makeCameraWrappers = () => {
