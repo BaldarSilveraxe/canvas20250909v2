@@ -67,6 +67,14 @@ const board = (() => {
     };
 
     const utility = () => {
+        const clampAxis = (val, view, content) => {
+            if (content <= view) return Math.round((view - content) / 2);
+            const min = Math.floor(view - content);
+            const max = 0;
+            const v = Math.round(val);
+            return Math.max(min, Math.min(v, max));
+        };
+
         const removeByName = (name) => {
             const id = canvasState.index[name];
             if (!id) return;
@@ -110,6 +118,7 @@ const board = (() => {
         };
 
         return {
+            clampAxis,
             removeByName,
             getNodeByName,
             teardown
@@ -118,6 +127,7 @@ const board = (() => {
 
     const build = () => {
         const {
+            clampAxis,
             removeByName,
             getNodeByName,
             teardown
@@ -170,7 +180,7 @@ const board = (() => {
         };
 
         const attachDragCamera = () => {
-            const stage    = canvasState.stage;
+            const stage = canvasState.stage;
             const camWorld = getNodeByName('group-world-pseudoLayer-camera-wrap');
             const camItems = getNodeByName('group-items-pseudoLayer-camera-wrap');
             if (!camWorld || !camItems) throw new Error('[camera] wrappers missing');
@@ -179,19 +189,22 @@ const board = (() => {
             const getViewportSize = () => {
                 const c = stage.container();
                 return {
-                    vw: c.clientWidth  || stage.width(),
+                    vw: c.clientWidth || stage.width(),
                     vh: c.clientHeight || stage.height(),
                 };
             };
 
-const getScaleConstraints = () => {
-    const { vw, vh } = getViewportSize();
-    const worldMinSide = Math.min(config.world.width, config.world.height);
-    return {
-        min: Math.max(config.zoom.scaleMin, Math.min(vw, vh) / worldMinSide),
-        max: config.zoom.scaleMax
-    };
-};
+            const getScaleConstraints = () => {
+                const {
+                    vw,
+                    vh
+                } = getViewportSize();
+                const worldMinSide = Math.min(config.world.width, config.world.height);
+                return {
+                    min: Math.max(config.zoom.scaleMin, Math.min(vw, vh) / worldMinSide),
+                    max: config.zoom.scaleMax
+                };
+            };
 
             const sync = () => {
                 const p = camWorld.position();
@@ -202,29 +215,35 @@ const getScaleConstraints = () => {
 
             // Clamp that works for both pan & zoom (axis-aware, absolute scale, integer bounds)
             const clamp = (pos) => {
-                const { vw, vh } = getViewportSize();
+                const {
+                    vw,
+                    vh
+                } = getViewportSize();
 
                 // use absolute scale in case a parent (layer) gets transformed in future
                 const abs = camWorld.getAbsoluteScale();
                 const sx = abs.x || 1;
                 const sy = abs.y || 1;
 
-                const W = Math.round(config.world.width  * sx);
+                const W = Math.round(config.world.width * sx);
                 const H = Math.round(config.world.height * sy);
 
                 // integer clamp avoids subpixel drift leaving 1px gutters
-                const clampAxis = (val, view, content) => {
-                    if (content <= view) {
-                        // locked center when content smaller than viewport on that axis
-                        return Math.round((view - content) / 2);
-                    }
-                    const min = Math.floor(view - content); // most negative allowed
-                    const max = 0;                          // most positive allowed
-                    const v   = Math.round(val);
-                    return Math.max(min, Math.min(v, max));
-                };
+                //const clampAxis = (val, view, content) => {
+                //    if (content <= view) {
+                //        // locked center when content smaller than viewport on that axis
+                //        return Math.round((view - content) / 2);
+                //    }
+                //    const min = Math.floor(view - content); // most negative allowed
+                //    const max = 0; // most positive allowed
+                //    const v = Math.round(val);
+                //    return Math.max(min, Math.min(v, max));
+                //};
 
-                return { x: clampAxis(pos.x, vw, W), y: clampAxis(pos.y, vh, H) };
+                return {
+                    x: clampAxis(pos.x, vw, W),
+                    y: clampAxis(pos.y, vh, H)
+                };
             };
 
             // --- PAN -------------------------------------------------------------------
@@ -235,14 +254,24 @@ const getScaleConstraints = () => {
 
             // --- UX niceties -----------------------------------------------------------
             const c = stage.container();
-            const setCursor = (v) => { c.style.cursor = v; };
-            const setSelect = (v) => { c.style.userSelect = v; };
+            const setCursor = (v) => {
+                c.style.cursor = v;
+            };
+            const setSelect = (v) => {
+                c.style.userSelect = v;
+            };
             camWorld.on('mouseenter', () => setCursor('grab'));
             camWorld.on('mouseleave', () => setCursor('default'));
-            camWorld.on('dragstart',  () => { setCursor('grabbing'); setSelect('none'); });
-            const endDrag = () => { setCursor('default'); setSelect('auto'); };
+            camWorld.on('dragstart', () => {
+                setCursor('grabbing');
+                setSelect('none');
+            });
+            const endDrag = () => {
+                setCursor('default');
+                setSelect('auto');
+            };
             camWorld.on('dragend', endDrag);
-            
+
             const endDragHandler = endDrag;
             stage.on('contentMouseup', endDragHandler);
             stage.on('contentTouchend', endDragHandler);
@@ -250,16 +279,19 @@ const getScaleConstraints = () => {
 
             // --- ZOOM (Alt/Option + wheel), with dynamic min-scale ---------------------
             stage.on('wheel', (e) => {
-                if (!e.evt.altKey) return;           // only when Alt is held
-                e.evt.preventDefault();              // stop page scroll
+                if (!e.evt.altKey) return; // only when Alt is held
+                e.evt.preventDefault(); // stop page scroll
 
                 const oldScale = camWorld.scaleX() || 1;
-                const scaleBy  = 1.1;
-                const dir      = e.evt.deltaY > 0 ? 1 : -1;
-                let newScale   = dir > 0 ? oldScale / scaleBy : oldScale * scaleBy;
+                const scaleBy = 1.1;
+                const dir = e.evt.deltaY > 0 ? 1 : -1;
+                let newScale = dir > 0 ? oldScale / scaleBy : oldScale * scaleBy;
 
                 // clamp zoom to dynamic min (and configured max) using cached constraints
-                const { min: minScale, max: maxScale } = getScaleConstraints();
+                const {
+                    min: minScale,
+                    max: maxScale
+                } = getScaleConstraints();
                 newScale = Math.max(minScale, Math.min(maxScale, newScale));
                 if (newScale === oldScale) return;
 
@@ -276,8 +308,14 @@ const getScaleConstraints = () => {
                     y: pointer.y - mousePointTo.y * newScale
                 };
 
-                camWorld.scale({ x: newScale, y: newScale });
-                camItems.scale({ x: newScale, y: newScale });
+                camWorld.scale({
+                    x: newScale,
+                    y: newScale
+                });
+                camItems.scale({
+                    x: newScale,
+                    y: newScale
+                });
 
                 const bounded = clamp(newPos);
                 camWorld.position(bounded);
@@ -290,10 +328,18 @@ const getScaleConstraints = () => {
             // --- Initial snap: enforce min scale & bounds ------------------------------
             {
                 const s = camWorld.scaleX() || 1;
-                const { min: minScale } = getScaleConstraints();
+                const {
+                    min: minScale
+                } = getScaleConstraints();
                 if (s < minScale) {
-                    camWorld.scale({ x: minScale, y: minScale });
-                    camItems.scale({ x: minScale, y: minScale });
+                    camWorld.scale({
+                        x: minScale,
+                        y: minScale
+                    });
+                    camItems.scale({
+                        x: minScale,
+                        y: minScale
+                    });
                 }
                 const p0 = clamp(camWorld.position());
                 camWorld.position(p0);
@@ -308,13 +354,18 @@ const getScaleConstraints = () => {
             // tiny API
             return {
                 setCamera: (x, y) => {
-                    const bounded = clamp({ x, y });
+                    const bounded = clamp({
+                        x,
+                        y
+                    });
                     camWorld.position(bounded);
                     camItems.position(bounded);
                     camWorld.getLayer()?.batchDraw();
                     camItems.getLayer()?.batchDraw();
                 },
-                getCamera: () => ({ ...camWorld.position() }),
+                getCamera: () => ({
+                    ...camWorld.position()
+                }),
                 getScaleConstraints, // Expose for external use
             };
         };
@@ -386,7 +437,7 @@ const getScaleConstraints = () => {
 
                 sceneFunc: function(context, shape) {
                     const scale = shape.getAbsoluteScale();
-                    
+
                     // Hide grid below 100% zoom - too dense to be useful
                     if (scale.x < 1.0 || scale.y < 1.0) {
                         return; // Early exit - don't render anything
@@ -567,8 +618,8 @@ const getScaleConstraints = () => {
             container.style.height = '100%';
             container.style.overflow = 'hidden';
             container.style.padding = '0';
-            container.style.margin  = '0';
-            container.style.border  = '0';
+            container.style.margin = '0';
+            container.style.border = '0';
 
             const w = container.clientWidth;
             const h = container.clientHeight;
@@ -586,7 +637,10 @@ const getScaleConstraints = () => {
             const onResize = () => {
                 const nw = container.clientWidth;
                 const nh = container.clientHeight;
-                canvasState.stage.size({ width: nw, height: nh });
+                canvasState.stage.size({
+                    width: nw,
+                    height: nh
+                });
 
                 const camWorld = getNodeByName('group-world-pseudoLayer-camera-wrap');
                 const camItems = getNodeByName('group-items-pseudoLayer-camera-wrap');
@@ -598,24 +652,30 @@ const getScaleConstraints = () => {
 
                 const s = camWorld.scaleX() || 1;
                 if (s < minScale) {
-                    camWorld.scale({ x: minScale, y: minScale });
-                    camItems.scale({ x: minScale, y: minScale });
+                    camWorld.scale({
+                        x: minScale,
+                        y: minScale
+                    });
+                    camItems.scale({
+                        x: minScale,
+                        y: minScale
+                    });
                 }
 
                 // re-clamp the current position (shared clamping logic)
                 const abs = camWorld.getAbsoluteScale();
-                const sx  = abs.x || 1;
-                const sy  = abs.y || 1;
-                const W   = Math.round(config.world.width  * sx);
-                const H   = Math.round(config.world.height * sy);
+                const sx = abs.x || 1;
+                const sy = abs.y || 1;
+                const W = Math.round(config.world.width * sx);
+                const H = Math.round(config.world.height * sy);
 
-                const clampAxis = (val, view, content) => {
-                    if (content <= view) return Math.round((view - content) / 2);
-                    const min = Math.floor(view - content);
-                    const max = 0;
-                    const v   = Math.round(val);
-                    return Math.max(min, Math.min(v, max));
-                };
+                //const clampAxis = (val, view, content) => {
+                //    if (content <= view) return Math.round((view - content) / 2);
+                //    const min = Math.floor(view - content);
+                //    const max = 0;
+                //    const v = Math.round(val);
+                //    return Math.max(min, Math.min(v, max));
+                //};
 
                 const bounded = {
                     x: clampAxis(camWorld.x(), nw, W),
@@ -654,121 +714,121 @@ const getScaleConstraints = () => {
     };
 
 
-const create = (kCanvas) => {
-    const {
-        makeStage,
-        makeLayers,
-        makeCameraWrappers,
-        makePseudoLayers,
-        makeWorldRect,
-        makeGrid,
-        attachDragCamera,
-        makeUi,
-        removeByName,
-        getNodeByName,
-        teardown
-    } = build();
+    const create = (kCanvas) => {
+        const {
+            makeStage,
+            makeLayers,
+            makeCameraWrappers,
+            makePseudoLayers,
+            makeWorldRect,
+            makeGrid,
+            attachDragCamera,
+            makeUi,
+            removeByName,
+            getNodeByName,
+            teardown
+        } = build();
 
-    let cameraAPI; // Declare cameraAPI outside the try block
+        let cameraAPI; // Declare cameraAPI outside the try block
 
-    try {
-        makeStage(kCanvas); // may throw
-        if (!(canvasState.stage instanceof Konva.Stage)) {
-            throw new Error('board.create: stage not created');
+        try {
+            makeStage(kCanvas); // may throw
+            if (!(canvasState.stage instanceof Konva.Stage)) {
+                throw new Error('board.create: stage not created');
+            }
+            makeLayers();
+            makeCameraWrappers();
+            makePseudoLayers();
+            makeWorldRect();
+            makeGrid();
+            cameraAPI = attachDragCamera(); // Assign to the declared variable
+            makeUi();
+
+            const redTextGroup = new Konva.Group({
+                draggable: true,
+                name: 'group-red'
+            });
+            const yellowTextGroup = new Konva.Group({
+                draggable: true,
+                name: 'group-yellow'
+            });
+            const redBox = new Konva.Rect({
+                x: 50,
+                y: 50,
+                width: 150,
+                height: 100,
+                fill: 'red',
+                draggable: false
+            });
+            const yellowTransparentBox = new Konva.Rect({
+                x: 250,
+                y: 150,
+                width: 150,
+                height: 100,
+                fill: 'yellow',
+                opacity: 0.4,
+                draggable: false
+            });
+            const redComplexText = new Konva.Text({
+                x: 50,
+                y: 50,
+                width: 150,
+                height: 100,
+                padding: 5,
+                align: 'center',
+                fontSize: 10,
+                fill: '#FFFFFF',
+                text: "This is a simple text frame example.\n\n" +
+                    "Its within the Items layer and does move with the camera."
+            });
+            const yellowComplexText = new Konva.Text({
+                x: 250,
+                y: 150,
+                width: 150,
+                height: 100,
+                padding: 5,
+                align: 'center',
+                fontSize: 10,
+                fill: '#000000',
+                text: "This is a simple text frame example.\n\n" +
+                    "Its within the Host layer and does move with the camera."
+            });
+            redTextGroup.add(redBox, redComplexText);
+            yellowTextGroup.add(yellowTransparentBox, yellowComplexText);
+            let stringLayer = getNodeByName('group-items-pseudoLayer-z-0');
+            let hostLayer = getNodeByName('group-items-pseudoLayer-z-40');
+            stringLayer.add(redTextGroup);
+            hostLayer.add(yellowTextGroup);
+
+            // One paint at the end:
+            canvasState.stage.getLayers().forEach(l => l.batchDraw());
+        } catch (err) {
+            teardown();
+            throw err; // surface the original error
         }
-        makeLayers();
-        makeCameraWrappers();
-        makePseudoLayers();
-        makeWorldRect();
-        makeGrid();
-        cameraAPI = attachDragCamera(); // Assign to the declared variable
-        makeUi();
 
-        const redTextGroup = new Konva.Group({
-            draggable: true,
-            name: 'group-red'
-        });
-        const yellowTextGroup = new Konva.Group({
-            draggable: true,
-            name: 'group-yellow'
-        });
-        const redBox = new Konva.Rect({
-            x: 50,
-            y: 50,
-            width: 150,
-            height: 100,
-            fill: 'red',
-            draggable: false
-        });
-        const yellowTransparentBox = new Konva.Rect({
-            x: 250,
-            y: 150,
-            width: 150,
-            height: 100,
-            fill: 'yellow',
-            opacity: 0.4,
-            draggable: false
-        });
-        const redComplexText = new Konva.Text({
-            x: 50,
-            y: 50,
-            width: 150,
-            height: 100,
-            padding: 5,
-            align: 'center',
-            fontSize: 10,
-            fill: '#FFFFFF',
-            text: "This is a simple text frame example.\n\n" +
-                "Its within the Items layer and does move with the camera."
-        });
-        const yellowComplexText = new Konva.Text({
-            x: 250,
-            y: 150,
-            width: 150,
-            height: 100,
-            padding: 5,
-            align: 'center',
-            fontSize: 10,
-            fill: '#000000',
-            text: "This is a simple text frame example.\n\n" +
-                "Its within the Host layer and does move with the camera."
-        });
-        redTextGroup.add(redBox, redComplexText);
-        yellowTextGroup.add(yellowTransparentBox, yellowComplexText);
-        let stringLayer = getNodeByName('group-items-pseudoLayer-z-0');
-        let hostLayer = getNodeByName('group-items-pseudoLayer-z-40');
-        stringLayer.add(redTextGroup);
-        hostLayer.add(yellowTextGroup);
+        console.log('finished');
+        console.log(canvasState);
 
-        // One paint at the end:
-        canvasState.stage.getLayers().forEach(l => l.batchDraw());
-    } catch (err) {
-        teardown();
-        throw err; // surface the original error
-    }
-
-    console.log('finished');
-    console.log(canvasState);
-
-    // Enhanced Public API
-    return {
-        stage: canvasState.stage,
-        camera: cameraAPI, // Now cameraAPI is properly defined
-        addShape: (name, shape, layerName) => {
-            const layer = getNodeByName(layerName);
-            if (!layer) throw new Error(`Layer ${layerName} not found`);
-            const shapeId = crypto.randomUUID();
-            shape.id(shapeId);
-            canvasState.shapes[shapeId] = shape;
-            canvasState.index[name] = shapeId;
-            layer.add(shape);
-            return shape;
-        },
-        removeShape: removeByName,
-        getShape: getNodeByName,
-        destroy: teardown
+        // Enhanced Public API
+        return {
+            stage: canvasState.stage,
+            camera: cameraAPI, // Now cameraAPI is properly defined
+            addShape: (name, shape, layerName) => {
+                const layer = getNodeByName(layerName);
+                if (!layer) throw new Error(`Layer ${layerName} not found`);
+                const shapeId = crypto.randomUUID();
+                shape.id(shapeId);
+                canvasState.shapes[shapeId] = shape;
+                canvasState.index[name] = shapeId;
+                layer.add(shape);
+                return shape;
+            },
+            removeShape: removeByName,
+            getShape: getNodeByName,
+            destroy: teardown
+        };
     };
-};
 
     return {
         create
