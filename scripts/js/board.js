@@ -130,7 +130,7 @@ const board = (() => {
             canvasState.index['group-ui-pseudoLayer-main'] = groupId;
 
             const greyBox = new Konva.Rect({ x: 150,  y: 100, width: 150, height: 100, fill: 'gray' });
-            //uiLayer.add(uiGroup);
+            uiLayer.add(canvasState.index['group-ui-pseudoLayer-main']);
             canvasState.groups[groupId].add(greyBox);
         };
         
