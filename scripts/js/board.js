@@ -569,7 +569,7 @@ const board = (() => {
             targetGroup = getNodeByName('group-world-pseudoLayer-background');
             if (!targetGroup) throw new Error('[makeWorldRect] pseudo layer not found');
             kObj = new Konva.Rect({ ...config.world });
-            ({ node } = addNode({ stateType: 'groups', name: name, konvaNode: kObj }));
+            ({ node } = addNode({ stateType: 'shapes', name: name, konvaNode: kObj }));
             targetGroup.add(node);
             //const shapeId = crypto.randomUUID(),
             //    theLayer = getNodeByName('group-world-pseudoLayer-background');
