@@ -395,10 +395,21 @@ const teardown = () => {
 
 const makeBoardControls = () => {
 const kObj  = new Konva.Group({
-    name: name,
+    name: 'contolGroup',
     x: 100,
     y: 100,
-    draggable: true
+    draggable: true // False later
+});
+const container  = new Konva.Group({
+    name: 'contolGroup',
+    x: 0,
+    y: 0,
+    width: 50,
+    height: 800,
+    fill: '#F5F5F5',
+    stroke: '#696969',
+    strokeWidth: 1,
+    draggable: true // False later
 });
 const track1 = new Konva.Rect({
     x: 0,
@@ -448,7 +459,8 @@ const bgc = new Konva.Circle({
 //bgr.cache(); // important: do this before filters
 //bgr.filters([Konva.Filters.Blur]);
 //bgr.blurRadius(2); // try 1–3 for subtle softness
-    
+
+kObj.add(container);
 kObj.add(track1);
 //kObj.add(bgr);    
 kObj.add(bg);
