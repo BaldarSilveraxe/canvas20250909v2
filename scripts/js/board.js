@@ -118,6 +118,9 @@ const board = (() => {
         } = utility();
 
         const makeUi = () => {
+            const uiLayer = getNodeByName('layer-ui');
+            if (!uiLayer) throw new Error('[makeUi] layer-ui not found');
+            
             const groupId = crypto.randomUUID();
             canvasState.groups[groupId] = new Konva.Group({
                 id: groupId,
@@ -127,6 +130,7 @@ const board = (() => {
             canvasState.index['group-ui-pseudoLayer-main'] = groupId;
 
             const greyBox = new Konva.Rect({ x: 150,  y: 100, width: 150, height: 100, fill: 'gray' });
+            uiLayer.add(uiGroup);
             canvasState.groups[groupId].add(greyBox);
         };
         
