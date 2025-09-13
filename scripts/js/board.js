@@ -427,7 +427,7 @@ const bgr = new Konva.Rect({
 
 const bg = new Konva.Circle({
     x: 0,
-    y: 0,
+    y: 100,
     offsetX: 0,
     offsetY: 0,
     radius: 21,
@@ -450,8 +450,8 @@ const bgc = new Konva.Circle({
 //bgr.blurRadius(2); // try 1–3 for subtle softness
     
 kObj.add(track1);
-kObj.add(bgr);    
-//kObj.add(bg);
+//kObj.add(bgr);    
+kObj.add(bg);
 //kObj.add(bgc);
 const targetGroup = getNodeByName('group-ui-pseudoLayer-main');
 targetGroup.add( kObj);
