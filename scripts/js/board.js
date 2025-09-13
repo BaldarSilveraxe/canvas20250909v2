@@ -230,18 +230,6 @@ const getScaleConstraints = () => {
                 const W = Math.round(config.world.width * sx);
                 const H = Math.round(config.world.height * sy);
 
-                // integer clamp avoids subpixel drift leaving 1px gutters
-                //const clampAxis = (val, view, content) => {
-                //    if (content <= view) {
-                //        // locked center when content smaller than viewport on that axis
-                //        return Math.round((view - content) / 2);
-                //    }
-                //    const min = Math.floor(view - content); // most negative allowed
-                //    const max = 0; // most positive allowed
-                //    const v = Math.round(val);
-                //    return Math.max(min, Math.min(v, max));
-                //};
-
                 return {
                     x: clampAxis(pos.x, vw, W),
                     y: clampAxis(pos.y, vh, H)
@@ -663,14 +651,6 @@ const getScaleConstraints = () => {
                 const sy = abs.y || 1;
                 const W = Math.round(config.world.width * sx);
                 const H = Math.round(config.world.height * sy);
-
-                //const clampAxis = (val, view, content) => {
-                //    if (content <= view) return Math.round((view - content) / 2);
-                //    const min = Math.floor(view - content);
-                //    const max = 0;
-                //    const v = Math.round(val);
-                //    return Math.max(min, Math.min(v, max));
-                //};
 
                 const bounded = {
                     x: clampAxis(camWorld.x(), nw, W),
