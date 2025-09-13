@@ -117,22 +117,28 @@ const board = (() => {
             teardown
         } = utility();
 
-        const makeUi = () => {
-            const uiLayer = getNodeByName('layer-ui');
-            if (!uiLayer) throw new Error('[makeUi] layer-ui not found');
-            
-            const groupId = crypto.randomUUID();
-            canvasState.groups[groupId] = new Konva.Group({
-                id: groupId,
-                name: 'group-ui-pseudoLayer-main',
-                draggable: true
-            });
-            canvasState.index['group-ui-pseudoLayer-main'] = groupId;
+const makeUi = () => {
+  const uiLayer = getNodeByName('layer-ui');
+  if (!uiLayer) throw new Error('[makeUi] layer-ui not found');
 
-            const greyBox = new Konva.Rect({ x: 150,  y: 100, width: 150, height: 100, fill: 'gray' });
-            uiLayer.add(canvasState.index['group-ui-pseudoLayer-main']);
-            canvasState.groups[groupId].add(greyBox);
-        };
+  const groupId = crypto.randomUUID();
+  const uiGroup = new Konva.Group({
+    id: groupId,
+    name: 'group-ui-pseudoLayer-main',
+    draggable: true
+  });
+
+  // index the group
+  canvasState.groups[groupId] = uiGroup;
+  canvasState.index['group-ui-pseudoLayer-main'] = groupId;
+
+  // content
+  const greyBox = new Konva.Rect({ x: 150, y: 100, width: 150, height: 100, fill: 'gray' });
+  uiGroup.add(greyBox);
+
+  // ADD THE GROUP OBJECT, NOT THE ID
+  uiLayer.add(uiGroup);
+};
         
         const attachDragCamera = () => {
             const stage = canvasState.stage;
