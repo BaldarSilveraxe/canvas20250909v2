@@ -184,19 +184,14 @@ const board = (() => {
                 };
             };
 
-const getScaleConstraints = () => {
-    const { vw, vh } = getViewportSize();
-    // Calculate minimum scale to ensure world always fills viewport
-    // Use the larger ratio to ensure both dimensions are at least viewport size
-    const minScaleX = vw / config.world.width;
-    const minScaleY = vh / config.world.height;
-    const calculatedMin = Math.max(minScaleX, minScaleY);
-    
-    return {
-        min: Math.max(config.zoom.scaleMin, calculatedMin),
-        max: config.zoom.scaleMax
-    };
-};
+            const getScaleConstraints = () => {
+                const { vw, vh } = getViewportSize();
+                const worldMinSide = Math.min(config.world.width, config.world.height);
+                return {
+                    min: Math.max(config.zoom.scaleMin, Math.min(vw, vh) / worldMinSide),
+                    max: config.zoom.scaleMax
+                };
+            };
 
             const sync = () => {
                 const p = camWorld.position();
