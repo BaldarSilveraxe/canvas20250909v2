@@ -131,6 +131,7 @@ const board = (() => {
         };
 
         return {
+            addNode,
             clampAxis,
             removeByName,
             getNodeByName,
@@ -140,6 +141,7 @@ const board = (() => {
 
     const build = () => {
         const {
+            addNode,
             clampAxis,
             removeByName,
             getNodeByName,
