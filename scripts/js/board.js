@@ -184,14 +184,14 @@ const board = (() => {
                 };
             };
 
-            const getScaleConstraints = () => {
-                const { vw, vh } = getViewportSize();
-                const worldMinSide = Math.min(config.world.width, config.world.height);
-                return {
-                    min: Math.max(config.zoom.scaleMin, Math.min(vw, vh) / worldMinSide),
-                    max: config.zoom.scaleMax
-                };
-            };
+const getScaleConstraints = () => {
+    const { vw, vh } = getViewportSize();
+    const worldMinSide = Math.min(config.world.width, config.world.height);
+    return {
+        min: Math.max(config.zoom.scaleMin, Math.min(vw, vh) / worldMinSide),
+        max: config.zoom.scaleMax
+    };
+};
 
             const sync = () => {
                 const p = camWorld.position();
