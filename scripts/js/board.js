@@ -194,19 +194,22 @@ const board = (() => {
                 };
             };
 
-const getScaleConstraints = () => {
-    const { vw, vh } = getViewportSize();
-    // Calculate minimum scale to ensure world always fills viewport
-    // Use the larger ratio to ensure both dimensions are at least viewport size
-    const minScaleX = vw / config.world.width;   // Scale needed to fill viewport width
-    const minScaleY = vh / config.world.height;  // Scale needed to fill viewport height
-    const calculatedMin = Math.max(minScaleX, minScaleY); // Use whichever is larger
-    
-    return {
-        min: Math.max(config.zoom.scaleMin, calculatedMin),
-        max: config.zoom.scaleMax
-    };
-};
+            const getScaleConstraints = () => {
+                const {
+                    vw,
+                    vh
+                } = getViewportSize();
+                // Calculate minimum scale to ensure world always fills viewport
+                // Use the larger ratio to ensure both dimensions are at least viewport size
+                const minScaleX = vw / config.world.width; // Scale needed to fill viewport width
+                const minScaleY = vh / config.world.height; // Scale needed to fill viewport height
+                const calculatedMin = Math.max(minScaleX, minScaleY); // Use whichever is larger
+
+                return {
+                    min: Math.max(config.zoom.scaleMin, calculatedMin),
+                    max: config.zoom.scaleMax
+                };
+            };
 
             const sync = () => {
                 const p = camWorld.position();
@@ -229,6 +232,18 @@ const getScaleConstraints = () => {
 
                 const W = Math.round(config.world.width * sx);
                 const H = Math.round(config.world.height * sy);
+
+                // integer clamp avoids subpixel drift leaving 1px gutters
+                //const clampAxis = (val, view, content) => {
+                //    if (content <= view) {
+                //        // locked center when content smaller than viewport on that axis
+                //        return Math.round((view - content) / 2);
+                //    }
+                //    const min = Math.floor(view - content); // most negative allowed
+                //    const max = 0; // most positive allowed
+                //    const v = Math.round(val);
+                //    return Math.max(min, Math.min(v, max));
+                //};
 
                 return {
                     x: clampAxis(pos.x, vw, W),
@@ -625,25 +640,34 @@ const getScaleConstraints = () => {
             // Debounced resize handler with cached calculations
             let resizeTimeout;
             const onResize = () => {
-    const nw = container.clientWidth;
-    const nh = container.clientHeight;
-    canvasState.stage.size({ width: nw, height: nh });
+                const nw = container.clientWidth;
+                const nh = container.clientHeight;
+                canvasState.stage.size({
+                    width: nw,
+                    height: nh
+                });
 
-    const camWorld = getNodeByName('group-world-pseudoLayer-camera-wrap');
-    const camItems = getNodeByName('group-items-pseudoLayer-camera-wrap');
-    if (!camWorld || !camItems) return;
+                const camWorld = getNodeByName('group-world-pseudoLayer-camera-wrap');
+                const camItems = getNodeByName('group-items-pseudoLayer-camera-wrap');
+                if (!camWorld || !camItems) return;
 
-    // Use the same scale constraint logic as in getScaleConstraints
-    const minScaleX = nw / config.world.width;
-    const minScaleY = nh / config.world.height;
-    const calculatedMin = Math.max(minScaleX, minScaleY);
-    const minScale = Math.max(config.zoom.scaleMin, calculatedMin);
+                // Use the same scale constraint logic as in getScaleConstraints
+                const minScaleX = nw / config.world.width;
+                const minScaleY = nh / config.world.height;
+                const calculatedMin = Math.max(minScaleX, minScaleY);
+                const minScale = Math.max(config.zoom.scaleMin, calculatedMin);
 
-    const s = camWorld.scaleX() || 1;
-    if (s < minScale) {
-        camWorld.scale({ x: minScale, y: minScale });
-        camItems.scale({ x: minScale, y: minScale });
-    }
+                const s = camWorld.scaleX() || 1;
+                if (s < minScale) {
+                    camWorld.scale({
+                        x: minScale,
+                        y: minScale
+                    });
+                    camItems.scale({
+                        x: minScale,
+                        y: minScale
+                    });
+                }
 
                 // re-clamp the current position (shared clamping logic)
                 const abs = camWorld.getAbsoluteScale();
@@ -651,6 +675,14 @@ const getScaleConstraints = () => {
                 const sy = abs.y || 1;
                 const W = Math.round(config.world.width * sx);
                 const H = Math.round(config.world.height * sy);
+
+                //const clampAxis = (val, view, content) => {
+                //    if (content <= view) return Math.round((view - content) / 2);
+                //    const min = Math.floor(view - content);
+                //    const max = 0;
+                //    const v = Math.round(val);
+                //    return Math.max(min, Math.min(v, max));
+                //};
 
                 const bounded = {
                     x: clampAxis(camWorld.x(), nw, W),
