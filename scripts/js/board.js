@@ -171,7 +171,6 @@ const board = (() => {
             camWorld.getLayer()?.batchDraw();
             camItems.getLayer()?.batchDraw();
 
-
             camWorld.dragBoundFunc(clamp);
             camWorld.on('dragmove', sync);
 
@@ -388,7 +387,7 @@ const board = (() => {
             }
             thePseudoLayer.add(gridShape);
 
-            return gridShape;
+            //return gridShape;
         };
 
         const makeWorldRect = () => {
@@ -493,7 +492,6 @@ const board = (() => {
             window.addEventListener('resize', onResize);
         };
 
-
         return {
             makeStage,
             makeLayers,
@@ -534,9 +532,6 @@ const board = (() => {
             makeWorldRect();
             makeGrid();
             attachDragCamera();
-
-
-
 
             // One paint at the end:
             canvasState.stage.getLayers().forEach(l => l.batchDraw());
