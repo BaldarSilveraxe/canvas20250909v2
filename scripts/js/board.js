@@ -477,7 +477,7 @@ const path = new Konva.Path({
     draggable: true
 });
 kObj.add(container);
-container.add(path);   
+kObj.add(path);   
 //kObj.add(bgr);    
 //kObj.add(bg);
 //kObj.add(bgc);
