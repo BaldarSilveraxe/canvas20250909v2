@@ -393,6 +393,10 @@ const teardown = () => {
             };
         };
 
+const makeBoardControls = () => {
+
+};
+
         const makeGrid = () => {
             removeByName(config.grid.name);
 
@@ -705,6 +709,7 @@ const teardown = () => {
             makePseudoLayers,
             makeWorldRect,
             makeGrid,
+            makeBoardControls,
             attachDragCamera,
             makeUi,
             removeByName,
@@ -721,6 +726,7 @@ const teardown = () => {
             makePseudoLayers,
             makeWorldRect,
             makeGrid,
+            makeBoardControls,
             attachDragCamera,
             makeUi,
             removeByName,
