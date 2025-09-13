@@ -394,14 +394,21 @@ const teardown = () => {
         };
 
 const makeBoardControls = () => {
+const kObj  = new Konva.Group({
+    name: name,
+    x: 100,
+    Y: 100,
+    draggable: true
+});
   const bg = new Konva.Circle({
     radius: 24,
     fill: 'black',
     stroke: 'white',
     strokeWidth: 4
   });
+     kObj.add(bg);
 const targetGroup = getNodeByName('group-ui-pseudoLayer-main');
-    targetGroup.add(bg);
+    targetGroup.add( kObj);
 };
 
         const makeGrid = () => {
