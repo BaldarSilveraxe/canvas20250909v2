@@ -403,10 +403,23 @@ const kObj  = new Konva.Group({
 const bgr = new Konva.Rect({
     x: 0,
     y: 100,
-    offsetX: 31.5,
+    offsetX: 31,
     offsetY: 24,
-    width: 63,
+    width: 62,
     height: 42,
+    cornerRadius: 21,
+    fill: 'black',
+    stroke: 'white',
+    strokeWidth: 1,
+    opacity: 0.75
+});
+const bgr = new Konva.Rect({
+    x: 0,
+    y: 0,
+    offsetX: 5,
+    offsetY: 0,
+    width: 10,
+    height: 100,
     cornerRadius: 21,
     fill: 'black',
     stroke: 'white',
