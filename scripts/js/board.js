@@ -444,7 +444,10 @@ const bgc = new Konva.Circle({
     stroke: 'white',
     strokeWidth: 1
 });
-
+bgr.cache(); // important: do this before filters
+bgr.filters([Konva.Filters.Blur]);
+bgr.blurRadius(2); // try 1–3 for subtle softness
+    
 kObj.add(track1);
 kObj.add(bgr);    
 kObj.add(bg);
