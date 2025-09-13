@@ -239,7 +239,11 @@ const clamp = (pos) => {
   camWorld.on('dragstart',  () => { setCursor('grabbing'); setSelect('none'); });
   const endDrag = () => { setCursor('default'); setSelect('auto'); };
   camWorld.on('dragend', endDrag);
-  stage.on('contentMouseup contentTouchend contentMouseout', endDrag);
+  // stage.on('contentMouseup contentTouchend contentMouseout', endDrag);
+const endDragHandler = endDrag; // Change
+stage.on('contentMouseup', endDragHandler); // Change
+stage.on('contentTouchend', endDragHandler);  // Change
+stage.on('contentMouseout', endDragHandler); // Change
 
   // --- ZOOM (Alt/Option + wheel), with dynamic min-scale ---------------------
   stage.on('wheel', (e) => {
