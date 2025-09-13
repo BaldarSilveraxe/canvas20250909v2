@@ -407,6 +407,7 @@ const track1 = new Konva.Rect({
     offsetY: 0,
     width: 10,
     height: 200,
+     cornerRadius: 5,
     fill: 'black',
     stroke: '#36454F',
     strokeWidth: 1
@@ -414,9 +415,9 @@ const track1 = new Konva.Rect({
 const bgr = new Konva.Rect({
     x: 0,
     y: 100,
-    offsetX: 31,
+    offsetX: 26,
     offsetY: 24,
-    width: 62,
+    width: 52,
     height: 42,
     cornerRadius: 21,
     fill: 'black',
@@ -450,8 +451,8 @@ const bgc = new Konva.Circle({
     
 kObj.add(track1);
 kObj.add(bgr);    
-kObj.add(bg);
-kObj.add(bgc);
+//kObj.add(bg);
+//kObj.add(bgc);
 const targetGroup = getNodeByName('group-ui-pseudoLayer-main');
 targetGroup.add( kObj);
 
