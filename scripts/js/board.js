@@ -404,7 +404,8 @@ const kObj  = new Konva.Group({
     radius: 24,
     fill: 'black',
     stroke: 'white',
-    strokeWidth: 4
+    strokeWidth: 4,
+      opacity: 0.5
   });
      kObj.add(bg);
 const targetGroup = getNodeByName('group-ui-pseudoLayer-main');
