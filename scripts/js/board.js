@@ -473,7 +473,8 @@ const path = new Konva.Path({
   scale: {
     x: 0.08203125,
     y: 0.08203125
-  }
+  },
+    draggable: true
 });
 kObj.add(container);
 kObj.add(path);
