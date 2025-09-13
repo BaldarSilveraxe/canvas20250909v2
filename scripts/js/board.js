@@ -133,8 +133,26 @@ const makeUi = () => {
   canvasState.index['group-ui-pseudoLayer-main'] = groupId;
 
   // content
+  const complexText = new Konva.Text({
+    x: 150,
+    y: 100,
+    text: "This is a simple text frame example.\n\n" +
+          "It demonstrates how to wrap a Konva.Text node inside a Konva.Rect node.",
+    fontSize: 18,
+    fontFamily: 'Calibri',
+    fill: '#555',
+    width: 150,
+      height: 100,
+    padding: 20,
+    align: 'center'
+});
   const greyBox = new Konva.Rect({ x: 150, y: 100, width: 150, height: 100, fill: 'gray' });
-  uiGroup.add(greyBox);
+  
+
+const textGroup = new Konva.Group();
+textGroup.add(greyBox);
+textGroup.add(complexText);
+    uiGroup.add(textGroup);
 
   // ADD THE GROUP OBJECT, NOT THE ID
   uiLayer.add(uiGroup);
