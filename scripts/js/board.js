@@ -138,8 +138,9 @@ const makeUi = () => {
   
 
 const textGroup = new Konva.Group();
+    textGroup.add(greyBox);
     textGroup.add(complexText);
-textGroup.add(greyBox);
+
 
     uiGroup.add(textGroup);
 
