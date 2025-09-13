@@ -170,7 +170,7 @@ const board = (() => {
         };
 
         const attachDragCamera = () => {
-            const stage    = canvasState.stage;
+            const stage = canvasState.stage;
             const camWorld = getNodeByName('group-world-pseudoLayer-camera-wrap');
             const camItems = getNodeByName('group-items-pseudoLayer-camera-wrap');
             if (!camWorld || !camItems) throw new Error('[camera] wrappers missing');
@@ -179,13 +179,16 @@ const board = (() => {
             const getViewportSize = () => {
                 const c = stage.container();
                 return {
-                    vw: c.clientWidth  || stage.width(),
+                    vw: c.clientWidth || stage.width(),
                     vh: c.clientHeight || stage.height(),
                 };
             };
 
             const getScaleConstraints = () => {
-                const { vw, vh } = getViewportSize();
+                const {
+                    vw,
+                    vh
+                } = getViewportSize();
                 const worldMinSide = Math.min(config.world.width, config.world.height);
                 return {
                     min: Math.max(config.zoom.scaleMin, Math.min(vw, vh) / worldMinSide),
@@ -202,14 +205,17 @@ const board = (() => {
 
             // Clamp that works for both pan & zoom (axis-aware, absolute scale, integer bounds)
             const clamp = (pos) => {
-                const { vw, vh } = getViewportSize();
+                const {
+                    vw,
+                    vh
+                } = getViewportSize();
 
                 // use absolute scale in case a parent (layer) gets transformed in future
                 const abs = camWorld.getAbsoluteScale();
                 const sx = abs.x || 1;
                 const sy = abs.y || 1;
 
-                const W = Math.round(config.world.width  * sx);
+                const W = Math.round(config.world.width * sx);
                 const H = Math.round(config.world.height * sy);
 
                 // integer clamp avoids subpixel drift leaving 1px gutters
@@ -219,12 +225,15 @@ const board = (() => {
                         return Math.round((view - content) / 2);
                     }
                     const min = Math.floor(view - content); // most negative allowed
-                    const max = 0;                          // most positive allowed
-                    const v   = Math.round(val);
+                    const max = 0; // most positive allowed
+                    const v = Math.round(val);
                     return Math.max(min, Math.min(v, max));
                 };
 
-                return { x: clampAxis(pos.x, vw, W), y: clampAxis(pos.y, vh, H) };
+                return {
+                    x: clampAxis(pos.x, vw, W),
+                    y: clampAxis(pos.y, vh, H)
+                };
             };
 
             // --- PAN -------------------------------------------------------------------
@@ -235,14 +244,24 @@ const board = (() => {
 
             // --- UX niceties -----------------------------------------------------------
             const c = stage.container();
-            const setCursor = (v) => { c.style.cursor = v; };
-            const setSelect = (v) => { c.style.userSelect = v; };
+            const setCursor = (v) => {
+                c.style.cursor = v;
+            };
+            const setSelect = (v) => {
+                c.style.userSelect = v;
+            };
             camWorld.on('mouseenter', () => setCursor('grab'));
             camWorld.on('mouseleave', () => setCursor('default'));
-            camWorld.on('dragstart',  () => { setCursor('grabbing'); setSelect('none'); });
-            const endDrag = () => { setCursor('default'); setSelect('auto'); };
+            camWorld.on('dragstart', () => {
+                setCursor('grabbing');
+                setSelect('none');
+            });
+            const endDrag = () => {
+                setCursor('default');
+                setSelect('auto');
+            };
             camWorld.on('dragend', endDrag);
-            
+
             const endDragHandler = endDrag;
             stage.on('contentMouseup', endDragHandler);
             stage.on('contentTouchend', endDragHandler);
@@ -250,16 +269,19 @@ const board = (() => {
 
             // --- ZOOM (Alt/Option + wheel), with dynamic min-scale ---------------------
             stage.on('wheel', (e) => {
-                if (!e.evt.altKey) return;           // only when Alt is held
-                e.evt.preventDefault();              // stop page scroll
+                if (!e.evt.altKey) return; // only when Alt is held
+                e.evt.preventDefault(); // stop page scroll
 
                 const oldScale = camWorld.scaleX() || 1;
-                const scaleBy  = 1.1;
-                const dir      = e.evt.deltaY > 0 ? 1 : -1;
-                let newScale   = dir > 0 ? oldScale / scaleBy : oldScale * scaleBy;
+                const scaleBy = 1.1;
+                const dir = e.evt.deltaY > 0 ? 1 : -1;
+                let newScale = dir > 0 ? oldScale / scaleBy : oldScale * scaleBy;
 
                 // clamp zoom to dynamic min (and configured max) using cached constraints
-                const { min: minScale, max: maxScale } = getScaleConstraints();
+                const {
+                    min: minScale,
+                    max: maxScale
+                } = getScaleConstraints();
                 newScale = Math.max(minScale, Math.min(maxScale, newScale));
                 if (newScale === oldScale) return;
 
@@ -276,8 +298,14 @@ const board = (() => {
                     y: pointer.y - mousePointTo.y * newScale
                 };
 
-                camWorld.scale({ x: newScale, y: newScale });
-                camItems.scale({ x: newScale, y: newScale });
+                camWorld.scale({
+                    x: newScale,
+                    y: newScale
+                });
+                camItems.scale({
+                    x: newScale,
+                    y: newScale
+                });
 
                 const bounded = clamp(newPos);
                 camWorld.position(bounded);
@@ -290,10 +318,18 @@ const board = (() => {
             // --- Initial snap: enforce min scale & bounds ------------------------------
             {
                 const s = camWorld.scaleX() || 1;
-                const { min: minScale } = getScaleConstraints();
+                const {
+                    min: minScale
+                } = getScaleConstraints();
                 if (s < minScale) {
-                    camWorld.scale({ x: minScale, y: minScale });
-                    camItems.scale({ x: minScale, y: minScale });
+                    camWorld.scale({
+                        x: minScale,
+                        y: minScale
+                    });
+                    camItems.scale({
+                        x: minScale,
+                        y: minScale
+                    });
                 }
                 const p0 = clamp(camWorld.position());
                 camWorld.position(p0);
@@ -308,13 +344,18 @@ const board = (() => {
             // tiny API
             return {
                 setCamera: (x, y) => {
-                    const bounded = clamp({ x, y });
+                    const bounded = clamp({
+                        x,
+                        y
+                    });
                     camWorld.position(bounded);
                     camItems.position(bounded);
                     camWorld.getLayer()?.batchDraw();
                     camItems.getLayer()?.batchDraw();
                 },
-                getCamera: () => ({ ...camWorld.position() }),
+                getCamera: () => ({
+                    ...camWorld.position()
+                }),
                 getScaleConstraints, // Expose for external use
             };
         };
@@ -562,8 +603,8 @@ const board = (() => {
             container.style.height = '100%';
             container.style.overflow = 'hidden';
             container.style.padding = '0';
-            container.style.margin  = '0';
-            container.style.border  = '0';
+            container.style.margin = '0';
+            container.style.border = '0';
 
             const w = container.clientWidth;
             const h = container.clientHeight;
@@ -581,7 +622,10 @@ const board = (() => {
             const onResize = () => {
                 const nw = container.clientWidth;
                 const nh = container.clientHeight;
-                canvasState.stage.size({ width: nw, height: nh });
+                canvasState.stage.size({
+                    width: nw,
+                    height: nh
+                });
 
                 const camWorld = getNodeByName('group-world-pseudoLayer-camera-wrap');
                 const camItems = getNodeByName('group-items-pseudoLayer-camera-wrap');
@@ -593,22 +637,28 @@ const board = (() => {
 
                 const s = camWorld.scaleX() || 1;
                 if (s < minScale) {
-                    camWorld.scale({ x: minScale, y: minScale });
-                    camItems.scale({ x: minScale, y: minScale });
+                    camWorld.scale({
+                        x: minScale,
+                        y: minScale
+                    });
+                    camItems.scale({
+                        x: minScale,
+                        y: minScale
+                    });
                 }
 
                 // re-clamp the current position (shared clamping logic)
                 const abs = camWorld.getAbsoluteScale();
-                const sx  = abs.x || 1;
-                const sy  = abs.y || 1;
-                const W   = Math.round(config.world.width  * sx);
-                const H   = Math.round(config.world.height * sy);
+                const sx = abs.x || 1;
+                const sy = abs.y || 1;
+                const W = Math.round(config.world.width * sx);
+                const H = Math.round(config.world.height * sy);
 
                 const clampAxis = (val, view, content) => {
                     if (content <= view) return Math.round((view - content) / 2);
                     const min = Math.floor(view - content);
                     const max = 0;
-                    const v   = Math.round(val);
+                    const v = Math.round(val);
                     return Math.max(min, Math.min(v, max));
                 };
 
