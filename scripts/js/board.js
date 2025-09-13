@@ -637,32 +637,25 @@ const getScaleConstraints = () => {
             // Debounced resize handler with cached calculations
             let resizeTimeout;
             const onResize = () => {
-                const nw = container.clientWidth;
-                const nh = container.clientHeight;
-                canvasState.stage.size({
-                    width: nw,
-                    height: nh
-                });
+    const nw = container.clientWidth;
+    const nh = container.clientHeight;
+    canvasState.stage.size({ width: nw, height: nh });
 
-                const camWorld = getNodeByName('group-world-pseudoLayer-camera-wrap');
-                const camItems = getNodeByName('group-items-pseudoLayer-camera-wrap');
-                if (!camWorld || !camItems) return;
+    const camWorld = getNodeByName('group-world-pseudoLayer-camera-wrap');
+    const camItems = getNodeByName('group-items-pseudoLayer-camera-wrap');
+    if (!camWorld || !camItems) return;
 
-                // Use cached scale constraint calculation
-                const worldMinSide = Math.min(config.world.width, config.world.height);
-                const minScale = Math.max(config.zoom.scaleMin, Math.min(nw, nh) / worldMinSide);
+    // Use the same scale constraint logic as in getScaleConstraints
+    const minScaleX = nw / config.world.width;
+    const minScaleY = nh / config.world.height;
+    const calculatedMin = Math.max(minScaleX, minScaleY);
+    const minScale = Math.max(config.zoom.scaleMin, calculatedMin);
 
-                const s = camWorld.scaleX() || 1;
-                if (s < minScale) {
-                    camWorld.scale({
-                        x: minScale,
-                        y: minScale
-                    });
-                    camItems.scale({
-                        x: minScale,
-                        y: minScale
-                    });
-                }
+    const s = camWorld.scaleX() || 1;
+    if (s < minScale) {
+        camWorld.scale({ x: minScale, y: minScale });
+        camItems.scale({ x: minScale, y: minScale });
+    }
 
                 // re-clamp the current position (shared clamping logic)
                 const abs = camWorld.getAbsoluteScale();
