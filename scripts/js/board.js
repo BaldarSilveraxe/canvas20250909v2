@@ -451,7 +451,7 @@ targetGroup.add( kObj);
       anchorFill: '#0b0d0f',
       padding: 4
     });
-    cardLayer.add(tr);
+   targetGroup.add(tr);
 
     stage.on('click', (e) => {
       const g = e.target.findAncestor('Group');
