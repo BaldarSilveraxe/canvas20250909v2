@@ -628,7 +628,9 @@ const onResize = () => {
   camItems.getLayer()?.batchDraw();
 };
 
-            window.addEventListener('resize', onResize);
+            // window.addEventListener('resize', onResize);
+            let resizeHandler = onResize;
+            window.addEventListener('resize', resizeHandler);
         };
 
         return {
