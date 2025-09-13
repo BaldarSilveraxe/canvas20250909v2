@@ -165,111 +165,130 @@ const board = (() => {
 
         };
 
-        const attachDragCamera = () => {
-            const stage = canvasState.stage;
-            const camWorld = getNodeByName('group-world-pseudoLayer-camera-wrap');
-            const camItems = getNodeByName('group-items-pseudoLayer-camera-wrap');
-            if (!camWorld || !camItems) throw new Error('[camera] wrappers missing');
+const attachDragCamera = () => {
+  const stage    = canvasState.stage;
+  const camWorld = getNodeByName('group-world-pseudoLayer-camera-wrap');
+  const camItems = getNodeByName('group-items-pseudoLayer-camera-wrap');
+  if (!camWorld || !camItems) throw new Error('[camera] wrappers missing');
 
-            // ensure only world camera is draggable
-            camWorld.draggable(true);
-            camItems.draggable(false);
+  // PAN (unchanged)
+  camWorld.draggable(true);
+  camItems.draggable(false);
 
-            // keep items camera in lockstep
-            const sync = () => {
-                const p = camWorld.position();
-                camItems.position(p);
-                camWorld.getLayer()?.batchDraw();
-                camItems.getLayer()?.batchDraw();
-            };
+  const sync = () => {
+    const p = camWorld.position();
+    camItems.position(p);
+    camWorld.getLayer()?.batchDraw();
+    camItems.getLayer()?.batchDraw();
+  };
 
-            // clamp so you can’t fling the world off-screen (no zoom yet)
-            // replace your clamp with this (works with future zoom too)
-            const clamp = (pos) => {
-                const container = stage.container();
-                const vw = container.clientWidth || stage.width(); // viewport width
-                const vh = container.clientHeight || stage.height(); // viewport height
+  // clamp that works for both pan & zoom
+  const clamp = (pos) => {
+    const container = stage.container();
+    const vw = container.clientWidth  || stage.width();
+    const vh = container.clientHeight || stage.height();
 
-                const s = camWorld.scaleX() || 1; // camera scale
-                const W = config.world.width * s; // content width in screen px
-                const H = config.world.height * s; // content height
+    const s = camWorld.scaleX() || 1;
+    const W = config.world.width  * s;
+    const H = config.world.height * s;
 
-                // If content is larger than viewport: allow panning within [vw - W, 0]
-                // If smaller: lock centered (same min & max)
-                const clampAxis = (val, view, content) => {
-                    if (content <= view) {
-                        const center = Math.round((view - content) / 2);
-                        return center; // locked center
-                    }
-                    const min = view - content; // negative
-                    const max = 0;
-                    return Math.max(min, Math.min(val, max));
-                };
+    const clampAxis = (val, view, content) => {
+      if (content <= view) {
+        // center when world smaller than viewport
+        return Math.round((view - content) / 2);
+      }
+      const min = view - content; // negative
+      const max = 0;
+      return Math.max(min, Math.min(val, max));
+    };
 
-                return {
-                    x: clampAxis(pos.x, vw, W),
-                    y: clampAxis(pos.y, vh, H),
-                };
-            };
+    return { x: clampAxis(pos.x, vw, W), y: clampAxis(pos.y, vh, H) };
+  };
 
-            // snap once into bounds so the initial position is valid
-            const p0 = clamp(camWorld.position());
-            camWorld.position(p0);
-            camItems.position(p0);
-            camWorld.getLayer()?.batchDraw();
-            camItems.getLayer()?.batchDraw();
+  // snap once into bounds so the initial position is valid
+  {
+    const p0 = clamp(camWorld.position());
+    camWorld.position(p0);
+    camItems.position(p0);
+    camWorld.getLayer()?.batchDraw();
+    camItems.getLayer()?.batchDraw();
+  }
 
-            camWorld.dragBoundFunc(clamp);
-            camWorld.on('dragmove', sync);
+  camWorld.dragBoundFunc(clamp);
+  camWorld.on('dragmove', sync);
 
-            // nice UX: cursor + prevent text selection while dragging
-            const c = stage.container();
-            const setCursor = (v) => {
-                c.style.cursor = v;
-            };
-            const setSelect = (v) => {
-                c.style.userSelect = v;
-            };
-            camWorld.on('mouseenter', () => setCursor('grab'));
-            camWorld.on('mouseleave', () => setCursor('default'));
+  // UX niceties
+  const c = stage.container();
+  const setCursor = (v) => { c.style.cursor = v; };
+  const setSelect = (v) => { c.style.userSelect = v; };
 
-            // ONLY change to grabbing when a *real* drag starts
-            camWorld.on('dragstart', () => {
-                setCursor('grabbing');
-                setSelect('none');
-            });
+  camWorld.on('mouseenter', () => setCursor('grab'));
+  camWorld.on('mouseleave', () => setCursor('default'));
+  camWorld.on('dragstart',  () => { setCursor('grabbing'); setSelect('none'); });
+  const endDrag = () => { setCursor('default'); setSelect('auto'); };
+  camWorld.on('dragend', endDrag);
+  stage.on('contentMouseup contentTouchend contentMouseout', endDrag);
 
-            // finish/reset when drag ends
-            const endDrag = () => {
-                setCursor('default');
-                setSelect('auto');
-            };
-            camWorld.on('dragend', endDrag);
+  // === ZOOM (Alt/Option + wheel) ===
+  stage.on('wheel', (e) => {
+    if (!e.evt.altKey) return;            // only when Alt is held
+    e.evt.preventDefault();               // stop page scroll
 
-            // safety net: mouseup / pointer leaving the canvas without dragend
-            stage.on('contentMouseup', endDrag);
-            stage.on('contentTouchend', endDrag);
-            stage.on('contentMouseout', endDrag);
-            // initial align (in case something pre-set positions)
-            sync();
+    const oldScale = camWorld.scaleX() || 1;
+    const scaleBy  = 1.1;
+    const dir      = e.evt.deltaY > 0 ? 1 : -1;
+    let newScale   = dir > 0 ? oldScale / scaleBy : oldScale * scaleBy;
 
-            // tiny API if you want to move programmatically
-            return {
-                setCamera: (x, y) => {
-                    const bounded = clamp({
-                        x,
-                        y
-                    });
-                    camWorld.position(bounded);
-                    camItems.position(bounded);
-                    camWorld.getLayer()?.batchDraw();
-                    camItems.getLayer()?.batchDraw();
-                },
-                getCamera: () => ({
-                    ...camWorld.position()
-                })
-            };
-        };
+    // clamp zoom
+    newScale = Math.max(config.zoom.scaleMin, Math.min(config.zoom.scaleMax, newScale));
+    if (newScale === oldScale) return;    // nothing to do
+
+    // zoom around pointer
+    const pointer = stage.getPointerPosition();
+    if (!pointer) return;
+
+    // where the pointer is in "world" coords (before scaling)
+    const mousePointTo = {
+      x: (pointer.x - camWorld.x()) / oldScale,
+      y: (pointer.y - camWorld.y()) / oldScale
+    };
+
+    // new camera position so the pointer stays anchored
+    const newPos = {
+      x: pointer.x - mousePointTo.x * newScale,
+      y: pointer.y - mousePointTo.y * newScale
+    };
+
+    // apply scale to both cameras
+    camWorld.scale({ x: newScale, y: newScale });
+    camItems.scale({ x: newScale, y: newScale });
+
+    // clamp and apply position to both cameras
+    const bounded = clamp(newPos);
+    camWorld.position(bounded);
+    camItems.position(bounded);
+
+    // redraw
+    camWorld.getLayer()?.batchDraw();
+    camItems.getLayer()?.batchDraw();
+  });
+
+  // initial align
+  sync();
+
+  // tiny API if you want to move programmatically
+  return {
+    setCamera: (x, y) => {
+      const bounded = clamp({ x, y });
+      camWorld.position(bounded);
+      camItems.position(bounded);
+      camWorld.getLayer()?.batchDraw();
+      camItems.getLayer()?.batchDraw();
+    },
+    getCamera: () => ({ ...camWorld.position() })
+  };
+};
+
 
         const makeGrid = () => {
             removeByName(config.grid.name);
