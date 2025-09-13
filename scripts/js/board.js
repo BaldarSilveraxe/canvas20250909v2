@@ -7,6 +7,7 @@ const board = (() => {
         groups: {},
         shapes: {},
         index: {},
+        resizeHandler: null, // Store for cleanup
     };
 
     const config = {
@@ -93,6 +94,11 @@ const board = (() => {
 
         const teardown = () => {
             try {
+                // Clean up resize handler
+                if (canvasState.resizeHandler) {
+                    window.removeEventListener('resize', canvasState.resizeHandler);
+                    canvasState.resizeHandler = null;
+                }
                 canvasState.stage?.off();
                 canvasState.stage?.destroy();
             } catch {}
@@ -161,160 +167,157 @@ const board = (() => {
 
 
             uiGroup.add(textGroup);
-
-
         };
 
-const attachDragCamera = () => {
-  const stage    = canvasState.stage;
-  const camWorld = getNodeByName('group-world-pseudoLayer-camera-wrap');
-  const camItems = getNodeByName('group-items-pseudoLayer-camera-wrap');
-  if (!camWorld || !camItems) throw new Error('[camera] wrappers missing');
+        const attachDragCamera = () => {
+            const stage    = canvasState.stage;
+            const camWorld = getNodeByName('group-world-pseudoLayer-camera-wrap');
+            const camItems = getNodeByName('group-items-pseudoLayer-camera-wrap');
+            if (!camWorld || !camItems) throw new Error('[camera] wrappers missing');
 
-  // --- helpers ---------------------------------------------------------------
-  const getViewportSize = () => {
-    const c = stage.container();
-    return {
-      vw: c.clientWidth  || stage.width(),
-      vh: c.clientHeight || stage.height(),
-    };
-  };
+            // --- Cached calculations helper -------------------------------------------
+            const getViewportSize = () => {
+                const c = stage.container();
+                return {
+                    vw: c.clientWidth  || stage.width(),
+                    vh: c.clientHeight || stage.height(),
+                };
+            };
 
-  // Dynamic min scale: world must never be smaller than the viewport's shortest side
-  const getMinScaleForViewport = () => {
-    const { vw, vh } = getViewportSize();
-    const minViewport  = Math.min(vw, vh);
-    const worldMinSide = Math.min(config.world.width, config.world.height);
-    return Math.max(config.zoom.scaleMin, minViewport / worldMinSide);
-  };
+            const getScaleConstraints = () => {
+                const { vw, vh } = getViewportSize();
+                const worldMinSide = Math.min(config.world.width, config.world.height);
+                return {
+                    min: Math.max(config.zoom.scaleMin, Math.min(vw, vh) / worldMinSide),
+                    max: config.zoom.scaleMax
+                };
+            };
 
-  const sync = () => {
-    const p = camWorld.position();
-    camItems.position(p);
-    camWorld.getLayer()?.batchDraw();
-    camItems.getLayer()?.batchDraw();
-  };
+            const sync = () => {
+                const p = camWorld.position();
+                camItems.position(p);
+                camWorld.getLayer()?.batchDraw();
+                camItems.getLayer()?.batchDraw();
+            };
 
-  // Clamp that works for both pan & zoom
-// Clamp that works for both pan & zoom (axis-aware, absolute scale, integer bounds)
-const clamp = (pos) => {
-  const { vw, vh } = getViewportSize();
+            // Clamp that works for both pan & zoom (axis-aware, absolute scale, integer bounds)
+            const clamp = (pos) => {
+                const { vw, vh } = getViewportSize();
 
-  // use absolute scale in case a parent (layer) gets transformed in future
-  const abs = camWorld.getAbsoluteScale();
-  const sx = abs.x || 1;
-  const sy = abs.y || 1;
+                // use absolute scale in case a parent (layer) gets transformed in future
+                const abs = camWorld.getAbsoluteScale();
+                const sx = abs.x || 1;
+                const sy = abs.y || 1;
 
-  const W = Math.round(config.world.width  * sx);
-  const H = Math.round(config.world.height * sy);
+                const W = Math.round(config.world.width  * sx);
+                const H = Math.round(config.world.height * sy);
 
-  // integer clamp avoids subpixel drift leaving 1px gutters
-  const clampAxis = (val, view, content) => {
-    if (content <= view) {
-      // locked center when content smaller than viewport on that axis
-      return Math.round((view - content) / 2);
-    }
-    const min = Math.floor(view - content); // most negative allowed
-    const max = 0;                          // most positive allowed
-    const v   = Math.round(val);
-    return Math.max(min, Math.min(v, max));
-  };
+                // integer clamp avoids subpixel drift leaving 1px gutters
+                const clampAxis = (val, view, content) => {
+                    if (content <= view) {
+                        // locked center when content smaller than viewport on that axis
+                        return Math.round((view - content) / 2);
+                    }
+                    const min = Math.floor(view - content); // most negative allowed
+                    const max = 0;                          // most positive allowed
+                    const v   = Math.round(val);
+                    return Math.max(min, Math.min(v, max));
+                };
 
-  return { x: clampAxis(pos.x, vw, W), y: clampAxis(pos.y, vh, H) };
-};
+                return { x: clampAxis(pos.x, vw, W), y: clampAxis(pos.y, vh, H) };
+            };
 
+            // --- PAN -------------------------------------------------------------------
+            camWorld.draggable(true);
+            camItems.draggable(false);
+            camWorld.dragBoundFunc(clamp);
+            camWorld.on('dragmove', sync);
 
-  // --- PAN -------------------------------------------------------------------
-  camWorld.draggable(true);
-  camItems.draggable(false);
-  camWorld.dragBoundFunc(clamp);
-  camWorld.on('dragmove', sync);
+            // --- UX niceties -----------------------------------------------------------
+            const c = stage.container();
+            const setCursor = (v) => { c.style.cursor = v; };
+            const setSelect = (v) => { c.style.userSelect = v; };
+            camWorld.on('mouseenter', () => setCursor('grab'));
+            camWorld.on('mouseleave', () => setCursor('default'));
+            camWorld.on('dragstart',  () => { setCursor('grabbing'); setSelect('none'); });
+            const endDrag = () => { setCursor('default'); setSelect('auto'); };
+            camWorld.on('dragend', endDrag);
+            
+            const endDragHandler = endDrag;
+            stage.on('contentMouseup', endDragHandler);
+            stage.on('contentTouchend', endDragHandler);
+            stage.on('contentMouseout', endDragHandler);
 
-  // --- UX niceties -----------------------------------------------------------
-  const c = stage.container();
-  const setCursor = (v) => { c.style.cursor = v; };
-  const setSelect = (v) => { c.style.userSelect = v; };
-  camWorld.on('mouseenter', () => setCursor('grab'));
-  camWorld.on('mouseleave', () => setCursor('default'));
-  camWorld.on('dragstart',  () => { setCursor('grabbing'); setSelect('none'); });
-  const endDrag = () => { setCursor('default'); setSelect('auto'); };
-  camWorld.on('dragend', endDrag);
-  // stage.on('contentMouseup contentTouchend contentMouseout', endDrag);
-const endDragHandler = endDrag; // Change
-stage.on('contentMouseup', endDragHandler); // Change
-stage.on('contentTouchend', endDragHandler);  // Change
-stage.on('contentMouseout', endDragHandler); // Change
+            // --- ZOOM (Alt/Option + wheel), with dynamic min-scale ---------------------
+            stage.on('wheel', (e) => {
+                if (!e.evt.altKey) return;           // only when Alt is held
+                e.evt.preventDefault();              // stop page scroll
 
-  // --- ZOOM (Alt/Option + wheel), with dynamic min-scale ---------------------
-  stage.on('wheel', (e) => {
-    if (!e.evt.altKey) return;           // only when Alt is held
-    e.evt.preventDefault();              // stop page scroll
+                const oldScale = camWorld.scaleX() || 1;
+                const scaleBy  = 1.1;
+                const dir      = e.evt.deltaY > 0 ? 1 : -1;
+                let newScale   = dir > 0 ? oldScale / scaleBy : oldScale * scaleBy;
 
-    const oldScale = camWorld.scaleX() || 1;
-    const scaleBy  = 1.1;
-    const dir      = e.evt.deltaY > 0 ? 1 : -1;
-    let newScale   = dir > 0 ? oldScale / scaleBy : oldScale * scaleBy;
+                // clamp zoom to dynamic min (and configured max) using cached constraints
+                const { min: minScale, max: maxScale } = getScaleConstraints();
+                newScale = Math.max(minScale, Math.min(maxScale, newScale));
+                if (newScale === oldScale) return;
 
-    // clamp zoom to dynamic min (and configured max)
-    const minScale = getMinScaleForViewport();
-    newScale = Math.max(minScale, Math.min(config.zoom.scaleMax, newScale));
-    if (newScale === oldScale) return;
+                const pointer = stage.getPointerPosition();
+                if (!pointer) return;
 
-    const pointer = stage.getPointerPosition();
-    if (!pointer) return;
+                // anchor zoom at pointer
+                const mousePointTo = {
+                    x: (pointer.x - camWorld.x()) / oldScale,
+                    y: (pointer.y - camWorld.y()) / oldScale
+                };
+                const newPos = {
+                    x: pointer.x - mousePointTo.x * newScale,
+                    y: pointer.y - mousePointTo.y * newScale
+                };
 
-    // anchor zoom at pointer
-    const mousePointTo = {
-      x: (pointer.x - camWorld.x()) / oldScale,
-      y: (pointer.y - camWorld.y()) / oldScale
-    };
-    const newPos = {
-      x: pointer.x - mousePointTo.x * newScale,
-      y: pointer.y - mousePointTo.y * newScale
-    };
+                camWorld.scale({ x: newScale, y: newScale });
+                camItems.scale({ x: newScale, y: newScale });
 
-    camWorld.scale({ x: newScale, y: newScale });
-    camItems.scale({ x: newScale, y: newScale });
+                const bounded = clamp(newPos);
+                camWorld.position(bounded);
+                camItems.position(bounded);
 
-    const bounded = clamp(newPos);
-    camWorld.position(bounded);
-    camItems.position(bounded);
+                camWorld.getLayer()?.batchDraw();
+                camItems.getLayer()?.batchDraw();
+            });
 
-    camWorld.getLayer()?.batchDraw();
-    camItems.getLayer()?.batchDraw();
-  });
+            // --- Initial snap: enforce min scale & bounds ------------------------------
+            {
+                const s = camWorld.scaleX() || 1;
+                const { min: minScale } = getScaleConstraints();
+                if (s < minScale) {
+                    camWorld.scale({ x: minScale, y: minScale });
+                    camItems.scale({ x: minScale, y: minScale });
+                }
+                const p0 = clamp(camWorld.position());
+                camWorld.position(p0);
+                camItems.position(p0);
+                camWorld.getLayer()?.batchDraw();
+                camItems.getLayer()?.batchDraw();
+            }
 
-  // --- Initial snap: enforce min scale & bounds ------------------------------
-  {
-    const s = camWorld.scaleX() || 1;
-    const minScale = getMinScaleForViewport();
-    if (s < minScale) {
-      camWorld.scale({ x: minScale, y: minScale });
-      camItems.scale({ x: minScale, y: minScale });
-    }
-    const p0 = clamp(camWorld.position());
-    camWorld.position(p0);
-    camItems.position(p0);
-    camWorld.getLayer()?.batchDraw();
-    camItems.getLayer()?.batchDraw();
-  }
+            // initial align
+            sync();
 
-  // initial align
-  sync();
-
-  // tiny API
-  return {
-    setCamera: (x, y) => {
-      const bounded = clamp({ x, y });
-      camWorld.position(bounded);
-      camItems.position(bounded);
-      camWorld.getLayer()?.batchDraw();
-      camItems.getLayer()?.batchDraw();
-    },
-    getCamera: () => ({ ...camWorld.position() })
-  };
-};
-
+            // tiny API
+            return {
+                setCamera: (x, y) => {
+                    const bounded = clamp({ x, y });
+                    camWorld.position(bounded);
+                    camItems.position(bounded);
+                    camWorld.getLayer()?.batchDraw();
+                    camItems.getLayer()?.batchDraw();
+                },
+                getCamera: () => ({ ...camWorld.position() }),
+                getScaleConstraints, // Expose for external use
+            };
+        };
 
         const makeGrid = () => {
             removeByName(config.grid.name);
@@ -479,8 +482,6 @@ stage.on('contentMouseout', endDragHandler); // Change
                 throw new Error('[makeGrid] pseudo layer not found');
             }
             thePseudoLayer.add(gridShape);
-
-            //return gridShape;
         };
 
         const makeWorldRect = () => {
@@ -539,7 +540,6 @@ stage.on('contentMouseout', endDragHandler); // Change
         };
 
         const makeLayers = () => {
-            //let listening;
             config.layers.forEach(function(e, i) {
                 const layerId = crypto.randomUUID(),
                     layerName = `layer-${e}`;
@@ -547,7 +547,6 @@ stage.on('contentMouseout', endDragHandler); // Change
                     id: layerId,
                     name: layerName,
                     listening: true
-                    //listening: layerName === 'layer-ui' ? false : true
                 });
                 canvasState.index[layerName] = layerId;
                 canvasState.stage.add(canvasState.layers[layerId]);
@@ -563,8 +562,8 @@ stage.on('contentMouseout', endDragHandler); // Change
             container.style.height = '100%';
             container.style.overflow = 'hidden';
             container.style.padding = '0';
-container.style.margin  = '0';
-container.style.border  = '0';
+            container.style.margin  = '0';
+            container.style.border  = '0';
 
             const w = container.clientWidth;
             const h = container.clientHeight;
@@ -577,60 +576,61 @@ container.style.border  = '0';
                 height: h, // <— viewport height
             });
 
-            // Keep stage sized to viewport on window resize
-// inside makeStage -> onResize
-const onResize = () => {
-  const nw = container.clientWidth;
-  const nh = container.clientHeight;
-  canvasState.stage.size({ width: nw, height: nh });
+            // Debounced resize handler with cached calculations
+            let resizeTimeout;
+            const onResize = () => {
+                const nw = container.clientWidth;
+                const nh = container.clientHeight;
+                canvasState.stage.size({ width: nw, height: nh });
 
-  const camWorld = (canvasState.index['group-world-pseudoLayer-camera-wrap'])
-    ? canvasState.groups[canvasState.index['group-world-pseudoLayer-camera-wrap']]
-    : null;
-  const camItems = (canvasState.index['group-items-pseudoLayer-camera-wrap'])
-    ? canvasState.groups[canvasState.index['group-items-pseudoLayer-camera-wrap']]
-    : null;
-  if (!camWorld || !camItems) return;
+                const camWorld = getNodeByName('group-world-pseudoLayer-camera-wrap');
+                const camItems = getNodeByName('group-items-pseudoLayer-camera-wrap');
+                if (!camWorld || !camItems) return;
 
-  // dynamic min scale: shortest side fit
-  const worldMinSide = Math.min(config.world.width, config.world.height);
-  const minScale = Math.max(config.zoom.scaleMin, Math.min(nw, nh) / worldMinSide);
+                // Use cached scale constraint calculation
+                const worldMinSide = Math.min(config.world.width, config.world.height);
+                const minScale = Math.max(config.zoom.scaleMin, Math.min(nw, nh) / worldMinSide);
 
-  const s = camWorld.scaleX() || 1;
-  if (s < minScale) {
-    camWorld.scale({ x: minScale, y: minScale });
-    camItems.scale({ x: minScale, y: minScale });
-  }
+                const s = camWorld.scaleX() || 1;
+                if (s < minScale) {
+                    camWorld.scale({ x: minScale, y: minScale });
+                    camItems.scale({ x: minScale, y: minScale });
+                }
 
-  // re-clamp the current position (don’t force center unless smaller than viewport)
-  const abs = camWorld.getAbsoluteScale();
-  const sx  = abs.x || 1;
-  const sy  = abs.y || 1;
-  const W   = Math.round(config.world.width  * sx);
-  const H   = Math.round(config.world.height * sy);
+                // re-clamp the current position (shared clamping logic)
+                const abs = camWorld.getAbsoluteScale();
+                const sx  = abs.x || 1;
+                const sy  = abs.y || 1;
+                const W   = Math.round(config.world.width  * sx);
+                const H   = Math.round(config.world.height * sy);
 
-  const clampAxis = (val, view, content) => {
-    if (content <= view) return Math.round((view - content) / 2);
-    const min = Math.floor(view - content);
-    const max = 0;
-    const v   = Math.round(val);
-    return Math.max(min, Math.min(v, max));
-  };
+                const clampAxis = (val, view, content) => {
+                    if (content <= view) return Math.round((view - content) / 2);
+                    const min = Math.floor(view - content);
+                    const max = 0;
+                    const v   = Math.round(val);
+                    return Math.max(min, Math.min(v, max));
+                };
 
-  const bounded = {
-    x: clampAxis(camWorld.x(), nw, W),
-    y: clampAxis(camWorld.y(), nh, H),
-  };
-  camWorld.position(bounded);
-  camItems.position(bounded);
+                const bounded = {
+                    x: clampAxis(camWorld.x(), nw, W),
+                    y: clampAxis(camWorld.y(), nh, H),
+                };
+                camWorld.position(bounded);
+                camItems.position(bounded);
 
-  camWorld.getLayer()?.batchDraw();
-  camItems.getLayer()?.batchDraw();
-};
+                camWorld.getLayer()?.batchDraw();
+                camItems.getLayer()?.batchDraw();
+            };
 
-            // window.addEventListener('resize', onResize);
-            let resizeHandler = onResize;
-            window.addEventListener('resize', resizeHandler);
+            const debouncedResize = () => {
+                clearTimeout(resizeTimeout);
+                resizeTimeout = setTimeout(onResize, 16); // ~60fps
+            };
+
+            // Store reference for cleanup
+            canvasState.resizeHandler = debouncedResize;
+            window.addEventListener('resize', canvasState.resizeHandler);
         };
 
         return {
@@ -674,7 +674,7 @@ const onResize = () => {
             makePseudoLayers();
             makeWorldRect();
             makeGrid();
-            attachDragCamera();
+            const cameraAPI = attachDragCamera();
             makeUi();
 
             const redTextGroup = new Konva.Group({
@@ -733,7 +733,6 @@ const onResize = () => {
             stringLayer.add(redTextGroup);
             hostLayer.add(yellowTextGroup);
 
-
             // One paint at the end:
             canvasState.stage.getLayers().forEach(l => l.batchDraw());
         } catch (err) {
@@ -744,12 +743,23 @@ const onResize = () => {
         console.log('finished');
         console.log(canvasState);
 
-        // Public API
+        // Enhanced Public API
         return {
-            stage: canvasState.stage
-            // You should return the stage and other useful objects here
-            // so they can be used outside the module.
-            // ... (rest of the public API)
+            stage: canvasState.stage,
+            camera: cameraAPI,
+            addShape: (name, shape, layerName) => {
+                const layer = getNodeByName(layerName);
+                if (!layer) throw new Error(`Layer ${layerName} not found`);
+                const shapeId = crypto.randomUUID();
+                shape.id(shapeId);
+                canvasState.shapes[shapeId] = shape;
+                canvasState.index[name] = shapeId;
+                layer.add(shape);
+                return shape;
+            },
+            removeShape: removeByName,
+            getShape: getNodeByName,
+            destroy: teardown
         };
     };
 
