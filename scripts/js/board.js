@@ -118,9 +118,9 @@ const board = (() => {
         } = utility();
 
 const makeUi = () => {
-  const uiLayer = getNodeByName('layer-ui');
-  if (!uiLayer) throw new Error('[makeUi] layer-ui not found');
-
+    const uiLayer = getNodeByName('layer-ui');
+    if (!uiLayer) throw new Error('[makeUi] layer-ui not found');
+    uiLayer.add(uiGroup);
   const groupId = crypto.randomUUID();
   const uiGroup = new Konva.Group({
     id: groupId,
@@ -134,17 +134,9 @@ const makeUi = () => {
 
   // content
   const complexText = new Konva.Text({
-    x: 150,
-    y: 100,
+    x: 150, y: 100, width: 150, height: 100, padding: 20, align: 'center', fontSize: 18, fill: '#000000',
     text: "This is a simple text frame example.\n\n" +
-          "It demonstrates how to wrap a Konva.Text node inside a Konva.Rect node.",
-    fontSize: 18,
-    fontFamily: 'Calibri',
-    fill: '#555',
-    width: 150,
-      height: 100,
-    padding: 20,
-    align: 'center'
+          "Its within the UI layer and doesn't move with the camera."
 });
   const greyBox = new Konva.Rect({ x: 150, y: 100, width: 150, height: 100, fill: 'gray' });
   
@@ -156,7 +148,7 @@ textGroup.add(greyBox);
     uiGroup.add(textGroup);
 
   // ADD THE GROUP OBJECT, NOT THE ID
-  uiLayer.add(uiGroup);
+  
 };
         
         const attachDragCamera = () => {
