@@ -408,8 +408,8 @@ const track1 = new Konva.Rect({
     width: 10,
     height: 200,
      cornerRadius: 5,
-    fill: 'black',
-    stroke: '#191970',
+    fill: '#36454F',
+    stroke: '#c9bab0',
     strokeWidth: 1
 });
 const bgr = new Konva.Rect({
@@ -420,8 +420,8 @@ const bgr = new Konva.Rect({
     width: 52,
     height: 42,
     cornerRadius: 21,
-    fill: 'black',
-    stroke: '#191970',
+    fill: '#36454F',
+    stroke: '#c9bab0',
     strokeWidth: 1,
 });
 
@@ -431,8 +431,8 @@ const bg = new Konva.Circle({
     offsetX: 0,
     offsetY: 0,
     radius: 21,
-    fill: 'black',
-    stroke: '#191970',
+    fill: '#36454F',
+    stroke: '#c9bab0',
     strokeWidth: 1
 });
 const bgc = new Konva.Circle({
@@ -441,8 +441,8 @@ const bgc = new Konva.Circle({
     offsetX: 0,
     offsetY: 0,
     radius: 21,
-    fill: 'black',
-    stroke: '#191970',
+    fill: '#36454F',
+    stroke: '#c9bab0',
     strokeWidth: 1
 });
 //bgr.cache(); // important: do this before filters
