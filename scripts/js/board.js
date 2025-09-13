@@ -397,7 +397,7 @@ const makeBoardControls = () => {
 const kObj  = new Konva.Group({
     name: name,
     x: 100,
-    Y: 100,
+    y: 100,
     draggable: true
 });
 const bgr = new Konva.Rect({
@@ -407,7 +407,7 @@ const bgr = new Konva.Rect({
     offsetY: 24,
     width: 96,
     height: 48,
-    cornerRadius: [24, 24, 24, 24],
+    cornerRadius: 24,
     fill: 'black',
     stroke: 'white',
     strokeWidth: 1,
