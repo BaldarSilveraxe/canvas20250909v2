@@ -422,7 +422,6 @@ const bgr = new Konva.Rect({
     fill: 'black',
     stroke: 'white',
     strokeWidth: 1,
-    opacity: 0.75
 });
 
 const bg = new Konva.Circle({
