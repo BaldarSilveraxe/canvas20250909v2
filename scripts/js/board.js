@@ -653,120 +653,122 @@ const getScaleConstraints = () => {
         };
     };
 
-    const create = (kCanvas) => {
 
-        const {
-            makeStage,
-            makeLayers,
-            makeCameraWrappers,
-            makePseudoLayers,
-            makeWorldRect,
-            makeGrid,
-            attachDragCamera,
-            makeUi,
-            removeByName,
-            getNodeByName,
-            teardown
-        } = build();
+const create = (kCanvas) => {
+    const {
+        makeStage,
+        makeLayers,
+        makeCameraWrappers,
+        makePseudoLayers,
+        makeWorldRect,
+        makeGrid,
+        attachDragCamera,
+        makeUi,
+        removeByName,
+        getNodeByName,
+        teardown
+    } = build();
 
-        try {
-            makeStage(kCanvas); // may throw
-            if (!(canvasState.stage instanceof Konva.Stage)) {
-                throw new Error('board.create: stage not created');
-            }
-            makeLayers();
-            makeCameraWrappers();
-            makePseudoLayers();
-            makeWorldRect();
-            makeGrid();
-            const cameraAPI = attachDragCamera();
-            makeUi();
+    let cameraAPI; // Declare cameraAPI outside the try block
 
-            const redTextGroup = new Konva.Group({
-                draggable: true,
-                name: 'group-red'
-            });
-            const yellowTextGroup = new Konva.Group({
-                draggable: true,
-                name: 'group-yellow'
-            });
-            const redBox = new Konva.Rect({
-                x: 50,
-                y: 50,
-                width: 150,
-                height: 100,
-                fill: 'red',
-                draggable: false
-            });
-            const yellowTransparentBox = new Konva.Rect({
-                x: 250,
-                y: 150,
-                width: 150,
-                height: 100,
-                fill: 'yellow',
-                opacity: 0.4,
-                draggable: false
-            });
-            const redComplexText = new Konva.Text({
-                x: 50,
-                y: 50,
-                width: 150,
-                height: 100,
-                padding: 5,
-                align: 'center',
-                fontSize: 10,
-                fill: '#FFFFFF',
-                text: "This is a simple text frame example.\n\n" +
-                    "Its within the Items layer and does move with the camera."
-            });
-            const yellowComplexText = new Konva.Text({
-                x: 250,
-                y: 150,
-                width: 150,
-                height: 100,
-                padding: 5,
-                align: 'center',
-                fontSize: 10,
-                fill: '#000000',
-                text: "This is a simple text frame example.\n\n" +
-                    "Its within the Host layer and does move with the camera."
-            });
-            redTextGroup.add(redBox, redComplexText);
-            yellowTextGroup.add(yellowTransparentBox, yellowComplexText);
-            let stringLayer = getNodeByName('group-items-pseudoLayer-z-0');
-            let hostLayer = getNodeByName('group-items-pseudoLayer-z-40');
-            stringLayer.add(redTextGroup);
-            hostLayer.add(yellowTextGroup);
-
-            // One paint at the end:
-            canvasState.stage.getLayers().forEach(l => l.batchDraw());
-        } catch (err) {
-            teardown();
-            throw err; // surface the original error
+    try {
+        makeStage(kCanvas); // may throw
+        if (!(canvasState.stage instanceof Konva.Stage)) {
+            throw new Error('board.create: stage not created');
         }
+        makeLayers();
+        makeCameraWrappers();
+        makePseudoLayers();
+        makeWorldRect();
+        makeGrid();
+        cameraAPI = attachDragCamera(); // Assign to the declared variable
+        makeUi();
 
-        console.log('finished');
-        console.log(canvasState);
+        const redTextGroup = new Konva.Group({
+            draggable: true,
+            name: 'group-red'
+        });
+        const yellowTextGroup = new Konva.Group({
+            draggable: true,
+            name: 'group-yellow'
+        });
+        const redBox = new Konva.Rect({
+            x: 50,
+            y: 50,
+            width: 150,
+            height: 100,
+            fill: 'red',
+            draggable: false
+        });
+        const yellowTransparentBox = new Konva.Rect({
+            x: 250,
+            y: 150,
+            width: 150,
+            height: 100,
+            fill: 'yellow',
+            opacity: 0.4,
+            draggable: false
+        });
+        const redComplexText = new Konva.Text({
+            x: 50,
+            y: 50,
+            width: 150,
+            height: 100,
+            padding: 5,
+            align: 'center',
+            fontSize: 10,
+            fill: '#FFFFFF',
+            text: "This is a simple text frame example.\n\n" +
+                "Its within the Items layer and does move with the camera."
+        });
+        const yellowComplexText = new Konva.Text({
+            x: 250,
+            y: 150,
+            width: 150,
+            height: 100,
+            padding: 5,
+            align: 'center',
+            fontSize: 10,
+            fill: '#000000',
+            text: "This is a simple text frame example.\n\n" +
+                "Its within the Host layer and does move with the camera."
+        });
+        redTextGroup.add(redBox, redComplexText);
+        yellowTextGroup.add(yellowTransparentBox, yellowComplexText);
+        let stringLayer = getNodeByName('group-items-pseudoLayer-z-0');
+        let hostLayer = getNodeByName('group-items-pseudoLayer-z-40');
+        stringLayer.add(redTextGroup);
+        hostLayer.add(yellowTextGroup);
 
-        // Enhanced Public API
-        return {
-            stage: canvasState.stage,
-            camera: cameraAPI,
-            addShape: (name, shape, layerName) => {
-                const layer = getNodeByName(layerName);
-                if (!layer) throw new Error(`Layer ${layerName} not found`);
-                const shapeId = crypto.randomUUID();
-                shape.id(shapeId);
-                canvasState.shapes[shapeId] = shape;
-                canvasState.index[name] = shapeId;
-                layer.add(shape);
-                return shape;
-            },
-            removeShape: removeByName,
-            getShape: getNodeByName,
-            destroy: teardown
-        };
+        // One paint at the end:
+        canvasState.stage.getLayers().forEach(l => l.batchDraw());
+    } catch (err) {
+        teardown();
+        throw err; // surface the original error
+    }
+
+    console.log('finished');
+    console.log(canvasState);
+
+    // Enhanced Public API
+    return {
+        stage: canvasState.stage,
+        camera: cameraAPI, // Now cameraAPI is properly defined
+        addShape: (name, shape, layerName) => {
+            const layer = getNodeByName(layerName);
+            if (!layer) throw new Error(`Layer ${layerName} not found`);
+            const shapeId = crypto.randomUUID();
+            shape.id(shapeId);
+            canvasState.shapes[shapeId] = shape;
+            canvasState.index[name] = shapeId;
+            layer.add(shape);
+            return shape;
+        },
+        removeShape: removeByName,
+        getShape: getNodeByName,
+        destroy: teardown
     };
+};
 
     return {
         create
