@@ -441,6 +441,23 @@ kObj.add(bg);
 kObj.add(bgc);
 const targetGroup = getNodeByName('group-ui-pseudoLayer-main');
 targetGroup.add( kObj);
+
+    const tr = new Konva.Transformer({
+      rotateEnabled: true,
+      enabledAnchors: ['top-left','top-right','bottom-left','bottom-right','top-center','bottom-center','middle-left','middle-right'],
+      anchorSize: 8,
+      borderStroke: '#9AE6B4',
+      anchorStroke: '#9AE6B4',
+      anchorFill: '#0b0d0f',
+      padding: 4
+    });
+    cardLayer.add(tr);
+
+    stage.on('click', (e) => {
+      const g = e.target.findAncestor('Group');
+      if (g && cards.includes(g)) tr.nodes([g]); else tr.nodes([]);
+    });
+    tr.on('transform transformend', () => { for (const l of links) l.update(); });
 };
 
         const makeGrid = () => {
