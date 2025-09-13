@@ -584,7 +584,7 @@ const redTextGroup = new Konva.Group();
 const yellowTextGroup = new Konva.Group();
 redTextGroup.add(redBox);
 redTextGroup.add(redComplexText);
-yellowTextGroup.add(yellowBox);
+yellowTextGroup.add(yellowTransparentBox);
 yellowTextGroup.add(yellowComplexText);
 let stringLayer = getNodeByName('group-items-pseudoLayer-z-0');
 let hostLayer = getNodeByName('group-items-pseudoLayer-z-40');
