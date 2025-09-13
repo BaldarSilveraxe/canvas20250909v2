@@ -67,26 +67,6 @@ const board = (() => {
     };
 
     const utility = () => {
-
-                const clampAxis = (val, view, content) => {
-                    if (content <= view) return Math.round((view - content) / 2);
-                    const min = Math.floor(view - content);
-                    const max = 0;
-                    const v   = Math.round(val);
-                    return Math.max(min, Math.min(v, max));
-                };
-
-                const bounded = {
-                    x: clampAxis(camWorld.x(), nw, W),
-                    y: clampAxis(camWorld.y(), nh, H),
-                };
-                camWorld.position(bounded);
-                camItems.position(bounded);
-
-                camWorld.getLayer()?.batchDraw();
-                camItems.getLayer()?.batchDraw();
-            };
-    
         const removeByName = (name) => {
             const id = canvasState.index[name];
             if (!id) return;
@@ -132,8 +112,7 @@ const board = (() => {
         return {
             removeByName,
             getNodeByName,
-            teardown,
-clampAxis
+            teardown
         };
     };
 
@@ -141,8 +120,7 @@ clampAxis
         const {
             removeByName,
             getNodeByName,
-            teardown,
-            clampAxis
+            teardown
         } = utility();
 
         const makeUi = () => {
@@ -636,7 +614,24 @@ const getScaleConstraints = () => {
                 const W   = Math.round(config.world.width  * sx);
                 const H   = Math.round(config.world.height * sy);
 
+                const clampAxis = (val, view, content) => {
+                    if (content <= view) return Math.round((view - content) / 2);
+                    const min = Math.floor(view - content);
+                    const max = 0;
+                    const v   = Math.round(val);
+                    return Math.max(min, Math.min(v, max));
+                };
 
+                const bounded = {
+                    x: clampAxis(camWorld.x(), nw, W),
+                    y: clampAxis(camWorld.y(), nh, H),
+                };
+                camWorld.position(bounded);
+                camItems.position(bounded);
+
+                camWorld.getLayer()?.batchDraw();
+                camItems.getLayer()?.batchDraw();
+            };
 
             const debouncedResize = () => {
                 clearTimeout(resizeTimeout);
@@ -676,7 +671,6 @@ const getScaleConstraints = () => {
             makeUi,
             removeByName,
             getNodeByName,
-            clampAxis,
             teardown
         } = build();
 
