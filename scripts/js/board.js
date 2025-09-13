@@ -453,7 +453,7 @@ targetGroup.add( kObj);
     });
    targetGroup.add(tr);
 
-    stage.on('click', (e) => {
+    canvasState.stage.on('click', (e) => {
       const g = e.target.findAncestor('Group');
       if (g && cards.includes(g)) tr.nodes([g]); else tr.nodes([]);
     });
