@@ -120,19 +120,15 @@ const board = (() => {
 const makeUi = () => {
     const uiLayer = getNodeByName('layer-ui');
     if (!uiLayer) throw new Error('[makeUi] layer-ui not found');
+
+    const groupId = crypto.randomUUID();
+    const uiGroup = new Konva.Group({ id: groupId, name: 'group-ui-pseudoLayer-main', draggable: true });
+    canvasState.groups[groupId] = uiGroup;
+    canvasState.index['group-ui-pseudoLayer-main'] = groupId;
+
     uiLayer.add(uiGroup);
-  const groupId = crypto.randomUUID();
-  const uiGroup = new Konva.Group({
-    id: groupId,
-    name: 'group-ui-pseudoLayer-main',
-    draggable: true
-  });
 
-  // index the group
-  canvasState.groups[groupId] = uiGroup;
-  canvasState.index['group-ui-pseudoLayer-main'] = groupId;
-
-  // content
+//Test stuff
   const complexText = new Konva.Text({
     x: 150, y: 100, width: 150, height: 100, padding: 20, align: 'center', fontSize: 18, fill: '#000000',
     text: "This is a simple text frame example.\n\n" +
@@ -147,7 +143,6 @@ textGroup.add(greyBox);
 
     uiGroup.add(textGroup);
 
-  // ADD THE GROUP OBJECT, NOT THE ID
   
 };
         
