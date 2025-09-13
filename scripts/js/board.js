@@ -116,265 +116,280 @@ const board = (() => {
             getNodeByName,
             teardown
         } = utility();
-        
-const attachDragCamera = () => {
-    const stage    = canvasState.stage;
-      const camWorld = getNodeByName('group-world-pseudoLayer-camera-wrap');
-      const camItems = getNodeByName('group-items-pseudoLayer-camera-wrap');
-      if (!camWorld || !camItems) throw new Error('[camera] wrappers missing');
 
-      // ensure only world camera is draggable
-      camWorld.draggable(true);
-      camItems.draggable(false);
+        const attachDragCamera = () => {
+            const stage = canvasState.stage;
+            const camWorld = getNodeByName('group-world-pseudoLayer-camera-wrap');
+            const camItems = getNodeByName('group-items-pseudoLayer-camera-wrap');
+            if (!camWorld || !camItems) throw new Error('[camera] wrappers missing');
 
-      // keep items camera in lockstep
-      const sync = () => {
-  const p = camWorld.position();
-  camItems.position(p);
-  camWorld.getLayer()?.batchDraw();
-  camItems.getLayer()?.batchDraw();
-};
+            // ensure only world camera is draggable
+            camWorld.draggable(true);
+            camItems.draggable(false);
 
-  // clamp so you can’t fling the world off-screen (no zoom yet)
-// replace your clamp with this (works with future zoom too)
-const clamp = (pos) => {
-  const container = stage.container();
-  const vw = container.clientWidth  || stage.width();   // viewport width
-  const vh = container.clientHeight || stage.height();  // viewport height
+            // keep items camera in lockstep
+            const sync = () => {
+                const p = camWorld.position();
+                camItems.position(p);
+                camWorld.getLayer()?.batchDraw();
+                camItems.getLayer()?.batchDraw();
+            };
 
-  const s = camWorld.scaleX() || 1;                     // camera scale
-  const W = config.world.width  * s;                    // content width in screen px
-  const H = config.world.height * s;                    // content height
+            // clamp so you can’t fling the world off-screen (no zoom yet)
+            // replace your clamp with this (works with future zoom too)
+            const clamp = (pos) => {
+                const container = stage.container();
+                const vw = container.clientWidth || stage.width(); // viewport width
+                const vh = container.clientHeight || stage.height(); // viewport height
 
-  // If content is larger than viewport: allow panning within [vw - W, 0]
-  // If smaller: lock centered (same min & max)
-  const clampAxis = (val, view, content) => {
-    if (content <= view) {
-      const center = Math.round((view - content) / 2);
-      return center; // locked center
-    }
-    const min = view - content; // negative
-    const max = 0;
-    return Math.max(min, Math.min(val, max));
-  };
+                const s = camWorld.scaleX() || 1; // camera scale
+                const W = config.world.width * s; // content width in screen px
+                const H = config.world.height * s; // content height
 
-  return {
-    x: clampAxis(pos.x, vw, W),
-    y: clampAxis(pos.y, vh, H),
-  };
-};
+                // If content is larger than viewport: allow panning within [vw - W, 0]
+                // If smaller: lock centered (same min & max)
+                const clampAxis = (val, view, content) => {
+                    if (content <= view) {
+                        const center = Math.round((view - content) / 2);
+                        return center; // locked center
+                    }
+                    const min = view - content; // negative
+                    const max = 0;
+                    return Math.max(min, Math.min(val, max));
+                };
 
-// snap once into bounds so the initial position is valid
-const p0 = clamp(camWorld.position());
-camWorld.position(p0);
-camItems.position(p0);
-camWorld.getLayer()?.batchDraw();
-camItems.getLayer()?.batchDraw();
+                return {
+                    x: clampAxis(pos.x, vw, W),
+                    y: clampAxis(pos.y, vh, H),
+                };
+            };
+
+            // snap once into bounds so the initial position is valid
+            const p0 = clamp(camWorld.position());
+            camWorld.position(p0);
+            camItems.position(p0);
+            camWorld.getLayer()?.batchDraw();
+            camItems.getLayer()?.batchDraw();
 
 
-  camWorld.dragBoundFunc(clamp);
-camWorld.on('dragmove', sync);
+            camWorld.dragBoundFunc(clamp);
+            camWorld.on('dragmove', sync);
 
-  // nice UX: cursor + prevent text selection while dragging
-  const c = stage.container();
-const setCursor = (v) => { c.style.cursor = v; };
-const setSelect = (v) => { c.style.userSelect = v; };
-camWorld.on('mouseenter', () => setCursor('grab'));
-camWorld.on('mouseleave', () => setCursor('default'));
+            // nice UX: cursor + prevent text selection while dragging
+            const c = stage.container();
+            const setCursor = (v) => {
+                c.style.cursor = v;
+            };
+            const setSelect = (v) => {
+                c.style.userSelect = v;
+            };
+            camWorld.on('mouseenter', () => setCursor('grab'));
+            camWorld.on('mouseleave', () => setCursor('default'));
 
-// ONLY change to grabbing when a *real* drag starts
-camWorld.on('dragstart', () => { setCursor('grabbing'); setSelect('none'); });
+            // ONLY change to grabbing when a *real* drag starts
+            camWorld.on('dragstart', () => {
+                setCursor('grabbing');
+                setSelect('none');
+            });
 
-// finish/reset when drag ends
-const endDrag = () => { setCursor('default'); setSelect('auto'); };
-camWorld.on('dragend', endDrag);
+            // finish/reset when drag ends
+            const endDrag = () => {
+                setCursor('default');
+                setSelect('auto');
+            };
+            camWorld.on('dragend', endDrag);
 
-// safety net: mouseup / pointer leaving the canvas without dragend
-stage.on('contentMouseup', endDrag);
-stage.on('contentTouchend', endDrag);
-stage.on('contentMouseout', endDrag);
-  // initial align (in case something pre-set positions)
-  sync();
+            // safety net: mouseup / pointer leaving the canvas without dragend
+            stage.on('contentMouseup', endDrag);
+            stage.on('contentTouchend', endDrag);
+            stage.on('contentMouseout', endDrag);
+            // initial align (in case something pre-set positions)
+            sync();
 
-  // tiny API if you want to move programmatically
-  return {
-    setCamera: (x, y) => {
-      const bounded = clamp({ x, y });
-      camWorld.position(bounded);
-      camItems.position(bounded);
-      camWorld.getLayer()?.batchDraw();
-      camItems.getLayer()?.batchDraw();
-    },
-    getCamera: () => ({ ...camWorld.position() })
-  };
-};
+            // tiny API if you want to move programmatically
+            return {
+                setCamera: (x, y) => {
+                    const bounded = clamp({
+                        x,
+                        y
+                    });
+                    camWorld.position(bounded);
+                    camItems.position(bounded);
+                    camWorld.getLayer()?.batchDraw();
+                    camItems.getLayer()?.batchDraw();
+                },
+                getCamera: () => ({
+                    ...camWorld.position()
+                })
+            };
+        };
 
-const makeGrid = () => {
-    removeByName(config.grid.name);
+        const makeGrid = () => {
+            removeByName(config.grid.name);
 
-    const {
-        name,
-        minorLine,
-        majorLineEvery,
-        colorMinor,
-        colorMajor,
-        strokeWidthMinor,
-        strokeWidthMajor,
-        dashMinor,
-        dashMajor
-    } = config.grid;
+            const {
+                name,
+                minorLine,
+                majorLineEvery,
+                colorMinor,
+                colorMajor,
+                strokeWidthMinor,
+                strokeWidthMajor,
+                dashMinor,
+                dashMajor
+            } = config.grid;
 
-    const w = config.world.width;
-    const h = config.world.height;
-    const cx = w / 2;
-    const cy = h / 2;
-    const maxSteps = Math.ceil(Math.max(w, h) / 2 / minorLine);
+            const w = config.world.width;
+            const h = config.world.height;
+            const cx = w / 2;
+            const cy = h / 2;
+            const maxSteps = Math.ceil(Math.max(w, h) / 2 / minorLine);
 
-    // Pre-split arrays to avoid per-frame filtering
-    const minorV = [];
-    const minorH = [];
-    const majorV = [];
-    const majorH = [];
+            // Pre-split arrays to avoid per-frame filtering
+            const minorV = [];
+            const minorH = [];
+            const majorV = [];
+            const majorH = [];
 
-    for (let i = 1; i <= maxSteps; i++) {
-        const step = i * minorLine;
-        const isMajor = (i % majorLineEvery === 0);
+            for (let i = 1; i <= maxSteps; i++) {
+                const step = i * minorLine;
+                const isMajor = (i % majorLineEvery === 0);
 
-        // Vertical lines (no half-pixel baked in)
-        const xPlus = cx + step;
-        const xMinus = cx - step;
+                // Vertical lines (no half-pixel baked in)
+                const xPlus = cx + step;
+                const xMinus = cx - step;
 
-        if (xPlus <= w) {
-            (isMajor ? majorV : minorV).push([xPlus, 0, xPlus, h]);
-        }
-        if (xMinus >= 0) {
-            (isMajor ? majorV : minorV).push([xMinus, 0, xMinus, h]);
-        }
-
-        // Horizontal lines (no half-pixel baked in)
-        const yPlus = cy + step;
-        const yMinus = cy - step;
-
-        if (yPlus <= h) {
-            (isMajor ? majorH : minorH).push([0, yPlus, w, yPlus]);
-        }
-        if (yMinus >= 0) {
-            (isMajor ? majorH : minorH).push([0, yMinus, w, yMinus]);
-        }
-    }
-
-    // Add center lines to major arrays
-    majorV.push([cx, 0, cx, h]);
-    majorH.push([0, cy, w, cy]);
-
-    const gridShape = new Konva.Shape({
-        id: crypto.randomUUID(),
-        name: name,
-        listening: false,
-        perfectDrawEnabled: false,
-        shadowForStrokeEnabled: false,
-
-        sceneFunc: function(context, shape) {
-            context.save();
-            
-            const scale = shape.getAbsoluteScale();
-            
-            // Scale-compensated line widths
-            const lwMinorV = strokeWidthMinor / scale.x;
-            const lwMinorH = strokeWidthMinor / scale.y;
-            const lwMajorV = strokeWidthMajor / scale.x;
-            const lwMajorH = strokeWidthMajor / scale.y;
-            
-            // Scale-compensated dash patterns
-            const dashX = (dash) => (dash && dash.length) ? dash.map(d => d / scale.x) : [];
-            const dashY = (dash) => (dash && dash.length) ? dash.map(d => d / scale.y) : [];
-            
-            // Scale-aware half-pixel alignment
-            const alignX = 0.5 / scale.x;
-            const alignY = 0.5 / scale.y;
-
-            // Draw vertical minor lines
-            if (minorV.length > 0) {
-                context.save();
-                context.translate(alignX, 0);
-                context.strokeStyle = colorMinor;
-                context.lineWidth = lwMinorV;
-                context.setLineDash(dashX(dashMinor));
-                context.beginPath();
-                for (const [x1, y1, x2, y2] of minorV) {
-                    context.moveTo(x1, y1);
-                    context.lineTo(x2, y2);
+                if (xPlus <= w) {
+                    (isMajor ? majorV : minorV).push([xPlus, 0, xPlus, h]);
                 }
-                context.stroke();
-                context.restore();
+                if (xMinus >= 0) {
+                    (isMajor ? majorV : minorV).push([xMinus, 0, xMinus, h]);
+                }
+
+                // Horizontal lines (no half-pixel baked in)
+                const yPlus = cy + step;
+                const yMinus = cy - step;
+
+                if (yPlus <= h) {
+                    (isMajor ? majorH : minorH).push([0, yPlus, w, yPlus]);
+                }
+                if (yMinus >= 0) {
+                    (isMajor ? majorH : minorH).push([0, yMinus, w, yMinus]);
+                }
             }
 
-            // Draw horizontal minor lines
-            if (minorH.length > 0) {
-                context.save();
-                context.translate(0, alignY);
-                context.strokeStyle = colorMinor;
-                context.lineWidth = lwMinorH;
-                context.setLineDash(dashY(dashMinor));
-                context.beginPath();
-                for (const [x1, y1, x2, y2] of minorH) {
-                    context.moveTo(x1, y1);
-                    context.lineTo(x2, y2);
+            // Add center lines to major arrays
+            majorV.push([cx, 0, cx, h]);
+            majorH.push([0, cy, w, cy]);
+
+            const gridShape = new Konva.Shape({
+                id: crypto.randomUUID(),
+                name: name,
+                listening: false,
+                perfectDrawEnabled: false,
+                shadowForStrokeEnabled: false,
+
+                sceneFunc: function(context, shape) {
+                    context.save();
+
+                    const scale = shape.getAbsoluteScale();
+
+                    // Scale-compensated line widths
+                    const lwMinorV = strokeWidthMinor / scale.x;
+                    const lwMinorH = strokeWidthMinor / scale.y;
+                    const lwMajorV = strokeWidthMajor / scale.x;
+                    const lwMajorH = strokeWidthMajor / scale.y;
+
+                    // Scale-compensated dash patterns
+                    const dashX = (dash) => (dash && dash.length) ? dash.map(d => d / scale.x) : [];
+                    const dashY = (dash) => (dash && dash.length) ? dash.map(d => d / scale.y) : [];
+
+                    // Scale-aware half-pixel alignment
+                    const alignX = 0.5 / scale.x;
+                    const alignY = 0.5 / scale.y;
+
+                    // Draw vertical minor lines
+                    if (minorV.length > 0) {
+                        context.save();
+                        context.translate(alignX, 0);
+                        context.strokeStyle = colorMinor;
+                        context.lineWidth = lwMinorV;
+                        context.setLineDash(dashX(dashMinor));
+                        context.beginPath();
+                        for (const [x1, y1, x2, y2] of minorV) {
+                            context.moveTo(x1, y1);
+                            context.lineTo(x2, y2);
+                        }
+                        context.stroke();
+                        context.restore();
+                    }
+
+                    // Draw horizontal minor lines
+                    if (minorH.length > 0) {
+                        context.save();
+                        context.translate(0, alignY);
+                        context.strokeStyle = colorMinor;
+                        context.lineWidth = lwMinorH;
+                        context.setLineDash(dashY(dashMinor));
+                        context.beginPath();
+                        for (const [x1, y1, x2, y2] of minorH) {
+                            context.moveTo(x1, y1);
+                            context.lineTo(x2, y2);
+                        }
+                        context.stroke();
+                        context.restore();
+                    }
+
+                    // Draw vertical major lines
+                    if (majorV.length > 0) {
+                        context.save();
+                        context.translate(alignX, 0);
+                        context.strokeStyle = colorMajor;
+                        context.lineWidth = lwMajorV;
+                        context.setLineDash(dashX(dashMajor));
+                        context.beginPath();
+                        for (const [x1, y1, x2, y2] of majorV) {
+                            context.moveTo(x1, y1);
+                            context.lineTo(x2, y2);
+                        }
+                        context.stroke();
+                        context.restore();
+                    }
+
+                    // Draw horizontal major lines
+                    if (majorH.length > 0) {
+                        context.save();
+                        context.translate(0, alignY);
+                        context.strokeStyle = colorMajor;
+                        context.lineWidth = lwMajorH;
+                        context.setLineDash(dashY(dashMajor));
+                        context.beginPath();
+                        for (const [x1, y1, x2, y2] of majorH) {
+                            context.moveTo(x1, y1);
+                            context.lineTo(x2, y2);
+                        }
+                        context.stroke();
+                        context.restore();
+                    }
+
+                    context.restore();
                 }
-                context.stroke();
-                context.restore();
+            });
+
+            // Store in canvas state
+            const shapeId = gridShape.id();
+            canvasState.shapes[shapeId] = gridShape;
+            canvasState.index[name] = shapeId;
+
+            // Add to the grid pseudo layer
+            const thePseudoLayer = getNodeByName('group-world-pseudoLayer-grid');
+            if (!thePseudoLayer) {
+                throw new Error('[makeGrid] pseudo layer not found');
             }
+            thePseudoLayer.add(gridShape);
 
-            // Draw vertical major lines
-            if (majorV.length > 0) {
-                context.save();
-                context.translate(alignX, 0);
-                context.strokeStyle = colorMajor;
-                context.lineWidth = lwMajorV;
-                context.setLineDash(dashX(dashMajor));
-                context.beginPath();
-                for (const [x1, y1, x2, y2] of majorV) {
-                    context.moveTo(x1, y1);
-                    context.lineTo(x2, y2);
-                }
-                context.stroke();
-                context.restore();
-            }
-
-            // Draw horizontal major lines
-            if (majorH.length > 0) {
-                context.save();
-                context.translate(0, alignY);
-                context.strokeStyle = colorMajor;
-                context.lineWidth = lwMajorH;
-                context.setLineDash(dashY(dashMajor));
-                context.beginPath();
-                for (const [x1, y1, x2, y2] of majorH) {
-                    context.moveTo(x1, y1);
-                    context.lineTo(x2, y2);
-                }
-                context.stroke();
-                context.restore();
-            }
-
-            context.restore();
-        }
-    });
-
-    // Store in canvas state
-    const shapeId = gridShape.id();
-    canvasState.shapes[shapeId] = gridShape;
-    canvasState.index[name] = shapeId;
-
-    // Add to the grid pseudo layer
-    const thePseudoLayer = getNodeByName('group-world-pseudoLayer-grid');
-    if (!thePseudoLayer) {
-        throw new Error('[makeGrid] pseudo layer not found');
-    }
-    thePseudoLayer.add(gridShape);
-
-    return gridShape;
-};
+            return gridShape;
+        };
 
         const makeWorldRect = () => {
             const shapeId = crypto.randomUUID(),
@@ -411,14 +426,22 @@ const makeGrid = () => {
             let camItemsName = 'group-items-pseudoLayer-camera-wrap';
             let worldLayer = getNodeByName('layer-world');
             let itemsLayer = getNodeByName('layer-items');
-            
+
             let camWorldNameId = crypto.randomUUID();
-            canvasState.groups[camWorldNameId] = new Konva.Group({ id: camWorldNameId, name: camWorldName, draggable: true });
+            canvasState.groups[camWorldNameId] = new Konva.Group({
+                id: camWorldNameId,
+                name: camWorldName,
+                draggable: true
+            });
             canvasState.index[camWorldName] = camWorldNameId;
             worldLayer.add(canvasState.groups[camWorldNameId]);
 
             let camItemsNameId = crypto.randomUUID();
-            canvasState.groups[camItemsNameId] = new Konva.Group({ id: camItemsNameId, name: camItemsName, draggable: false });
+            canvasState.groups[camItemsNameId] = new Konva.Group({
+                id: camItemsNameId,
+                name: camItemsName,
+                draggable: false
+            });
             canvasState.index[camItemsName] = camItemsNameId;
             itemsLayer.add(canvasState.groups[camItemsNameId]);
         };
@@ -438,34 +461,37 @@ const makeGrid = () => {
             });
         };
 
-const makeStage = (kCanvas) => {
-  const container = (typeof kCanvas === 'string') ? document.getElementById(kCanvas) : kCanvas;
-  if (!container) throw new Error('board.create: container not found');
+        const makeStage = (kCanvas) => {
+            const container = (typeof kCanvas === 'string') ? document.getElementById(kCanvas) : kCanvas;
+            if (!container) throw new Error('board.create: container not found');
 
-  // Ensure the container is viewport-sized and doesn't scroll
-  container.style.width = '100%';
-  container.style.height = '100%';
-  container.style.overflow = 'hidden';
+            // Ensure the container is viewport-sized and doesn't scroll
+            container.style.width = '100%';
+            container.style.height = '100%';
+            container.style.overflow = 'hidden';
 
-  const w = container.clientWidth;
-  const h = container.clientHeight;
+            const w = container.clientWidth;
+            const h = container.clientHeight;
 
-  canvasState.stage = new Konva.Stage({
-    id: crypto.randomUUID(),
-    name: '_stage',
-    container,
-    width: w,                // <— viewport width
-    height: h,               // <— viewport height
-  });
+            canvasState.stage = new Konva.Stage({
+                id: crypto.randomUUID(),
+                name: '_stage',
+                container,
+                width: w, // <— viewport width
+                height: h, // <— viewport height
+            });
 
-  // Keep stage sized to viewport on window resize
-  const onResize = () => {
-    const nw = container.clientWidth;
-    const nh = container.clientHeight;
-    canvasState.stage.size({ width: nw, height: nh });
-  };
-  window.addEventListener('resize', onResize);
-};
+            // Keep stage sized to viewport on window resize
+            const onResize = () => {
+                const nw = container.clientWidth;
+                const nh = container.clientHeight;
+                canvasState.stage.size({
+                    width: nw,
+                    height: nh
+                });
+            };
+            window.addEventListener('resize', onResize);
+        };
 
 
         return {
@@ -511,8 +537,6 @@ const makeStage = (kCanvas) => {
 
 
 
-
-            
 
             // One paint at the end:
             canvasState.stage.getLayers().forEach(l => l.batchDraw());
