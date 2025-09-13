@@ -50,7 +50,7 @@ const board = (() => {
             name: 'shape-pseudoLayer-background-rect',
             width: 6000,
             height: 6000,
-            fill: '#EEEEFF',
+            fill: '#000000',
             listening: true
         },
         grid: {
