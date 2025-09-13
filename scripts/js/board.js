@@ -400,6 +400,17 @@ const kObj  = new Konva.Group({
     y: 100,
     draggable: true
 });
+const track1 = new Konva.Rect({
+    x: 0,
+    y: 0,
+    offsetX: 5,
+    offsetY: 0,
+    width: 10,
+    height: 200,
+    fill: 'black',
+    stroke: 'white',
+    strokeWidth: 1
+});
 const bgr = new Konva.Rect({
     x: 0,
     y: 100,
@@ -413,19 +424,7 @@ const bgr = new Konva.Rect({
     strokeWidth: 1,
     opacity: 0.75
 });
-const track1 = new Konva.Rect({
-    x: 0,
-    y: 0,
-    offsetX: 5,
-    offsetY: 0,
-    width: 10,
-    height: 100,
-    cornerRadius: 21,
-    fill: 'black',
-    stroke: 'white',
-    strokeWidth: 1,
-    opacity: 0.75
-});
+
 const bg = new Konva.Circle({
     x: 0,
     y: 0,
@@ -434,8 +433,7 @@ const bg = new Konva.Circle({
     radius: 21,
     fill: 'black',
     stroke: 'white',
-    strokeWidth: 1,
-    opacity: 0.75
+    strokeWidth: 1
 });
 const bgc = new Konva.Circle({
     x: 0,
@@ -445,11 +443,10 @@ const bgc = new Konva.Circle({
     radius: 21,
     fill: 'black',
     stroke: 'white',
-    strokeWidth: 1,
-    opacity: 0.75
+    strokeWidth: 1
 });
 
-    kObj.add(track1);
+kObj.add(track1);
 kObj.add(bgr);    
 kObj.add(bg);
 kObj.add(bgc);
