@@ -399,7 +399,7 @@ const makeBoardControls = () => {
     fill: 'white',
     shadowColor: 'black',
     shadowBlur: 16,
-    shadowOffsetY: Math.round(size * 0.14), // elevation feel
+    shadowOffsetY: Math.round(3 * 0.14), // elevation feel
     shadowOpacity: 0.3
   });
 const targetGroup = getNodeByName('group-ui-pseudoLayer-main');
