@@ -599,15 +599,18 @@ const board = (() => {
             let camItemsName = config.cameraWraps.itemsCamera;
             let worldLayer = getNodeByName('layer-world');
             let itemsLayer = getNodeByName('layer-items');
+            let kObj  = new Konva.Layer({ name: camWorldName, draggable: true });
+            let { node } = addNode({ stateType: 'layers', name: camWorldName, konvaNode: kObj });
+            itemsLayer.stage.add(node);
 
-            let camWorldNameId = crypto.randomUUID();
-            canvasState.groups[camWorldNameId] = new Konva.Group({
-                id: camWorldNameId,
-                name: camWorldName,
-                draggable: true
-            });
-            canvasState.index[camWorldName] = camWorldNameId;
-            worldLayer.add(canvasState.groups[camWorldNameId]);
+            //let camWorldNameId = crypto.randomUUID();
+            //canvasState.groups[camWorldNameId] = new Konva.Group({
+            //    id: camWorldNameId,
+            //    name: camWorldName,
+            //    draggable: true
+            //});
+            //canvasState.index[camWorldName] = camWorldNameId;
+            //worldLayer.add(canvasState.groups[camWorldNameId]);
 
             let camItemsNameId = crypto.randomUUID();
             canvasState.groups[camItemsNameId] = new Konva.Group({
