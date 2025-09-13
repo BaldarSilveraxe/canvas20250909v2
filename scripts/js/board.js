@@ -565,15 +565,21 @@ const board = (() => {
         };
 
         const makeWorldRect = () => {
-            const shapeId = crypto.randomUUID(),
-                theLayer = getNodeByName('group-world-pseudoLayer-background');
+            let targetGroup, kObj, node;
+            targetGroup = getNodeByName('group-world-pseudoLayer-background');
             if (!theLayer) throw new Error('[makeWorldRect] pseudo layer not found');
-            canvasState.shapes[shapeId] = new Konva.Rect({
-                ...config.world,
-                id: shapeId
-            });
-            canvasState.index[config.world.name] = shapeId;
-            theLayer.add(canvasState.shapes[shapeId]);
+            kObj = new Konva.Rect({ ...config.world });
+            ({ node } = addNode({ stateType: 'groups', name: name, konvaNode: kObj }));
+            targetGroup.add(node);
+            //const shapeId = crypto.randomUUID(),
+            //    theLayer = getNodeByName('group-world-pseudoLayer-background');
+            //if (!theLayer) throw new Error('[makeWorldRect] pseudo layer not found');
+            //canvasState.shapes[shapeId] = new Konva.Rect({
+            //    ...config.world,
+            //    id: shapeId
+            //});
+            //canvasState.index[config.world.name] = shapeId;
+            //theLayer.add(canvasState.shapes[shapeId]);
         };
 
         const makePseudoLayers = () => {
