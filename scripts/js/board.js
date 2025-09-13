@@ -571,12 +571,12 @@ const yellowTextGroup = new Konva.Group({ draggable: true, name: 'group-yellow' 
 const redBox = new Konva.Rect({ x: 50, y: 50, width: 150, height: 100, fill: 'red', draggable: false });
 const yellowTransparentBox = new Konva.Rect({  x: 250,  y: 150,  width: 150, height: 100, fill: 'yellow', opacity: 0.4, draggable: false});
 const redComplexText = new Konva.Text({
-    x: 150, y: 100, width: 150, height: 100, padding: 5, align: 'center', fontSize: 10, fill: '#FFFFFF',
+    x: 50, y: 50, width: 150, height: 100, padding: 5, align: 'center', fontSize: 10, fill: '#FFFFFF',
     text: "This is a simple text frame example.\n\n" +
           "Its within the Items layer and does move with the camera."
 });
 const yellowComplexText = new Konva.Text({
-    x: 150, y: 100, width: 150, height: 100, padding: 5, align: 'center', fontSize: 10, fill: '#000000',
+    x: 250, y: 150, width: 150, height: 100, padding: 5, align: 'center', fontSize: 10, fill: '#000000',
     text: "This is a simple text frame example.\n\n" +
           "Its within the Host layer and does move with the camera."
 });
