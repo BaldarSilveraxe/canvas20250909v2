@@ -400,7 +400,7 @@ const kObj  = new Konva.Group({
     y: 100,
     draggable: true // False later
 });
-const container  = new Konva.Group({
+const container  = new Konva.Rect({
     name: 'contolGroup',
     x: 0,
     y: 0,
