@@ -396,15 +396,23 @@ const teardown = () => {
 const makeBoardControls = () => {
 const kObj  = new Konva.Group({
     name: name,
-    x: 100,
-    Y: 100,
+    x: 50,
+    Y: 50,
     draggable: true
 });
 const bg = new Konva.Circle({
     radius: 24,
     fill: 'black',
     stroke: 'white',
-    strokeWidth: 4,
+    strokeWidth: 1,
+    opacity: 0.75
+});
+const bg = new Konva.Circle({
+    Y: 250,
+    radius: 24,
+    fill: 'black',
+    stroke: 'white',
+    strokeWidth: 1,
     opacity: 0.75
 });
 kObj.add(bg);
