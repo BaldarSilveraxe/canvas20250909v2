@@ -635,12 +635,12 @@ const board = (() => {
                     name: name,
                     listening: true
                 });
-                const newlyAdded = addNode({
+                const { node } = addNode({
                     stateType: 'layers',
                     name: name,
                     konvaNode: kObj
                 });
-                canvasState.stage.add(newlyAdded);
+                canvasState.stage.add(node);
             });
         };
 
