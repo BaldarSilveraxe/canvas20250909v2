@@ -150,8 +150,9 @@ const makeUi = () => {
   
 
 const textGroup = new Konva.Group();
+    textGroup.add(complexText);
 textGroup.add(greyBox);
-textGroup.add(complexText);
+
     uiGroup.add(textGroup);
 
   // ADD THE GROUP OBJECT, NOT THE ID
