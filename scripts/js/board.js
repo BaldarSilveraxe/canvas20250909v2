@@ -413,7 +413,7 @@ const bgr = new Konva.Rect({
     strokeWidth: 1,
     opacity: 0.75
 });
-const bgr = new Konva.Rect({
+const track1 = new Konva.Rect({
     x: 0,
     y: 0,
     offsetX: 5,
@@ -449,6 +449,7 @@ const bgc = new Konva.Circle({
     opacity: 0.75
 });
 
+    kObj.add(track1);
 kObj.add(bgr);    
 kObj.add(bg);
 kObj.add(bgc);
