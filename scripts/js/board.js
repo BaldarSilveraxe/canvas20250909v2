@@ -263,18 +263,6 @@ const teardown = () => {
                 const W = Math.round(config.world.width * sx);
                 const H = Math.round(config.world.height * sy);
 
-                // integer clamp avoids subpixel drift leaving 1px gutters
-                //const clampAxis = (val, view, content) => {
-                //    if (content <= view) {
-                //        // locked center when content smaller than viewport on that axis
-                //        return Math.round((view - content) / 2);
-                //    }
-                //    const min = Math.floor(view - content); // most negative allowed
-                //    const max = 0; // most positive allowed
-                //    const v = Math.round(val);
-                //    return Math.max(min, Math.min(v, max));
-                //};
-
                 return {
                     x: clampAxis(pos.x, vw, W),
                     y: clampAxis(pos.y, vh, H)
@@ -582,15 +570,6 @@ const teardown = () => {
             kObj = new Konva.Rect({ ...config.world });
             ({ node } = addNode({ stateType: 'shapes', name: name, konvaNode: kObj }));
             targetGroup.add(node);
-            //const shapeId = crypto.randomUUID(),
-            //    theLayer = getNodeByName('group-world-pseudoLayer-background');
-            //if (!theLayer) throw new Error('[makeWorldRect] pseudo layer not found');
-            //canvasState.shapes[shapeId] = new Konva.Rect({
-            //    ...config.world,
-            //    id: shapeId
-            //});
-            //canvasState.index[config.world.name] = shapeId;
-            //theLayer.add(canvasState.shapes[shapeId]);
         };
 
         const makePseudoLayers = () => {
@@ -604,22 +583,6 @@ const teardown = () => {
                     targetGroup.add(node);
                 });
             });
-            
-            //let targetGroup,
-            //    newGroupId;
-            //Object.keys(config.pseudoLayers).forEach(key => {
-            //    targetGroup = getNodeByName(config.pseudoLayers[key].group);
-            //    if (!targetGroup) throw new Error('[makePseudoLayers] target group not found');
-            //    config.pseudoLayers[key].pseudos.forEach(name => {
-            //        newGroupId = crypto.randomUUID();
-            //        canvasState.groups[newGroupId] = new Konva.Group({
-            //            id: newGroupId,
-            //            name: name
-            //        });
-            //        canvasState.index[name] = newGroupId;
-            //        targetGroup.add(canvasState.groups[newGroupId]);
-            //    });
-            //});
         };
 
         const makeCameraWrappers = () => {
@@ -629,39 +592,13 @@ const teardown = () => {
             kObj  = new Konva.Group({ name: name, draggable: true });
             ({ node } = addNode({ stateType: 'groups', name: name, konvaNode: kObj }));
             theLayer.add(node);
-
             name = config.cameraWraps.itemsCamera;
             theLayer = getNodeByName('layer-items');
             kObj  = new Konva.Group({ name: name, draggable: true });
             ({ node } = addNode({ stateType: 'groups', name: name, konvaNode: kObj }))
             theLayer.add(node);
-            
-            //let camItemsName = config.cameraWraps.itemsCamera;
-            //let itemsLayer = getNodeByName('layer-items');
-            
-            //let camItemsNameId = crypto.randomUUID();
-            //canvasState.groups[camItemsNameId] = new Konva.Group({
-            //    id: camItemsNameId,
-            //    name: camItemsName,
-            //    draggable: false
-            //});
-            //canvasState.index[camItemsName] = camItemsNameId;
-            //itemsLayer.add(canvasState.groups[camItemsNameId]);
         };
 
-        //const makeLayers = () => {
-        //    config.layers.forEach(function(e, i) {
-        //        const layerId = crypto.randomUUID(),
-        //            layerName = `layer-${e}`;
-        //        canvasState.layers[layerId] = new Konva.Layer({
-        //            id: layerId,
-        //            name: layerName,
-        //            listening: true
-        //        });
-        //        canvasState.index[layerName] = layerId;
-        //        canvasState.stage.add(canvasState.layers[layerId]);
-        //    });
-        //};
         const makeLayers = () => {
             config.layers.forEach(function(e, i) {
                 let name = `layer-${e}`;
@@ -740,14 +677,6 @@ const teardown = () => {
                 const W = Math.round(config.world.width * sx);
                 const H = Math.round(config.world.height * sy);
 
-                //const clampAxis = (val, view, content) => {
-                //    if (content <= view) return Math.round((view - content) / 2);
-                //    const min = Math.floor(view - content);
-                //    const max = 0;
-                //    const v = Math.round(val);
-                //    return Math.max(min, Math.min(v, max));
-                //};
-
                 const bounded = {
                     x: clampAxis(camWorld.x(), nw, W),
                     y: clampAxis(camWorld.y(), nh, H),
@@ -783,7 +712,6 @@ const teardown = () => {
             teardown
         };
     };
-
 
     const create = (kCanvas) => {
         const {
