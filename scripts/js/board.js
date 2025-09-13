@@ -560,8 +560,8 @@ const makeUi = () => {
             attachDragCamera();
             makeUi();
 
-const redBox = new Konva.Rect({ x: 50, y: 50, width: 150, height: 100, fill: 'red' });
-const yellowTransparentBox = new Konva.Rect({  x: 250,  y: 150,  width: 150, height: 100, fill: 'yellow', opacity: 0.4 });
+const redBox = new Konva.Rect({ x: 50, y: 50, width: 150, height: 100, fill: 'red', draggable: true });
+const yellowTransparentBox = new Konva.Rect({  x: 250,  y: 150,  width: 150, height: 100, fill: 'yellow', opacity: 0.4, draggable: true });
 let stringLayer = getNodeByName('group-items-pseudoLayer-z-0');
 let hostLayer = getNodeByName('group-items-pseudoLayer-z-40');
 
