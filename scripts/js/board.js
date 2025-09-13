@@ -396,13 +396,13 @@ const teardown = () => {
 const makeBoardControls = () => {
 const kObj  = new Konva.Group({
     name: name,
-    x: 50,
+    x: 100,
     Y: 50,
     draggable: true
 });
 const bgr = new Konva.Rect({
-    x: 0,
-    y: 0,
+    x: -48,
+    y: 100,
     width: 96,
     height: 48,
     cornerRadius: [24, 24, 24, 24],
@@ -412,8 +412,8 @@ const bgr = new Konva.Rect({
     opacity: 0.75
 });
 const bg = new Konva.Circle({
-    x: 0,
-    y: 0,
+    x: 24,
+    y: 24,
     radius: 24,
     fill: 'black',
     stroke: 'white',
@@ -421,8 +421,8 @@ const bg = new Konva.Circle({
     opacity: 0.75
 });
 const bgc = new Konva.Circle({
-    x: 0,
-    y: 0,
+    x: 24,
+    y: 200,
     radius: 24,
     fill: 'black',
     stroke: 'white',
