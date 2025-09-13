@@ -407,7 +407,7 @@ const bg = new Konva.Circle({
     strokeWidth: 1,
     opacity: 0.75
 });
-const bg = new Konva.Circle({
+const bgc = new Konva.Circle({
     Y: 250,
     radius: 24,
     fill: 'black',
@@ -416,6 +416,7 @@ const bg = new Konva.Circle({
     opacity: 0.75
 });
 kObj.add(bg);
+kObj.add(bgc);
 const targetGroup = getNodeByName('group-ui-pseudoLayer-main');
 targetGroup.add( kObj);
 };
