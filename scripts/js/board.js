@@ -117,22 +117,33 @@ const board = (() => {
             return null;
         };
 
-        const teardown = () => {
-            try {
-                // Clean up resize handler
-                if (canvasState.resizeHandler) {
-                    window.removeEventListener('resize', canvasState.resizeHandler);
-                    canvasState.resizeHandler = null;
-                }
-                canvasState.stage?.off();
-                canvasState.stage?.destroy();
-            } catch {}
-            canvasState.stage = null;
-            canvasState.layers = {};
-            canvasState.groups = {};
-            canvasState.shapes = {};
-            canvasState.index = {};
-        };
+const teardown = () => {
+    try {
+        // Remove all event listeners first
+        Object.values(canvasState.shapes).forEach(shape => shape.off());
+        Object.values(canvasState.groups).forEach(group => group.off());
+        Object.values(canvasState.layers).forEach(layer => layer.off());
+        
+        // Then cleanup
+        if (canvasState.resizeHandler) {
+            window.removeEventListener('resize', canvasState.resizeHandler);
+            canvasState.resizeHandler = null;
+        }
+        canvasState.stage?.off();
+        canvasState.stage?.destroy();
+    } catch (error) {
+        console.error('Error during teardown:', error);
+    }
+    // Reset state
+    Object.assign(canvasState, {
+        stage: null,
+        layers: {},
+        groups: {},
+        shapes: {},
+        index: {},
+        resizeHandler: null
+    });
+};
 
         return {
             addNode,
