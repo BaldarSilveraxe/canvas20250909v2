@@ -595,8 +595,8 @@ const board = (() => {
         };
 
         const makeCameraWrappers = () => {
-            let camWorldName = 'group-world-pseudoLayer-camera-wrap';
-            let camItemsName = 'group-items-pseudoLayer-camera-wrap';
+            let camWorldName = config.cameraWraps.worldCamera;
+            let camItemsName = config.cameraWraps.itemsCamera;
             let worldLayer = getNodeByName('layer-world');
             let itemsLayer = getNodeByName('layer-items');
 
