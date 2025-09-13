@@ -129,11 +129,11 @@ const attachDragCamera = () => {
 
       // keep items camera in lockstep
       const sync = () => {
-    const p = camWorld.position();
-    camItems.position(p);
-    camWorld.getLayer()?.batchDraw();
-    camItems.getLayer()?.batchDraw();
-  };
+  const p = camWorld.position();
+  camItems.position(p);
+  camWorld.getLayer()?.batchDraw();
+  camItems.getLayer()?.batchDraw();
+};
 
   // clamp so you can’t fling the world off-screen (no zoom yet)
 // replace your clamp with this (works with future zoom too)
@@ -172,15 +172,27 @@ camWorld.getLayer()?.batchDraw();
 camItems.getLayer()?.batchDraw();
 
 
-  camWorld.dragBoundFunc(clamp); 
-  camWorld.on('dragmove',  sync);
+  camWorld.dragBoundFunc(clamp);
+camWorld.on('dragmove', sync);
 
   // nice UX: cursor + prevent text selection while dragging
   const c = stage.container();
-  camWorld.on('mouseenter', () => (c.style.cursor = 'grab'));
-  camWorld.on('mousedown',  () => { c.style.cursor = 'grabbing'; c.style.userSelect = 'none'; });
-  camWorld.on('dragend',    () => { c.style.cursor = 'default';  c.style.userSelect = 'auto'; });
+const setCursor = (v) => { c.style.cursor = v; };
+const setSelect = (v) => { c.style.userSelect = v; };
+camWorld.on('mouseenter', () => setCursor('grab'));
+camWorld.on('mouseleave', () => setCursor('default'));
 
+// ONLY change to grabbing when a *real* drag starts
+camWorld.on('dragstart', () => { setCursor('grabbing'); setSelect('none'); });
+
+// finish/reset when drag ends
+const endDrag = () => { setCursor('default'); setSelect('auto'); };
+camWorld.on('dragend', endDrag);
+
+// safety net: mouseup / pointer leaving the canvas without dragend
+stage.on('contentMouseup', endDrag);
+stage.on('contentTouchend', endDrag);
+stage.on('contentMouseout', endDrag);
   // initial align (in case something pre-set positions)
   sync();
 
