@@ -117,35 +117,54 @@ const board = (() => {
             teardown
         } = utility();
 
-const makeUi = () => {
-    const uiLayer = getNodeByName('layer-ui');
-    if (!uiLayer) throw new Error('[makeUi] layer-ui not found');
+        const makeUi = () => {
+            const uiLayer = getNodeByName('layer-ui');
+            if (!uiLayer) throw new Error('[makeUi] layer-ui not found');
 
-    const groupId = crypto.randomUUID();
-    const uiGroup = new Konva.Group({ id: groupId, name: 'group-ui-pseudoLayer-main', draggable: true });
-    canvasState.groups[groupId] = uiGroup;
-    canvasState.index['group-ui-pseudoLayer-main'] = groupId;
+            const groupId = crypto.randomUUID();
+            const uiGroup = new Konva.Group({
+                id: groupId,
+                name: 'group-ui-pseudoLayer-main',
+                draggable: true
+            });
+            canvasState.groups[groupId] = uiGroup;
+            canvasState.index['group-ui-pseudoLayer-main'] = groupId;
 
-    uiLayer.add(uiGroup);
+            uiLayer.add(uiGroup);
 
-//Test stuff
-  const complexText = new Konva.Text({
-    x: 150, y: 100, width: 150, height: 100, padding: 5, align: 'center', fontSize: 10, fill: '#000000',
-    text: "This is a simple text frame example.\n\n" +
-          "Its within the UI layer and doesn't move with the camera."
-});
-  const greyBox = new Konva.Rect({ x: 150, y: 100, width: 150, height: 100, fill: 'gray' });
-  
+            //Test stuff
+            const complexText = new Konva.Text({
+                x: 150,
+                y: 100,
+                width: 150,
+                height: 100,
+                padding: 5,
+                align: 'center',
+                fontSize: 10,
+                fill: '#000000',
+                text: "This is a simple text frame example.\n\n" +
+                    "Its within the UI layer and doesn't move with the camera."
+            });
+            const greyBox = new Konva.Rect({
+                x: 150,
+                y: 100,
+                width: 150,
+                height: 100,
+                fill: 'gray'
+            });
 
-const textGroup = new Konva.Group({ draggable: true });
-    textGroup.add(greyBox, complexText);
+
+            const textGroup = new Konva.Group({
+                draggable: true
+            });
+            textGroup.add(greyBox, complexText);
 
 
-    uiGroup.add(textGroup);
+            uiGroup.add(textGroup);
 
-  
-};
-        
+
+        };
+
         const attachDragCamera = () => {
             const stage = canvasState.stage;
             const camWorld = getNodeByName('group-world-pseudoLayer-camera-wrap');
@@ -566,28 +585,63 @@ const textGroup = new Konva.Group({ draggable: true });
             attachDragCamera();
             makeUi();
 
-const redTextGroup = new Konva.Group({ draggable: true, name: 'group-red' });
-const yellowTextGroup = new Konva.Group({ draggable: true, name: 'group-yellow' });            
-const redBox = new Konva.Rect({ x: 50, y: 50, width: 150, height: 100, fill: 'red', draggable: false });
-const yellowTransparentBox = new Konva.Rect({  x: 250,  y: 150,  width: 150, height: 100, fill: 'yellow', opacity: 0.4, draggable: false});
-const redComplexText = new Konva.Text({
-    x: 50, y: 50, width: 150, height: 100, padding: 5, align: 'center', fontSize: 10, fill: '#FFFFFF',
-    text: "This is a simple text frame example.\n\n" +
-          "Its within the Items layer and does move with the camera."
-});
-const yellowComplexText = new Konva.Text({
-    x: 250, y: 150, width: 150, height: 100, padding: 5, align: 'center', fontSize: 10, fill: '#000000',
-    text: "This is a simple text frame example.\n\n" +
-          "Its within the Host layer and does move with the camera."
-});
-redTextGroup.add(redBox, redComplexText);
-yellowTextGroup.add(yellowTransparentBox, yellowComplexText);
-let stringLayer = getNodeByName('group-items-pseudoLayer-z-0');
-let hostLayer = getNodeByName('group-items-pseudoLayer-z-40');
-stringLayer.add(redTextGroup);
-hostLayer.add(yellowTextGroup);
-            
-                
+            const redTextGroup = new Konva.Group({
+                draggable: true,
+                name: 'group-red'
+            });
+            const yellowTextGroup = new Konva.Group({
+                draggable: true,
+                name: 'group-yellow'
+            });
+            const redBox = new Konva.Rect({
+                x: 50,
+                y: 50,
+                width: 150,
+                height: 100,
+                fill: 'red',
+                draggable: false
+            });
+            const yellowTransparentBox = new Konva.Rect({
+                x: 250,
+                y: 150,
+                width: 150,
+                height: 100,
+                fill: 'yellow',
+                opacity: 0.4,
+                draggable: false
+            });
+            const redComplexText = new Konva.Text({
+                x: 50,
+                y: 50,
+                width: 150,
+                height: 100,
+                padding: 5,
+                align: 'center',
+                fontSize: 10,
+                fill: '#FFFFFF',
+                text: "This is a simple text frame example.\n\n" +
+                    "Its within the Items layer and does move with the camera."
+            });
+            const yellowComplexText = new Konva.Text({
+                x: 250,
+                y: 150,
+                width: 150,
+                height: 100,
+                padding: 5,
+                align: 'center',
+                fontSize: 10,
+                fill: '#000000',
+                text: "This is a simple text frame example.\n\n" +
+                    "Its within the Host layer and does move with the camera."
+            });
+            redTextGroup.add(redBox, redComplexText);
+            yellowTextGroup.add(yellowTransparentBox, yellowComplexText);
+            let stringLayer = getNodeByName('group-items-pseudoLayer-z-0');
+            let hostLayer = getNodeByName('group-items-pseudoLayer-z-40');
+            stringLayer.add(redTextGroup);
+            hostLayer.add(yellowTextGroup);
+
+
             // One paint at the end:
             canvasState.stage.getLayers().forEach(l => l.batchDraw());
         } catch (err) {
