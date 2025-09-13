@@ -558,6 +558,9 @@ const clamp = (pos) => {
             container.style.width = '100%';
             container.style.height = '100%';
             container.style.overflow = 'hidden';
+            container.style.padding = '0';
+container.style.margin  = '0';
+container.style.border  = '0';
 
             const w = container.clientWidth;
             const h = container.clientHeight;
