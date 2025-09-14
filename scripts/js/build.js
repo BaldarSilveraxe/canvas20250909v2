@@ -50,13 +50,13 @@ const teardown = (state) => {
         state.stage = null;
     }
     if (state.indexId) {
-        state.indexId: {};
+        state.indexId = {};
     }
     if (state.indexName) {
-        state.indexName: {};
+        state.indexName = {};
     }
     if (state.reservedName) {
-        state.reservedName: {};
+        state.reservedName = {};
     }
 };
 
