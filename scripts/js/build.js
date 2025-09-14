@@ -36,8 +36,8 @@ const makeCameraWrappers = (state, config, util) => {
     genId = getId()
     theLayer = util.getNodeByName('layer-world');
     kObj  = new Konva.Group({ name: name, draggable: true });
-    ({ node } = addNode({ name: name, id: genId, konvaNode: kObj }));
-    theLayer.add(node);
+    //({ node } = addNode({ name: name, id: genId, konvaNode: kObj }));
+    //theLayer.add(node);
     //name = config.cameraWraps.itemsCamera;
     //theLayer = getNodeByName('layer-items');
     //kObj  = new Konva.Group({ name: name, draggable: true });
