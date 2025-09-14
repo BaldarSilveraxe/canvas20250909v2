@@ -6,11 +6,8 @@ const kCanvas = document.getElementById('konva-container');
 
 const state = {
   stage: null,
-  layers: {},
-  groups: {},
-  shapes: {},
-  index: {},
-  resizeHandler: null,
+  indexId: {},
+  indexName: {}
 };
 
 const api = build.setStageLayersGroups({
