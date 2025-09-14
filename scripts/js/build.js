@@ -30,16 +30,33 @@ const makeLayers = (state, config, util) => {  // Add util parameter
     });
 };
 
+const makeCameraWrappers = () => {
+    //let name, theLayer, kObj, node;
+    //name = config.cameraWraps.worldCamera;
+    //theLayer = getNodeByName('layer-world');
+    //kObj  = new Konva.Group({ name: name, draggable: true });
+    //({ node } = addNode({ stateType: 'groups', name: name, konvaNode: kObj }));
+    //theLayer.add(node);
+    //name = config.cameraWraps.itemsCamera;
+    //theLayer = getNodeByName('layer-items');
+    //kObj  = new Konva.Group({ name: name, draggable: true });
+    //({ node } = addNode({ stateType: 'groups', name: name, konvaNode: kObj }))
+    //theLayer.add(node);
+};
+
 const teardown = (state) => {
     if (state.stage) {
         state.stage.destroy();
         state.stage = null;
     }
     if (state.indexId) {
-        indexId: {};
+        state.indexId: {};
     }
     if (state.indexName) {
-        indexName: {};
+        state.indexName: {};
+    }
+    if (state.reservedName) {
+        state.reservedName: {};
     }
 };
 
@@ -70,6 +87,7 @@ export const build = {
             }
             
             makeLayers(state, config, util);  // Pass util as parameter
+            makeCameraWrappers( ); 
             
             // Batch draw all layers
             state.stage.getLayers().forEach(layer => layer.batchDraw());
