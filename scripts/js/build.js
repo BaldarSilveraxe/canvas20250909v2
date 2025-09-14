@@ -40,7 +40,7 @@ const makeCameraWrappers = (state, config, util) => {
     ({ node } = util.addNode({ name: name, id: genId, konvaNode: kObj }));
     theLayer.add(node); //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Make Safe
     util.addReserveName(name);
-    name = config.cameraWraps.itemsCamera;
+    name = config.build.cameraWraps.itemsCamera;
     theLayer = state.stage.findOne(`#${state.indexName['layer-items']}`);  //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Make 'layer-world' from Config
     kObj  = new Konva.Group({ name: name, draggable: true });
     ({ node } = util.addNode({ name: name, id: genId, konvaNode: kObj }));
