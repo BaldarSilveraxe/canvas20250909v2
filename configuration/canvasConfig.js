@@ -10,7 +10,8 @@ export const CONFIG = {
         padding: 0,
         margin: 0,
         border: 0
-      }
+      },
+      layers: ['world', 'items', 'ui']
     },
     layers: ['world', 'items', 'ui'],
     pseudoLayers: {
