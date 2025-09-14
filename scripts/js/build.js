@@ -14,19 +14,19 @@ const makeStage = (el, state, config) => {
 };
 
 const makeLayers = (state, config) => {
-            //config.layers.forEach(function(e, i) {
-            //    let name = `layer-${e}`;
-            //    let kObj  = new Konva.Layer({
-            //        name: name,
-            //        listening: true
-            //    });
-            //    const { node } = addNode({
-            //        stateType: 'layers',
-            //        name: name,
-            //        konvaNode: kObj
-            //    });
-            //    canvasState.stage.add(node);
-            //});
+    config.build.layers.forEach(function(e, i) {
+        let name = e;
+        let kObj  = new Konva.Layer({
+            name: name,
+            listening: true
+        });
+        const { node } = addNode({
+            stateType: 'layers',
+            name: name,
+            konvaNode: kObj
+        });
+        util.addNode(node);
+    });
 };
 
 const teardown = (state) => {
