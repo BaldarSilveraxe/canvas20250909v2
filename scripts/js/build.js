@@ -33,6 +33,12 @@ const teardown = (state) => {
         state.stage.destroy();
         state.stage = null;
     }
+    if (state.indexId) {
+        indexId: {};
+    }
+    if (state.indexName) {
+        indexName: {};
+    }
     // Clear other state
     //Object.keys(state.layers).forEach(key => delete state.layers[key]);
     //Object.keys(state.groups).forEach(key => delete state.groups[key]);
