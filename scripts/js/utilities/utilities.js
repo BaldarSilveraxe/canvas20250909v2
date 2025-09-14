@@ -3,7 +3,7 @@ export const createUtility = ({ state, config }) => {
     let s = state;
     const cfg = config;
   
-    const addNode = ({ stateType, name, konvaNode }) => {
+    const addNode = ({ name, id, konvaNode }) => {
         s.stage.add(konvaNode);
         
         return { node: konvaNode, id }; // Make sure to return the object
