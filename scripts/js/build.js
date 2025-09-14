@@ -35,18 +35,17 @@ const makeCameraWrappers = (state, config, util) => {
     let name, theLayer, kObj, node, genId;
     name = config.build.cameraWraps.worldCamera;
     genId = getId();
-    console.log(state.indexName['layer-world']);
-    theLayer = state.stage.findOne(`#${state.indexName['layer-world']}`);
-    console.log(theLayer);
+    theLayer = state.stage.findOne(`#${state.indexName['layer-world']}`); //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Make 'layer-world' from Config
     kObj  = new Konva.Group({ name: name, draggable: true });
     ({ node } = util.addNode({ name: name, id: genId, konvaNode: kObj }));
-    theLayer.add(node);
+    theLayer.add(node); //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Make Safe
     util.addReserveName(name);
-    //name = config.cameraWraps.itemsCamera;
-    //theLayer = getNodeByName('layer-items');
-    //kObj  = new Konva.Group({ name: name, draggable: true });
-    //({ node } = addNode({ stateType: 'groups', name: name, konvaNode: kObj }))
-    //theLayer.add(node);
+    name = config.cameraWraps.itemsCamera;
+    theLayer = state.stage.findOne(`#${state.indexName['layer-items']}`);  //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Make 'layer-world' from Config
+    kObj  = new Konva.Group({ name: name, draggable: true });
+    ({ node } = util.addNode({ name: name, id: genId, konvaNode: kObj }));
+    theLayer.add(node); /~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Make Safe
+    util.addReserveName(name);
 };
 
 const teardown = (state) => {
