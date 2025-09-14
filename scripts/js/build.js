@@ -1,6 +1,6 @@
 import Konva from 'https://esm.sh/konva@9';
 
-const setStageLayersGroupKeyItems = (() => {
+const setStageLayersGroups = (() => {
         
         console.log(canvasState);
         
@@ -10,5 +10,5 @@ return {
 })();
 
 export {
-    board
+    setStageLayersGroups
 };
