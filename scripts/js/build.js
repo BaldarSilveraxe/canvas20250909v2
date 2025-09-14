@@ -15,10 +15,19 @@ export const build = {
         if (!htmlContainer) throw new Error('setStageLayersGroups: htmlContainer is required');
         if (!state) throw new Error('setStageLayersGroups: state is required');
 
-        console.log(config);
+        try {
+            //makeStage(kCanvas); // may throw
+            //if (!(canvasState.stage instanceof Konva.Stage)) {
+            //    throw new Error('board.create: stage not created');
+            }
+            //makeLayers();
 
-        state.stage = 'Hello';   // or whatever you want here
-        const cats = 'cats';
-        return { cats };
+            //canvasState.stage.getLayers().forEach(l => l.batchDraw());
+        } catch (err) {
+            //teardown();
+            //throw err;
+        }
+
+        return { //cats };
     }
 };
