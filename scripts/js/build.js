@@ -20,12 +20,11 @@ const makeLayers = (state, config) => {
             name: name,
             listening: true
         });
-        const { node } = addNode({
+        const { node } = util.addNode({
             stateType: 'layers',
             name: name,
             konvaNode: kObj
         });
-        util.addNode(node);
     });
 };
 
