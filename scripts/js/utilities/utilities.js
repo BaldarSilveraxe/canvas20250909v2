@@ -5,7 +5,7 @@ export const createUtility = ({ state, config }) => {
 
     const addReserveName = (string) => {
         if (!s.reservedName.has(string)) {
-            s.add(string);
+            s.reservedName.add(string);
         }
     };
     const addNode = ({ name, id, konvaNode }) => {
