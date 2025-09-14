@@ -1,4 +1,3 @@
-//import { board } from './board.js';
 import { build } from './build.js';
 import { CONFIG } from '../../configuration/canvasConfig.js';
 
@@ -15,6 +14,3 @@ const api = build.setStageLayersGroups({
   state,
   config: CONFIG,
 });
-
-console.log(state.stage); // -> "Hello"
-console.log(api.cats);     // -> "cats"
