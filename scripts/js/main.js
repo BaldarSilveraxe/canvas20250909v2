@@ -1,5 +1,5 @@
 //import { board } from './board.js';
-import { setStageLayersGroups } from './build.js';
+import { build } from './build.js';
 
 const canvasState = {
   stage: null,
