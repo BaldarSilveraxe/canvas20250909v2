@@ -21,5 +21,5 @@ export const createUtility = ({ state, config }) => {
         return s.stage.find('#nodeId');
     };
 
-    return { addReserveName, addNode};
+    return { addReserveName, addNode, getNodeByName};
 };
