@@ -30,10 +30,11 @@ const makeLayers = (state, config, util) => {  // Add util parameter
     });
 };
 
-const makeCameraWrappers = () => {
-    //let name, theLayer, kObj, node;
+const makeCameraWrappers = (state, config, util) => {
+    let name, theLayer, kObj, node;
     //name = config.cameraWraps.worldCamera;
-    //theLayer = getNodeByName('layer-world');
+    theLayer = util.getNodeByName('layer-world');
+    log(theLayer);
     //kObj  = new Konva.Group({ name: name, draggable: true });
     //({ node } = addNode({ stateType: 'groups', name: name, konvaNode: kObj }));
     //theLayer.add(node);
@@ -87,7 +88,7 @@ export const build = {
             }
             
             makeLayers(state, config, util);  // Pass util as parameter
-            makeCameraWrappers( ); 
+            makeCameraWrappers(state, config, util); 
             
             // Batch draw all layers
             state.stage.getLayers().forEach(layer => layer.batchDraw());
