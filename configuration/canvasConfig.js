@@ -11,7 +11,7 @@ export const CONFIG = {
         margin: 0,
         border: 0
       },
-      layers: ['world', 'items', 'ui']
+      layers: ['layer-world', 'layer-items', 'layer-ui']
     },
     layers: ['world', 'items', 'ui'],
     pseudoLayers: {
