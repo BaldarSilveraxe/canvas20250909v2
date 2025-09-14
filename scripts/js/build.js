@@ -2,7 +2,7 @@ import Konva from 'https://esm.sh/konva@9';
 import { getId } from './utilities/getId.js';
 import { createUtility } from './utilities/utilities.js';
 
-const makeStage = (el, state, config) => {
+const makeStage = (el, state, config, util) => {
     Object.assign(el.style, config.build.stage.elStyle);
     state.stage = new Konva.Stage({
         id: getId(),
