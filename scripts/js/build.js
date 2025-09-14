@@ -22,9 +22,9 @@ export const build = {
 
         try {
             makeStage(htmlContainer);
-            if (!(canvasState.stage instanceof Konva.Stage)) {
-                throw new Error('board.create: stage not created');
-            }
+            //if (!(canvasState.stage instanceof Konva.Stage)) {
+            //    throw new Error('board.create: stage not created');
+            //}
             //makeLayers();
 
             //canvasState.stage.getLayers().forEach(l => l.batchDraw());
