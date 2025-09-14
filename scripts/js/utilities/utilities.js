@@ -8,8 +8,7 @@ export const createUtility = ({ state, config }) => {
             s.reservedName.add(string);
         }
     };
-    const addNode = ({ name, id, konvaNode }) => {
-        s.stage.add(konvaNode);
+    const addNode = ({ name, id, konvaNode }) => {;
         s.indexId[id] = name;
         s.indexName[name] = id;
         return { node: konvaNode, id };
