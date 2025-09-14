@@ -20,4 +20,4 @@ const api = build.setStageLayersGroups({
 });
 
 console.log(state.stage); // -> "Hello"
-console.log(build.setStageLayersGroups.cats);     // -> "cats"
+console.log(api.cats);     // -> "cats"
