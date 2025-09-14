@@ -10,7 +10,7 @@ const setStageLayersGroups  = (kCanvas, canvasState) => {
         console.log(kCanvas);
         console.log(canvasState);
 
-canvasState.stage = "hello";
+//canvasState.stage = "hello";
 
         // Enhanced Public API
         return {
