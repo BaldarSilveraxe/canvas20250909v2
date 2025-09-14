@@ -2,7 +2,7 @@
 export const CONFIG = {
     stage: null,
     indexId: {},
-    IndexName: {},
+    indexName: {},
     build: {
         stage: {
             name: '_stage',
