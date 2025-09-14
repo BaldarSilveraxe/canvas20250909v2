@@ -10,6 +10,13 @@ const canvasState = {
   resizeHandler: null,
 };
 
+const config = {
+  build: {
+
+  }
+
+};
+
 const kCanvas = document.getElementById('konva-container');
 const newBoard = build.setStageLayersGroups(kCanvas, canvasState);
 
