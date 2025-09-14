@@ -7,16 +7,11 @@ const canvasState = {
   groups: {},
   shapes: {},
   index: {},
-  resizeHandler: null, // Store for cleanup
+  resizeHandler: null,
 };
 
-const getEl = (id) => document.getElementById(id);
-
-const kCanvas = getEl('konva-container');
-
+const kCanvas = document.getElementById('konva-container');
 const newBoard = build.setStageLayersGroups(kCanvas, canvasState);
 
-console.log(canvasState.stage);
-console.log(newBoard.cats);    
-
-//const newBoard = board.create(kCanvas);
+console.log(canvasState.stage); // -> "Hello"
+console.log(newBoard.cats);     // -> "cats"
