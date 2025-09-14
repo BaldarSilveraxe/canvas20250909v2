@@ -15,7 +15,11 @@ const makeStage = (el, state, config, util) => {
 };
 
 const makeLayers = (state, config, util) => {  // Add util parameter
+    Object.keys(config.build.layers).forEach(key => {
+        console.log(key);
+    });
     config.build.layers.forEach(function(layerName, i) {
+    });
         let genId = getId(), kObj = new Konva.Layer({
             id: genId,
             name: layerName,
@@ -91,7 +95,7 @@ export const build = {
             }
             
             makeLayers(state, config, util);  // Pass util as parameter
-            makeCameraWrappers(state, config, util); 
+            //makeCameraWrappers(state, config, util); 
             
             // Batch draw all layers
             state.stage.getLayers().forEach(layer => layer.batchDraw());
