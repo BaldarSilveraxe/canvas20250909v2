@@ -56,10 +56,9 @@ export const build = {
         if (!htmlContainer) throw new Error('setStageLayersGroups: htmlContainer is required');
         if (!state) throw new Error('setStageLayersGroups: state is required');
         if (!config) throw new Error('setStageLayersGroups: config is required');
-        
+        const util = createUtility({ state, config });
         try {
             
-            const util = createUtility({ state, config });
             makeStage(htmlContainer, state, config);
             
             if (!state.stage) {
