@@ -5,7 +5,8 @@ export const createUtility = ({ state, config }) => {
   
     const addNode = () => {
         const id = crypto.randomUUID();
-        konvaNode.id(id);  
+        konvaNode.id(id);
+        state.stage.add(konvaNode);
     };
     const otherFunction = () => {};
 
