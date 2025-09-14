@@ -1,6 +1,9 @@
 // config.js
 export const CONFIG = {
   build: {
+    stage: {
+      name: '_stage',
+    },
     layers: ['world', 'items', 'ui'],
     pseudoLayers: {
       world: {
