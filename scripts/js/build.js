@@ -1,5 +1,9 @@
 import Konva from 'https://esm.sh/konva@9';
 
+const createId = () => {
+    return: crypto.randomUUID();
+};
+
 const makeStage = (el, state, config) => {
     // Ensure the container is viewport-sized and doesn't scroll
     el.style.width = '100%';
