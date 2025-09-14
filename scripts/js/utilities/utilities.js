@@ -15,5 +15,11 @@ export const createUtility = ({ state, config }) => {
         return { node: konvaNode, id };
     };
 
+    const getNodeByName = (name) => {
+        const nodeId = s.indexName[name];
+        if (!nodeId) return null;
+        return s.stage.find('#nodeId');
+    };
+
     return { addReserveName, addNode};
 };
