@@ -4,7 +4,7 @@ export const createUtility = ({ state, config }) => {
     const cfg = config;
 
     const addReserveName = (string) => {
-        if (!s.reservedName.has(string) {
+        if (!s.reservedName.has(string)) {
             s.add(string);
         }
     };
