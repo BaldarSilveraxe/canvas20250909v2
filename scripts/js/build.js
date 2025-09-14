@@ -17,7 +17,7 @@ export const build = {
 
         try {
             //makeStage(kCanvas); // may throw
-            //if (!(canvasState.stage instanceof Konva.Stage)) {
+            if (!state//!(canvasState.stage instanceof Konva.Stage)) {
             //    throw new Error('board.create: stage not created');
             }
             //makeLayers();
@@ -25,7 +25,7 @@ export const build = {
             //canvasState.stage.getLayers().forEach(l => l.batchDraw());
         } catch (err) {
             //teardown();
-            //throw err;
+            throw err;
         }
 
         return { //cats };
