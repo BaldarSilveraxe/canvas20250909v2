@@ -1,6 +1,8 @@
 //import { board } from './board.js';
 import { build } from './build.js';
 
+const kCanvas = document.getElementById('konva-container');
+
 const canvasState = {
   stage: null,
   layers: {},
@@ -57,8 +59,7 @@ const CONFIG = {
      }
 };
 
-const kCanvas = document.getElementById('konva-container');
-const newBoard = build.setStageLayersGroups(kCanvas, canvasState);
+const newBoard = build.setStageLayersGroups(kCanvas, canvasState, CONFIG);
 
 console.log(canvasState.stage); // -> "Hello"
 console.log(newBoard.cats);     // -> "cats"
