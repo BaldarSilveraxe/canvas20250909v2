@@ -19,5 +19,5 @@ const api = build.setStageLayersGroups({
   config: CONFIG,
 });
 
-console.log(canvasState.stage); // -> "Hello"
-console.log(newBoard.cats);     // -> "cats"
+console.log(state.stage); // -> "Hello"
+console.log(build.setStageLayersGroups.cats);     // -> "cats"
