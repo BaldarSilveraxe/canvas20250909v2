@@ -54,7 +54,7 @@ const config = {
             fill: '#000000',
             listening: true
         },
-     };
+     }
 
 };
 
