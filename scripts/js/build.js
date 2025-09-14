@@ -36,7 +36,8 @@ const makeCameraWrappers = (state, config, util) => {
     name = config.build.cameraWraps.worldCamera;
     genId = getId();
     console.log(state.indexName['layer-world']);
-    //theLayer = state.stage.find(`#${state.indexName['layer-world']}`);
+    theLayer = state.stage.find(`#${state.indexName['layer-world']}`);
+    console.log(theLayer);
     //kObj  = new Konva.Group({ name: name, draggable: true });
     //({ node } = util.addNode({ name: name, id: genId, konvaNode: kObj }));
     //theLayer.add(node);
