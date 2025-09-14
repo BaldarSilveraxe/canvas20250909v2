@@ -1,13 +1,13 @@
 import Konva from 'https://esm.sh/konva@9';
 
-const build = ((kCanvas, canvasState) => {
+const build = (() => {
         
         console.log(canvasState);
         console.log(kCanvas);
         
 const setStageLayersGroups  = (kCanvas, canvasState) => {
 
-        console.log('finished');
+        console.log(kCanvas);
         console.log(canvasState);
 
         // Enhanced Public API
