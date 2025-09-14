@@ -4,7 +4,8 @@ export const build = {
 
     setStageLayersGroups(kCanvas, canvasState) {
 
-    return { stage };
+    return {};
+
     }
     
 };
