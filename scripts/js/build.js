@@ -1,7 +1,6 @@
 import Konva from 'https://esm.sh/konva@9';
 import { getId } from './utilities/getId.js';
 
-
 const makeStage = (el, state, config) => {
     Object.assign(el.style, config.build.stage.elStyle);
     state.stage = new Konva.Stage({
@@ -23,9 +22,9 @@ const teardown = (state) => {
         state.stage = null;
     }
     // Clear other state
-    Object.keys(state.layers).forEach(key => delete state.layers[key]);
-    Object.keys(state.groups).forEach(key => delete state.groups[key]);
-    Object.keys(state.shapes).forEach(key => delete state.shapes[key]);
+    //Object.keys(state.layers).forEach(key => delete state.layers[key]);
+    //Object.keys(state.groups).forEach(key => delete state.groups[key]);
+    //Object.keys(state.shapes).forEach(key => delete state.shapes[key]);
 };
 
 export const build = {
