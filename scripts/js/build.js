@@ -3,14 +3,7 @@ import { getId } from './utilities/getId.js';
 
 
 const makeStage = (el, state, config) => {
-    Object.assign(el.style, {
-        width: '100%',
-        height: '100%',
-        overflow: 'hidden',
-        padding: 0,
-        margin: 0,
-        border: 0
-      });
+    Object.assign(el.style, config.elStyle);
 
     state.stage = new Konva.Stage({
         id: getId(),
