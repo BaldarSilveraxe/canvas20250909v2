@@ -10,7 +10,6 @@ const canvasState = {
   resizeHandler: null, // Store for cleanup
 };
 
-// Utility function
 const getEl = (id) => document.getElementById(id);
 
 const kCanvas = getEl('konva-container');
