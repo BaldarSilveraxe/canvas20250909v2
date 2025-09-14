@@ -16,7 +16,8 @@ const makeStage = (el, state, config) => {
 const makeLayers = (state, config, util) => {  // Add util parameter
     config.build.layers.forEach(function(layerName, i) {
         let kObj = new Konva.Layer({
-            name: `layer-${layerName}`,  // Use proper layer naming
+            id: getId(),
+            name: layerName,
             listening: true
         });
         const { node, id } = util.addNode({
