@@ -1,5 +1,5 @@
 import Konva from 'https://esm.sh/konva@9';
-import { getId } from '../utilities/getId.js';
+import { getId } from './utilities/getId.js';
 
 
 const makeStage = (el, state, config) => {
