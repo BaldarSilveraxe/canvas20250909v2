@@ -15,3 +15,5 @@ const api = build.setStageLayersGroups({
   state,
   config: CONFIG,
 });
+
+console.log(state)
