@@ -6,7 +6,7 @@ export const build = {
     * @param {Object} [opts.config]
     */
 
-    const makeStage = (htmlContainer) => {
+    const makeStage = (el) => {
 
     };
 
