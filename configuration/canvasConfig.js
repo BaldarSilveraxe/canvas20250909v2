@@ -12,6 +12,8 @@ export const CONFIG = {
                 border: 0
             },
         },
+        indexId: {},
+        IndexName: {},
         layers: ['layer-world', 'layer-items', 'layer-ui'],
     pseudoLayers: {
       world: {
