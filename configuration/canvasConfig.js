@@ -3,6 +3,14 @@ export const CONFIG = {
   build: {
     stage: {
       name: '_stage',
+      elStyle: {
+        width: '100%',
+        height: '100%',
+        overflow: 'hidden',
+        padding: 0,
+        margin: 0,
+        border: 0
+      }
     },
     layers: ['world', 'items', 'ui'],
     pseudoLayers: {
