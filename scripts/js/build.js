@@ -28,6 +28,6 @@ export const build = {
             throw err;
         }
 
-        return { //cats };
+        return {  };
     }
 };
