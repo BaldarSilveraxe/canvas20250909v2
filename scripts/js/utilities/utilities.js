@@ -1,14 +1,6 @@
-export const utility = () => {
+export const createUtility = (deps = {}) => {
+  const addNode = () => {};
+  const otherFunction = () => {};
 
-    const addNode = () => {
-
-    };
-
-    const otherFucntion = () => {
-        
-    };
-    return {
-        addNode,
-        otherFucntio
-    };
-}
+  return { addNode, otherFunction };
+};
