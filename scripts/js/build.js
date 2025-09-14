@@ -39,10 +39,6 @@ const teardown = (state) => {
     if (state.indexName) {
         indexName: {};
     }
-    // Clear other state
-    //Object.keys(state.layers).forEach(key => delete state.layers[key]);
-    //Object.keys(state.groups).forEach(key => delete state.groups[key]);
-    //Object.keys(state.shapes).forEach(key => delete state.shapes[key]);
 };
 
 export const build = {
@@ -74,7 +70,7 @@ export const build = {
             makeLayers(state, config, util);  // Pass util as parameter
             
             // Batch draw all layers
-            //state.stage.getLayers().forEach(layer => layer.batchDraw());
+            state.stage.getLayers().forEach(layer => layer.batchDraw());
             
         } catch (err) {
             teardown(state);
