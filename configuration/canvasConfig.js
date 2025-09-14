@@ -12,11 +12,24 @@ export const CONFIG = {
                 border: 0
             },
         },
-        layers: ['layer-world', 'layer-items', 'layer-ui'],
-        cameraWraps: {
-            worldCamera: 'group-world-pseudoLayer-camera-wrap',
-            itemsCamera: 'group-items-pseudoLayer-camera-wrap',
-        },
+        layers: {
+            world: {
+                layerName: 'layer-world',
+                cameraName: 'group-world-pseudoLayer-camera-wrap'
+            },
+            items: {
+                layerName: 'layer-items',
+                cameraName: 'group-items-pseudoLayer-camera-wrap'
+            },
+            ui:{
+                layerName: 'layer-world',
+                cameraName: null
+            }
+        }, //['layer-world', 'layer-items', 'layer-ui'],
+        //cameraWraps: {
+        //    worldCamera: 'group-world-pseudoLayer-camera-wrap',
+        //    itemsCamera: 'group-items-pseudoLayer-camera-wrap',
+        //},
         pseudoLayers: {
             world: {
                 group: 'group-world-pseudoLayer-camera-wrap',
