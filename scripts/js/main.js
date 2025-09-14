@@ -13,8 +13,6 @@ const canvasState = {
   resizeHandler: null,
 };
 
-
-
 const newBoard = build.setStageLayersGroups(kCanvas, canvasState, CONFIG);
 
 console.log(canvasState.stage); // -> "Hello"
