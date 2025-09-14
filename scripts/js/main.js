@@ -1,6 +1,6 @@
 //import { board } from './board.js';
 import { build } from './build.js';
-import { CONFIG } from './configuration/canvasConfig.js';
+import { CONFIG } from '.../configuration/canvasConfig.js';
 
 const kCanvas = document.getElementById('konva-container');
 
