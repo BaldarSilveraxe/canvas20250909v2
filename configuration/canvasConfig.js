@@ -10,10 +10,9 @@ export const CONFIG = {
                 padding: 0,
                 margin: 0,
                 border: 0
+            },
         },
-        layers: ['layer-world', 'layer-items', 'layer-ui']
-    },
-    layers: ['world', 'items', 'ui'],
+        layers: ['layer-world', 'layer-items', 'layer-ui'],
     pseudoLayers: {
       world: {
         group: 'group-world-pseudoLayer-camera-wrap',
