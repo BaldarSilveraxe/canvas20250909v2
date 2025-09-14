@@ -4,7 +4,7 @@ import { CONFIG } from '../../configuration/canvasConfig.js';
 
 const kCanvas = document.getElementById('konva-container');
 
-const canvasState = {
+const state = {
   stage: null,
   layers: {},
   groups: {},
@@ -13,7 +13,11 @@ const canvasState = {
   resizeHandler: null,
 };
 
-const newBoard = build.setStageLayersGroups(kCanvas, canvasState, CONFIG);
+const api = build.setStageLayersGroups({
+  htmlContainer: kCanvas,
+  state,
+  config: CONFIG,
+});
 
 console.log(canvasState.stage); // -> "Hello"
 console.log(newBoard.cats);     // -> "cats"
