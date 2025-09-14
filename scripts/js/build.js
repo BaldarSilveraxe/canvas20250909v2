@@ -3,13 +3,14 @@ import { getId } from './utilities/getId.js';
 
 
 const makeStage = (el, state, config) => {
-    // Ensure the container is viewport-sized and doesn't scroll
-    el.style.width = '100%';
-    el.style.height = '100%';
-    el.style.overflow = 'hidden';
-    el.style.padding = '0';
-    el.style.margin = '0';
-    el.style.border = '0';
+    Object.assign(el.style, {
+        width: '100%',
+        height: '100%',
+        overflow: 'hidden',
+        padding: 0,
+        margin: 0,
+        border: 0
+      });
 
     state.stage = new Konva.Stage({
         id: getId(),
