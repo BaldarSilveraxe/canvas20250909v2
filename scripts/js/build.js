@@ -40,14 +40,14 @@ export const build = {
         try {
             makeStage(htmlContainer, state, config);
             
-            if (!state.stage) {
-                throw new Error('setStageLayersGroups: stage not created');
-            }
+            //if (!state.stage) {
+            //    throw new Error('setStageLayersGroups: stage not created');
+            //}
             
             makeLayers(state, config);
             
             // Batch draw all layers
-            state.stage.getLayers().forEach(layer => layer.batchDraw());
+            //state.stage.getLayers().forEach(layer => layer.batchDraw());
             
         } catch (err) {
             teardown(state);
