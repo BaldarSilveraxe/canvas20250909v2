@@ -18,7 +18,7 @@ export const createUtility = ({ state, config }) => {
     const getNodeByName = (name) => {
         const nodeId = s.indexName[name];
         if (!nodeId) return null;
-        return s.stage.find('#nodeId');
+        return s.stage.find(`#${nodeId}`);
     };
 
     return { addReserveName, addNode, getNodeByName};
