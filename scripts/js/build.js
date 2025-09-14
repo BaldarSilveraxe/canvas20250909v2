@@ -31,13 +31,13 @@ const makeLayers = (state, config, util) => {  // Add util parameter
 };
 
 const makeCameraWrappers = (state, config, util) => {
-    let name, theLayer, kObj, node;
-    //name = config.cameraWraps.worldCamera;
+    let name, theLayer, kObj, node, genId;
+    name = config.cameraWraps.worldCamera;
+    genId = getId()
     theLayer = util.getNodeByName('layer-world');
-    console.log(theLayer);
-    //kObj  = new Konva.Group({ name: name, draggable: true });
-    //({ node } = addNode({ stateType: 'groups', name: name, konvaNode: kObj }));
-    //theLayer.add(node);
+    kObj  = new Konva.Group({ name: name, draggable: true });
+    ({ node } = addNode({ name: name, id: genId, konvaNode: kObj }));
+    theLayer.add(node);
     //name = config.cameraWraps.itemsCamera;
     //theLayer = getNodeByName('layer-items');
     //kObj  = new Konva.Group({ name: name, draggable: true });
