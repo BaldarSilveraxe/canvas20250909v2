@@ -16,7 +16,18 @@ const makeStage = (el, state, config, util) => {
 
 const makeLayers = (state, config, util) => {  // Add util parameter
     Object.keys(config.build.layers).forEach(key => {
-        console.log(config.build.layers[key].layerName);
+            let genId = getId(), kObj = new Konva.Layer({
+            id: genId,
+            name: config.build.layers[key].layerName,
+            listening: true
+        });
+        const { node, id } = util.addNode({
+            name: config.build.layers[key].layerName,
+            id: genId,
+            konvaNode: kObj
+        });
+        state.stage.add(kObj);
+        util.addReserveName(config.build.layers[key].layerName);
     });
     //config.build.layers.forEach(function(layerName, i) {
     //});
