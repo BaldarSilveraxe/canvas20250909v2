@@ -12,7 +12,7 @@ const makeStage = (el, state, config) => {
     state.stage = new Konva.Stage({
         id: crypto.randomUUID(),
         name: '_stage',
-        el,
+        container: el,
         width: el.clientWidth,
         height: el.clientHeight, 
     });
