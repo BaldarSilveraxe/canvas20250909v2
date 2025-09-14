@@ -10,7 +10,7 @@ const canvasState = {
   resizeHandler: null,
 };
 
-const config = {
+const CONFIG = {
     build: {
         layers: ['world', 'items', 'ui'],
         pseudoLayers: {
@@ -55,7 +55,6 @@ const config = {
             listening: true
         },
      }
-
 };
 
 const kCanvas = document.getElementById('konva-container');
