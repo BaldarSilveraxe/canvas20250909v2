@@ -6,8 +6,8 @@ export const build = {
     * @param {Object} [opts.config]
     */
 
-    const makeStage = (el) => {
-
+    const makeStage = (el, state, config) => {
+        // Create Konva stage
     };
 
     setStageLayersGroups(opts = {}) {
@@ -21,7 +21,7 @@ export const build = {
         if (!state) throw new Error('setStageLayersGroups: state is required');
 
         try {
-            makeStage(htmlContainer);
+            makeStage(htmlContainer, state, config);
             //if (!(canvasState.stage instanceof Konva.Stage)) {
             //    throw new Error('board.create: stage not created');
             //}
