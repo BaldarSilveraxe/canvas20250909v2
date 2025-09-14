@@ -17,7 +17,7 @@ export const build = {
 
         console.log(config);
 
-        canvasState.stage = 'Hello';   // or whatever you want here
+        state.stage = 'Hello';   // or whatever you want here
         const cats = 'cats';
         return { cats };
     }
