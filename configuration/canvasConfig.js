@@ -13,6 +13,10 @@ export const CONFIG = {
             },
         },
         layers: ['layer-world', 'layer-items', 'layer-ui'],
+        cameraWraps: {
+            worldCamera: 'group-world-pseudoLayer-camera-wrap',
+            itemsCamera: 'group-items-pseudoLayer-camera-wrap',
+        },
         pseudoLayers: {
             world: {
                 group: 'group-world-pseudoLayer-camera-wrap',
@@ -29,28 +33,6 @@ export const CONFIG = {
                 ],
             },
         },
-        cameraWraps: {
-            worldCamera: 'group-world-pseudoLayer-camera-wrap',
-            itemsCamera: 'group-items-pseudoLayer-camera-wrap',
-        },
-        RESERVED_NAMES: new Set([
-            '_stage',
-            'layer-world',
-            'layer-items',
-            'layer-ui',
-            'group-world-pseudoLayer-camera-wrap',
-            'group-world-pseudoLayer-background',
-            'group-world-pseudoLayer-grid',
-            'group-items-pseudoLayer-camera-wrap',
-            'group-items-pseudoLayer-z-0',
-            'group-items-pseudoLayer-z-10',
-            'group-items-pseudoLayer-z-20',
-            'group-items-pseudoLayer-z-30',
-            'group-items-pseudoLayer-z-40',
-            'group-ui-pseudoLayer-main',
-            'shape-pseudoLayer-background-rect',
-            'group-world-grid',
-        ]),
         world: {
             x: 0,
             y: 0,
