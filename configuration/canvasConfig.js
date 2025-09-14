@@ -22,7 +22,7 @@ export const CONFIG = {
                 cameraName: 'group-items-pseudoLayer-camera-wrap'
             },
             ui:{
-                layerName: 'layer-world',
+                layerName: 'layer-ui',
                 cameraName: null
             }
         }, //['layer-world', 'layer-items', 'layer-ui'],
