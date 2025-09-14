@@ -1,8 +1,5 @@
 // config.js
 export const CONFIG = {
-    stage: null,
-    indexId: {},
-    indexName: {},
     build: {
         stage: {
             name: '_stage',
