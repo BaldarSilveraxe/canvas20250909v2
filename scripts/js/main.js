@@ -6,7 +6,8 @@ const kCanvas = document.getElementById('konva-container');
 const state = {
   stage: null,
   indexId: {},
-  indexName: {}
+  indexName: {},
+  reservedName: new Set()
 };
 
 const api = build.setStageLayersGroups({
