@@ -17,5 +17,6 @@ const kCanvas = getEl('konva-container');
 const newBoard = build.setStageLayersGroups(kCanvas, canvasState);
 
 console.log(canvasState.stage);
+console.log(newBoard.cats);    
 
 //const newBoard = board.create(kCanvas);
