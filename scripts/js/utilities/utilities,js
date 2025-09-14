@@ -11,3 +11,4 @@ export const const utility = () => {
             canvasState.index[name] = id;
             return { id, node: konvaNode };
         };
+}
