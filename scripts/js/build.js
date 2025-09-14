@@ -3,8 +3,8 @@ import { getId } from './utilities/getId.js';
 
 
 const makeStage = (el, state, config) => {
-    Object.assign(el.style, config.elStyle);
-
+    Object.assign(el.style, config.build.stage.elStyle);
+    console.log(config.build.stage.elStyle)
     state.stage = new Konva.Stage({
         id: getId(),
         name: '_stage',
