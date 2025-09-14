@@ -5,8 +5,9 @@ export const createUtility = ({ state, config }) => {
   
     const addNode = ({ name, id, konvaNode }) => {
         s.stage.add(konvaNode);
-        s.indexId[id] = name;
-        s.IndexName[name] = id;
+        console.log(name);
+        //s.indexId[id] = name;
+        //s.IndexName[name] = id;
         return { node: konvaNode, id };
     };
     
