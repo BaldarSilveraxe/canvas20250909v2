@@ -11,6 +11,7 @@ const makeStage = (el, state, config) => {
         width: el.clientWidth,
         height: el.clientHeight, 
     });
+    util.addReserveName(config.build.stage.name);
 };
 
 const makeLayers = (state, config, util) => {  // Add util parameter
@@ -25,6 +26,7 @@ const makeLayers = (state, config, util) => {  // Add util parameter
             id: genId,
             konvaNode: kObj
         });
+        util.addReserveName(layerName);
     });
 };
 
