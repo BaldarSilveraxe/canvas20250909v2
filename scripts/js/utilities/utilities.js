@@ -4,12 +4,12 @@ export const createUtility = ({ state, config }) => {
     const cfg = config;
   
     const addNode = ({ name, id, konvaNode }) => {
-        //s.stage.add(konvaNode);
+        s.stage.add(konvaNode);
         console.log(name);
         console.log(s);
         console.log(id);
         s.indexId[id] = name;
-        s.IndexName[name] = id;
+        s.indexName[name] = id;
         return { node: konvaNode, id };
     };
     
