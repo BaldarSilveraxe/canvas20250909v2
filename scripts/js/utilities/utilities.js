@@ -1,4 +1,5 @@
 export const const utility = () => {
+
     const addNode = ({ stateType, name, konvaNode }) => {
         const validStateTypes = new Set(['layers', 'groups', 'shapes']);
         if (!validStateTypes.has(stateType)) {
@@ -6,13 +7,17 @@ export const const utility = () => {
             return null;
         }
         const id = crypto.randomUUID();
-            konvaNode.id(id);
-            canvasState[stateType][id] = konvaNode;
-            canvasState.index[name] = id;
-            return { id, node: konvaNode };
-        };
+        konvaNode.id(id);
+        canvasState[stateType][id] = konvaNode;
+        canvasState.index[name] = id;
+        return { id, node: konvaNode };
+    };
 
-        return {
-            addNode
-        };
+    const otherFucntion = () => {
+        
+    };
+    return {
+        addNode,
+        otherFucntio
+    };
 }
