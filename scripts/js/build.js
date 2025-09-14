@@ -26,6 +26,7 @@ const makeLayers = (state, config, util) => {  // Add util parameter
             id: genId,
             konvaNode: kObj
         });
+        state.stage.add(kObj);
         util.addReserveName(layerName);
     });
 };
@@ -38,6 +39,7 @@ const makeCameraWrappers = (state, config, util) => {
     kObj  = new Konva.Group({ name: name, draggable: true });
     ({ node } = util.addNode({ name: name, id: genId, konvaNode: kObj }));
     theLayer.add(node);
+    util.addReserveName(name);
     //name = config.cameraWraps.itemsCamera;
     //theLayer = getNodeByName('layer-items');
     //kObj  = new Konva.Group({ name: name, draggable: true });
