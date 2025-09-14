@@ -14,7 +14,19 @@ const makeStage = (el, state, config) => {
 };
 
 const makeLayers = (state, config) => {
-
+            //config.layers.forEach(function(e, i) {
+            //    let name = `layer-${e}`;
+            //    let kObj  = new Konva.Layer({
+            //        name: name,
+            //        listening: true
+            //    });
+            //    const { node } = addNode({
+            //        stateType: 'layers',
+            //        name: name,
+            //        konvaNode: kObj
+            //    });
+            //    canvasState.stage.add(node);
+            //});
 };
 
 const teardown = (state) => {
