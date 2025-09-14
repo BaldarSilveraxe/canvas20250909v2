@@ -1,4 +1,5 @@
 import Konva from 'https://esm.sh/konva@9';
+import { getIds } from './utilities/getIds.js';
 
 const createId = () => {
     return: crypto.randomUUID();
