@@ -63,7 +63,7 @@ export const build = {
         
         try {
             const util = createUtility({ state, config });
-            makeStage(htmlContainer, state, config);
+            makeStage(htmlContainer, state, config, util);
             
             if (!state.stage) {
                 throw new Error('setStageLayersGroups: stage not created');
