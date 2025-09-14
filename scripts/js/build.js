@@ -38,10 +38,10 @@ const makeCameraWrappers = (state, config, util) => {
     console.log(state.indexName['layer-world']);
     theLayer = state.stage.findOne(`#${state.indexName['layer-world']}`);
     console.log(theLayer);
-    //kObj  = new Konva.Group({ name: name, draggable: true });
-    //({ node } = util.addNode({ name: name, id: genId, konvaNode: kObj }));
-    //theLayer.add(node);
-    //util.addReserveName(name);
+    kObj  = new Konva.Group({ name: name, draggable: true });
+    ({ node } = util.addNode({ name: name, id: genId, konvaNode: kObj }));
+    theLayer.add(node);
+    util.addReserveName(name);
     //name = config.cameraWraps.itemsCamera;
     //theLayer = getNodeByName('layer-items');
     //kObj  = new Konva.Group({ name: name, draggable: true });
