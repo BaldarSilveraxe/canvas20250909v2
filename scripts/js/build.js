@@ -21,7 +21,6 @@ const makeLayers = (state, config, util) => {  // Add util parameter
             listening: true
         });
         const { node, id } = util.addNode({
-            stateType: 'layers',
             name: layerName,
             id: id,
             konvaNode: kObj
