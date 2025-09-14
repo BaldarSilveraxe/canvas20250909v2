@@ -1,28 +1,10 @@
 import Konva from 'https://esm.sh/konva@9';
 
-const build = (() => {
-        
-        console.log(canvasState);
-        console.log(kCanvas);
-        
-const setStageLayersGroups  = (kCanvas, canvasState) => {
+export const build = {
 
-        console.log(kCanvas);
-        console.log(canvasState);
+    setStageLayersGroups(kCanvas, canvasState) {
 
-//canvasState.stage = "hello";
-
-        // Enhanced Public API
-        return {
-            stage: canvasState.stage
-        };
-    };
-        
-return {
-        setStageLayersGroups
-    };
-})();
-
-export {
-    build
+    return { stage };
+    }
+    
 };
