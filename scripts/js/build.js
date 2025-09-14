@@ -5,7 +5,7 @@ const build = ((kCanvas, canvasState) => {
         console.log(canvasState);
         console.log(kCanvas);
         
-const setStageLayersGroups  = (kCanvas) => {
+const setStageLayersGroups  = (kCanvas, canvasState) => {
 
         console.log('finished');
         console.log(canvasState);
