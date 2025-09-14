@@ -15,7 +15,7 @@ export const build = {
         if (!htmlContainer) throw new Error('setStageLayersGroups: htmlContainer is required');
         if (!state) throw new Error('setStageLayersGroups: state is required');
 
-        console.log(CONFIG);
+        console.log(config);
 
         canvasState.stage = 'Hello';   // or whatever you want here
         const cats = 'cats';
