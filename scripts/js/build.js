@@ -1,4 +1,5 @@
-// Helper functions
+import Konva from 'https://esm.sh/konva@9';
+
 const makeStage = (el, state, config) => {
     // Create Konva stage
 
