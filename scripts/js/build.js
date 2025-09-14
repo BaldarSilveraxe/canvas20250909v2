@@ -32,8 +32,7 @@ const makeLayers = (state, config, util) => {  // Add util parameter
 
 const makeCameraWrappers = (state, config, util) => {
     let name, theLayer, kObj, node, genId;
-    //name = config.cameraWraps.worldCamera;
-    console.log(config)
+    name = config.build.cameraWraps.worldCamera;
     genId = getId()
     theLayer = util.getNodeByName('layer-world');
     //kObj  = new Konva.Group({ name: name, draggable: true });
