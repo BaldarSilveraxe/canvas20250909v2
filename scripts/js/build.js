@@ -8,7 +8,7 @@ export const build = {
 
     const makeStage = (el) => {
 
-    }
+    };
 
     setStageLayersGroups(opts = {}) {
         const {
