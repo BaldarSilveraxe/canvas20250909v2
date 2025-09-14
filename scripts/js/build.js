@@ -14,7 +14,6 @@ const makeStage = (el, state, config) => {
 };
 
 const makeLayers = (state, config, util) => {  // Add util parameter
-    console.log(config);
     config.build.layers.forEach(function(layerName, i) {
         let genId = getId(), kObj = new Konva.Layer({
             id: genId,
@@ -26,7 +25,6 @@ const makeLayers = (state, config, util) => {  // Add util parameter
             id: genId,
             konvaNode: kObj
         });
-        console.log(`Created layer: ${layerName} with id: ${id}`);
     });
 };
 
