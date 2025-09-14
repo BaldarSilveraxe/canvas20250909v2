@@ -12,7 +12,7 @@ const makeStage = (el, state, config) => {
     el.style.border = '0';
 
     state.stage = new Konva.Stage({
-        id: getIds(),
+        id: getId(),
         name: '_stage',
         container: el,
         width: el.clientWidth,
