@@ -1,8 +1,21 @@
 import Konva from 'https://esm.sh/konva@9';
 
 const makeStage = (el, state, config) => {
-    // Create Konva stage
+    // Ensure the container is viewport-sized and doesn't scroll
+    el.style.width = '100%';
+    el.style.height = '100%';
+    el.style.overflow = 'hidden';
+    el.style.padding = '0';
+    el.style.margin = '0';
+    el.style.border = '0';
 
+    state.stage = new Konva.Stage({
+        id: crypto.randomUUID(),
+        name: '_stage',
+        el,
+        width: el.clientWidth,
+        height: el.clientHeight, 
+    });
 };
 
 const makeLayers = (state, config) => {
