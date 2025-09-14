@@ -1,8 +1,6 @@
 import Konva from 'https://esm.sh/konva@9';
 import { getId } from './utilities/getId.js';
-import { createUtility } from './utility.js';
-const util = createUtility({ state, config: CONFIG });
-util.addNode();
+import { createUtility } from './utilities/utility.js';
 
 const makeStage = (el, state, config) => {
     Object.assign(el.style, config.build.stage.elStyle);
@@ -49,6 +47,8 @@ export const build = {
         if (!config) throw new Error('setStageLayersGroups: config is required');
         
         try {
+            
+            const util = createUtility({ state, config });
             makeStage(htmlContainer, state, config);
             
             if (!state.stage) {
