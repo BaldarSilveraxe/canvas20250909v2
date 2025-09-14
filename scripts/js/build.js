@@ -1,6 +1,6 @@
 import Konva from 'https://esm.sh/konva@9';
 import { getId } from './utilities/getId.js';
-import { createUtility } from './utilities/utility.js';
+import { createUtility } from './utilities/utilities.js';
 
 const makeStage = (el, state, config) => {
     Object.assign(el.style, config.build.stage.elStyle);
