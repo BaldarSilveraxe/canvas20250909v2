@@ -17,7 +17,7 @@ const setStageLayersGroups  = (kCanvas) => {
     };
         
 return {
-        //create
+        setStageLayersGroups
     };
 })();
 
