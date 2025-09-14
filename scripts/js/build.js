@@ -29,21 +29,6 @@ const makeLayers = (state, config, util) => {  // Add util parameter
         state.stage.add(kObj);
         util.addReserveName(config.build.layers[key].layerName);
     });
-    //config.build.layers.forEach(function(layerName, i) {
-    //});
-    //    let genId = getId(), kObj = new Konva.Layer({
-    //        id: genId,
-    //        name: layerName,
-     //       listening: true
-     //   });
-     //   const { node, id } = util.addNode({
-     //       name: layerName,
-     //       id: genId,
-     //       konvaNode: kObj
-    //    });
-    //    state.stage.add(kObj);
-    //    util.addReserveName(layerName);
-   // });
 };
 
 const makeCameraWrappers = (state, config, util) => {
