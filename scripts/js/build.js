@@ -36,20 +36,20 @@ const makeCameraWrappers = (state, config, util) => {
         console.log(config.build.layers[key]);
     });
         
-    let name, theLayer, kObj, node, genId;
-    name = config.build.cameraWraps.worldCamera;
-    genId = getId();
-    theLayer = state.stage.findOne(`#${state.indexName['layer-world']}`); //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Make 'layer-world' from Config
-    kObj  = new Konva.Group({ name: name, draggable: true });
-    ({ node } = util.addNode({ name: name, id: genId, konvaNode: kObj }));
-    theLayer.add(node); //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Make Safe
-    util.addReserveName(name);
-    name = config.build.cameraWraps.itemsCamera;
-    theLayer = state.stage.findOne(`#${state.indexName['layer-items']}`);  //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Make 'layer-world' from Config
-    kObj  = new Konva.Group({ name: name, draggable: true });
-    ({ node } = util.addNode({ name: name, id: genId, konvaNode: kObj }));
-    theLayer.add(node); //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Make Safe
-    util.addReserveName(name);
+    //let name, theLayer, kObj, node, genId;
+    //name = config.build.cameraWraps.worldCamera;
+    //genId = getId();
+    //theLayer = state.stage.findOne(`#${state.indexName['layer-world']}`); //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Make 'layer-world' from Config
+    //kObj  = new Konva.Group({ name: name, draggable: true });
+    //({ node } = util.addNode({ name: name, id: genId, konvaNode: kObj }));
+    //theLayer.add(node); //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Make Safe
+    //util.addReserveName(name);
+    //name = config.build.cameraWraps.itemsCamera;
+    //theLayer = state.stage.findOne(`#${state.indexName['layer-items']}`);  //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Make 'layer-world' from Config
+    //kObj  = new Konva.Group({ name: name, draggable: true });
+    //({ node } = util.addNode({ name: name, id: genId, konvaNode: kObj }));
+    //theLayer.add(node); //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Make Safe
+    //util.addReserveName(name);
 };
 
 const teardown = (state) => {
