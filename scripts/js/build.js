@@ -18,7 +18,8 @@ const makeStage = (el, state, config, util) => {
     });
     util.addReserveName(config.build.stage.name);
     return {
-        [config.build.stage.name]: { 
+        [config.build.stage.name]: {
+            node: state.stage,
             name: config.build.stage.name,
             id: genId,
             type: 'stage',
