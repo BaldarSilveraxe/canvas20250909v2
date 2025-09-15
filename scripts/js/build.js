@@ -148,7 +148,7 @@ const makeWorldRect = (state, config, util) => {
         name: config.build.world.name,
         id: genId,
         type: 'shape',
-        parent: config.build.pseudoLayers.world.background]
+        parent: config.build.pseudoLayers.world.background
     };
 };
 
