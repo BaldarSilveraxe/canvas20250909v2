@@ -100,7 +100,7 @@ const makeWorldRect = (state, config, util) => {
     genId = getId();
     kObj = new Konva.Rect({
         ...config.build.world,
-        genId
+        id: genId
     });
     ({
         node
