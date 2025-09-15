@@ -25,11 +25,7 @@ export const CONFIG = {
                 layerName: 'layer-ui',
                 cameraName: null
             }
-        }, //['layer-world', 'layer-items', 'layer-ui'],
-        //cameraWraps: {
-        //    worldCamera: 'group-world-pseudoLayer-camera-wrap',
-        //    itemsCamera: 'group-items-pseudoLayer-camera-wrap',
-        //},
+        },
         pseudoLayers: {
             world: {
                 group: 'group-world-pseudoLayer-camera-wrap',
