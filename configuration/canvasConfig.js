@@ -30,6 +30,7 @@ export const CONFIG = {
             world: {
                 group: 'group-world-pseudoLayer-camera-wrap',
                 pseudos: ['group-world-pseudoLayer-background', 'group-world-pseudoLayer-grid'],
+                background: 'group-world-pseudoLayer-background', // must match pseudos background above.
             },
             items: {
                 group: 'group-items-pseudoLayer-camera-wrap',
