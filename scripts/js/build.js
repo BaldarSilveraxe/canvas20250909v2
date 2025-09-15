@@ -70,10 +70,10 @@ const makePseudoLayers = (state, config, util) => {
             targetGroup = state.stage.findOne(`#${state.indexName[config.build.pseudoLayers.world.background]}`);
             if (!targetGroup) throw new Error('[makeWorldRect] pseudo layer not found');
             genId = getId();
-            kObj = new Konva.Rect({ ...config.world, genId });
-            ({ node } = util.addNode({ name: name, id: genId, konvaNode: kObj }));
+            kObj = new Konva.Rect({ ...config.build.world, genId });
+            ({ node } = util.addNode({ name: config.build.world.name, id: genId, konvaNode: kObj }));
             targetGroup.add(node);
-            util.addReserveName(name);
+            util.addReserveName(config.build.world.name);
         };
 
 const teardown = (state) => {
