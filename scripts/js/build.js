@@ -90,28 +90,6 @@ const makePseudoLayers = (state, config, util) => {
             targetGroup.add(node);
             util.addReserveName(name);
         });
-        //const cameraWrapperName = config.build.layers[key]?.cameraName;
-        //if (cameraWrapperName && state.indexName[cameraWrapperName]) {
-        //    targetGroup = state.stage.findOne(`#${state.indexName[cameraWrapperName]}`);
-        //    if (!targetGroup) throw new Error('[makePseudoLayers] target group not found');
-        //    config.build.pseudoLayers[key].pseudos.forEach(name => {
-        //        
-        //        kObj = new Konva.Group({
-        //            name: name,
-        //            id: genId,
-        //            // draggable: true
-        //        });
-        //        ({
-        //            node
-        //        } = util.addNode({
-        //            name: name,
-        //            id: genId,
-        //            konvaNode: kObj
-        //        }));
-        //        targetGroup.add(node);
-        //        util.addReserveName(name);
-        //    });
-        //}
     });
 };
 
