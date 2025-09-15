@@ -58,17 +58,13 @@ const makePseudoLayers = (state, config, util) => {
             targetGroup = state.stage.findOne(`#${state.indexName[config.build.layers[key].layerName]}`);
             if (!targetGroup) throw new Error('[makePseudoLayers] target group not found');
             config.build.pseudoLayers[key].pseudos.forEach(name => {
-                console.log(name);
+                genId = getId();
+                kObj  = new Konva.Group({ name: name, draggable: true });
+                ({ node } = util.addNode({ name: name, id: genId, konvaNode: kObj }));
+                targetGroup.add(node);
+                util.addReserveName(name);
             });
         }
-        //theLayer = state.stage.findOne(`#${state.indexName[config.build.layers[key].layerName]}`); 
-        //targetGroup = getNodeByName(config.pseudoLayers[key].group);
-        //if (!targetGroup) throw new Error('[makePseudoLayers] target group not found');
-        //config.pseudoLayers[key].pseudos.forEach(name => {
-        //    kObj= new Konva.Group({ name: name });
-        //    ({ node } = addNode({ stateType: 'groups', name: name, konvaNode: kObj }));
-        //    targetGroup.add(node);
-        //    });
     });
 };
 
