@@ -69,6 +69,7 @@ const makePseudoLayers = (state, config, util) => {
             let targetGroup, kObj, node;
             console.log(config.build.pseudoLayers.world.background);
             console.log(state.indexName);
+            console.log(`#${config.build.pseudoLayers.world.background}`);
             console.log(state.indexName[`#${config.build.pseudoLayers.world.background}`]);
             //targetGroup = state.stage.findOne(`#${state.indexName[config.build.pseudoLayers.world.background}`]);
             console.log(targetGroup);
