@@ -70,7 +70,7 @@ const makePseudoLayers = (state, config, util) => {
             console.log(config.build.pseudoLayers.world.background);
             console.log(state.indexName);
             console.log(state.indexName[`#${config.build.pseudoLayers.world.background}`]);
-            targetGroup = state.stage.findOne(`#${state.indexName[config.build.pseudoLayers.world.background}`]);
+            //targetGroup = state.stage.findOne(`#${state.indexName[config.build.pseudoLayers.world.background}`]);
             console.log(targetGroup);
             //targetGroup = getNodeByName('group-world-pseudoLayer-background');
             //if (!targetGroup) throw new Error('[makeWorldRect] pseudo layer not found');
