@@ -72,6 +72,9 @@ const makePseudoLayers = (state, config, util) => {
         console.log('~~~~~~~~~~~~~~~~~~');
         targetGroup = state.stage.findOne(`#${state.indexName[config.build.pseudoLayers[key].group]}`);
         console.log(targetGroup);
+        config.build.pseudoLayers[key].pseudos.forEach(name => {
+            console.log(name);
+        });
         //const cameraWrapperName = config.build.layers[key]?.cameraName;
         //if (cameraWrapperName && state.indexName[cameraWrapperName]) {
         //    targetGroup = state.stage.findOne(`#${state.indexName[cameraWrapperName]}`);
