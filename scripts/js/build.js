@@ -157,7 +157,7 @@ export const build = {
             config,
         } = opts;
 
-        let buildTree = {
+        let ref = {
             stage: {},
             layers: {},
             camWrap: {},
@@ -174,13 +174,13 @@ export const build = {
                 state,
                 config
             });
-            buildTree.stage = makeStage(htmlContainer, state, config, util);
+            ref.stage = makeStage(htmlContainer, state, config, util);
 
             if (state.stage) {
-                buildTree.layers = makeLayers(state, config, util); // Pass util as parameter
-                buildTree.camWrap = makeCameraWrappers(state, config, util);
-                buildTree.pseudoLayers = makePseudoLayers(state, config, util);
-                buildTree.shapes = makeWorldRect(state, config, util);
+                ref.layers = makeLayers(state, config, util); // Pass util as parameter
+                ref.camWrap = makeCameraWrappers(state, config, util);
+                ref.pseudoLayers = makePseudoLayers(state, config, util);
+                ref.shapes = makeWorldRect(state, config, util);
                 // Batch draw all layers
                 state.stage.batchDraw();
             } else {
@@ -197,7 +197,7 @@ export const build = {
         return {
             getStage: () => state.stage,
             teardown: () => teardown(state),
-            buildTree
+            ref
         };
     }
 };
