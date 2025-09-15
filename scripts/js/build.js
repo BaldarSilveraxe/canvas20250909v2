@@ -1,6 +1,10 @@
 import Konva from 'https://esm.sh/konva@9';
-import { getId } from './utilities/getId.js';
-import { createUtility } from './utilities/utilities.js';
+import {
+    getId
+} from './utilities/getId.js';
+import {
+    createUtility
+} from './utilities/utilities.js';
 
 const makeStage = (el, state, config, util) => {
     Object.assign(el.style, config.build.stage.elStyle);
@@ -9,19 +13,23 @@ const makeStage = (el, state, config, util) => {
         name: config.build.stage.name,
         container: el,
         width: el.clientWidth,
-        height: el.clientHeight, 
+        height: el.clientHeight,
     });
     util.addReserveName(config.build.stage.name);
 };
 
-const makeLayers = (state, config, util) => {  // Add util parameter
+const makeLayers = (state, config, util) => { // Add util parameter
     Object.keys(config.build.layers).forEach(key => {
-            let genId = getId(), kObj = new Konva.Layer({
-            id: genId,
-            name: config.build.layers[key].layerName,
-            listening: true
-        });
-        const { node, id } = util.addNode({
+        let genId = getId(),
+            kObj = new Konva.Layer({
+                id: genId,
+                name: config.build.layers[key].layerName,
+                listening: true
+            });
+        const {
+            node,
+            id
+        } = util.addNode({
             name: config.build.layers[key].layerName,
             id: genId,
             konvaNode: kObj
@@ -32,15 +40,25 @@ const makeLayers = (state, config, util) => {  // Add util parameter
 };
 
 const makeCameraWrappers = (state, config, util) => {
-    let name, theLayer, kObj, node, genId; 
+    let name, theLayer, kObj, node, genId;
     Object.keys(config.build.layers).forEach(key => {
         if (config.build.layers[key].cameraName &&
-           state.indexName[config.build.layers[key].layerName]) {
+            state.indexName[config.build.layers[key].layerName]) {
             name = config.build.layers[key].cameraName;
             genId = getId();
-            theLayer = state.stage.findOne(`#${state.indexName[config.build.layers[key].layerName]}`); 
-            kObj  = new Konva.Group({ name: name, id: genId, draggable: true });
-            ({ node } = util.addNode({ name: name, id: genId, konvaNode: kObj }));
+            theLayer = state.stage.findOne(`#${state.indexName[config.build.layers[key].layerName]}`);
+            kObj = new Konva.Group({
+                name: name,
+                id: genId,
+                draggable: true
+            });
+            ({
+                node
+            } = util.addNode({
+                name: name,
+                id: genId,
+                konvaNode: kObj
+            }));
             theLayer.add(node);
             util.addReserveName(name);
         }
@@ -56,8 +74,18 @@ const makePseudoLayers = (state, config, util) => {
             if (!targetGroup) throw new Error('[makePseudoLayers] target group not found');
             config.build.pseudoLayers[key].pseudos.forEach(name => {
                 genId = getId();
-                kObj  = new Konva.Group({ name: name, id: genId, draggable: true });
-                ({ node } = util.addNode({ name: name, id: genId, konvaNode: kObj }));
+                kObj = new Konva.Group({
+                    name: name,
+                    id: genId,
+                    draggable: true
+                });
+                ({
+                    node
+                } = util.addNode({
+                    name: name,
+                    id: genId,
+                    konvaNode: kObj
+                }));
                 targetGroup.add(node);
                 util.addReserveName(name);
             });
@@ -65,16 +93,25 @@ const makePseudoLayers = (state, config, util) => {
     });
 };
 
-        const makeWorldRect = (state, config, util) => {
-            let targetGroup, genId, kObj, node;
-            targetGroup = state.stage.findOne(`#${state.indexName[config.build.pseudoLayers.world.background]}`);
-            if (!targetGroup) throw new Error('[makeWorldRect] pseudo layer not found');
-            genId = getId();
-            kObj = new Konva.Rect({ ...config.build.world, genId });
-            ({ node } = util.addNode({ name: config.build.world.name, id: genId, konvaNode: kObj }));
-            targetGroup.add(node);
-            util.addReserveName(config.build.world.name);
-        };
+const makeWorldRect = (state, config, util) => {
+    let targetGroup, genId, kObj, node;
+    targetGroup = state.stage.findOne(`#${state.indexName[config.build.pseudoLayers.world.background]}`);
+    if (!targetGroup) throw new Error('[makeWorldRect] pseudo layer not found');
+    genId = getId();
+    kObj = new Konva.Rect({
+        ...config.build.world,
+        genId
+    });
+    ({
+        node
+    } = util.addNode({
+        name: config.build.world.name,
+        id: genId,
+        konvaNode: kObj
+    }));
+    targetGroup.add(node);
+    util.addReserveName(config.build.world.name);
+};
 
 const teardown = (state) => {
     if (state.stage) {
@@ -105,32 +142,35 @@ export const build = {
             state,
             config,
         } = opts;
-        
+
         if (!htmlContainer) throw new Error('setStageLayersGroups: htmlContainer is required');
         if (!state) throw new Error('setStageLayersGroups: state is required');
         if (!config) throw new Error('setStageLayersGroups: config is required');
-        
+
         try {
-            const util = createUtility({ state, config });
+            const util = createUtility({
+                state,
+                config
+            });
             makeStage(htmlContainer, state, config, util);
-            
+
             if (!state.stage) {
                 throw new Error('setStageLayersGroups: stage not created');
             }
-            
-            makeLayers(state, config, util);  // Pass util as parameter
+
+            makeLayers(state, config, util); // Pass util as parameter
             makeCameraWrappers(state, config, util);
             makePseudoLayers(state, config, util);
             makeWorldRect(state, config, util);
-            
+
             // Batch draw all layers
             state.stage.getLayers().forEach(layer => layer.batchDraw());
-            
+
         } catch (err) {
             teardown(state);
             throw err;
         }
-        
+
         return {
             //stage: state.stage,
             //layers: state.layers,
