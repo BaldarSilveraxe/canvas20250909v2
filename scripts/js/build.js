@@ -44,8 +44,8 @@ const makeLayers = (state, config, util) => { // Add util parameter
         });
         state.stage.add(kObj);
         util.addReserveName(config.build.layers[key].layerName);
-        r[addReserveName(config.build.layers[key].layerName] = { 
-            name: addReserveName(config.build.layers[key].layerName,
+        r[config.build.layers[key].layerName] = { 
+            name: config.build.layers[key].layerName,
             id: genId,
             type: 'layer',
             parent: state.stage.id()
