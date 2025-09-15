@@ -48,6 +48,19 @@ const makeCameraWrappers = (state, config, util) => {
     });
 };
 
+const makePseudoLayers = (state, config, util) => {
+    let targetGroup, kObj, node;
+    Object.keys(config.pseudoLayers).forEach(key => {
+        //targetGroup = getNodeByName(config.pseudoLayers[key].group);
+        //if (!targetGroup) throw new Error('[makePseudoLayers] target group not found');
+        //config.pseudoLayers[key].pseudos.forEach(name => {
+        //    kObj= new Konva.Group({ name: name });
+        //    ({ node } = addNode({ stateType: 'groups', name: name, konvaNode: kObj }));
+        //    targetGroup.add(node);
+        //    });
+    });
+};
+
 const teardown = (state) => {
     if (state.stage) {
         state.stage.destroy();
@@ -91,7 +104,8 @@ export const build = {
             }
             
             makeLayers(state, config, util);  // Pass util as parameter
-            makeCameraWrappers(state, config, util); 
+            makeCameraWrappers(state, config, util);
+            makePseudoLayers(state, config, util);
             
             // Batch draw all layers
             state.stage.getLayers().forEach(layer => layer.batchDraw());
