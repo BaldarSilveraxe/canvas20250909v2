@@ -199,7 +199,7 @@ export const build = {
             if (state.stage) {
                 buildTree.layers = makeLayers(state, config, util); // Pass util as parameter
                 buildTree.camWrap = makeCameraWrappers(state, config, util);
-                buildTree.camWrap = makePseudoLayers(state, config, util);
+                buildTree.pseudoLayers = makePseudoLayers(state, config, util);
                 makeWorldRect(state, config, util);
                 // Batch draw all layers
                 state.stage.batchDraw();
