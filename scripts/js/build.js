@@ -150,7 +150,7 @@ const makeWorldRect = (state, config, util) => {
     }));
     targetGroup.add(node);
     util.addReserveName(config.build.world.name);
-    return {config.build.world.name]: 
+    return { [config.build.world.name]: 
         { 
             node: node,
             name: config.build.world.name,
