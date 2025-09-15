@@ -7,15 +7,21 @@ import {
 } from './utilities/utilities.js';
 
 const makeStage = (el, state, config, util) => {
+    let genId = getId();
     Object.assign(el.style, config.build.stage.elStyle);
     state.stage = new Konva.Stage({
-        id: getId(),
+        id: genId,
         name: config.build.stage.name,
         container: el,
         width: el.clientWidth,
         height: el.clientHeight,
     });
     util.addReserveName(config.build.stage.name);
+    return { 
+        name: config.build.stage.name,
+        id: genId,
+        type: stage
+    };
 };
 
 const makeLayers = (state, config, util) => { // Add util parameter
