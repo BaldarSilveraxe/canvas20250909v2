@@ -49,7 +49,7 @@ const makeCameraWrappers = (state, config, util) => {
 };
 
 const makePseudoLayers = (state, config, util) => {
-    let targetGroup, kObj, node;
+    let targetGroup, genId, kObj, node;
     console.log(config.build.pseudoLayers);
     Object.keys(config.build.pseudoLayers).forEach(key => {
         console.log(config.build.layers[key].layerName);
