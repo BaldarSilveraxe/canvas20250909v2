@@ -1,4 +1,7 @@
-export const createUtility = ({ state, config }) => {
+export const createUtility = ({
+    state,
+    config
+}) => {
     // state is mutable (instance data)
     let s = state;
     const cfg = config;
@@ -8,10 +11,19 @@ export const createUtility = ({ state, config }) => {
             s.reservedName.add(string);
         }
     };
-    const addNode = ({ name, id, konvaNode }) => {;
+
+    const addNode = ({
+        name,
+        id,
+        konvaNode
+    }) => {
+        ;
         s.indexId[id] = name;
         s.indexName[name] = id;
-        return { node: konvaNode, id };
+        return {
+            node: konvaNode,
+            id
+        };
     };
 
     const getNodeByName = (name) => {
@@ -20,5 +32,9 @@ export const createUtility = ({ state, config }) => {
         return s.stage.find(`#${nodeId}`);
     };
 
-    return { addReserveName, addNode, getNodeByName};
+    return {
+        addReserveName,
+        addNode,
+        getNodeByName
+    };
 };
