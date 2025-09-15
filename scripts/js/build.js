@@ -65,8 +65,9 @@ const makePseudoLayers = (state, config, util) => {
     });
 };
 
-        const makeWorldRect = () => {
+        const makeWorldRect = (state, config, util) => {
             let targetGroup, kObj, node;
+            console.log(config.build.pseudoLayers.world.pseudos.background);
             //targetGroup = getNodeByName('group-world-pseudoLayer-background');
             //if (!targetGroup) throw new Error('[makeWorldRect] pseudo layer not found');
             //kObj = new Konva.Rect({ ...config.world });
@@ -119,6 +120,7 @@ export const build = {
             makeLayers(state, config, util);  // Pass util as parameter
             makeCameraWrappers(state, config, util);
             makePseudoLayers(state, config, util);
+            makeWorldRect(state, config, util);
 
             console.log(state);
             
