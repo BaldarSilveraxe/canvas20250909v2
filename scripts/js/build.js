@@ -53,6 +53,13 @@ const makePseudoLayers = (state, config, util) => {
     console.log(config.build.pseudoLayers);
     Object.keys(config.build.pseudoLayers).forEach(key => {
         console.log(config.build.layers[key].layerName);
+        if (config.build.layers[key] &&
+            config.build.layers[key].layerName) {
+            targetGroup = state.stage.findOne(`#${config.build.layers[key].layerName}`);
+            if (!targetGroup) throw new Error('[makePseudoLayers] target group not found');
+            console.log(targetGroup)
+        }
+        theLayer = state.stage.findOne(`#${state.indexName[config.build.layers[key].layerName]}`); 
         //targetGroup = getNodeByName(config.pseudoLayers[key].group);
         //if (!targetGroup) throw new Error('[makePseudoLayers] target group not found');
         //config.pseudoLayers[key].pseudos.forEach(name => {
