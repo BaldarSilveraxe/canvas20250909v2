@@ -17,12 +17,14 @@ const makeStage = (el, state, config, util) => {
         height: el.clientHeight,
     });
     util.addReserveName(config.build.stage.name);
-    return [config.build.stage.name] ={ 
-        name: config.build.stage.name,
-        id: genId,
-        type: 'stage',
-        parent: el.id
-    };
+    return {
+        [config.build.stage.name]: { 
+            name: config.build.stage.name,
+            id: genId,
+            type: 'stage',
+            parent: el.id
+            }
+        };
 };
 
 const makeLayers = (state, config, util) => { // Add util parameter
