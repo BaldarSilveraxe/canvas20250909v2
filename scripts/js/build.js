@@ -52,7 +52,7 @@ const makePseudoLayers = (state, config, util) => {
     let targetGroup, kObj, node;
     console.log(config.build.pseudoLayers);
     Object.keys(config.build.pseudoLayers).forEach(key => {
-        console.log(`layer-${key{`);
+        console.log(`layer-${key}`);
         //targetGroup = getNodeByName(config.pseudoLayers[key].group);
         //if (!targetGroup) throw new Error('[makePseudoLayers] target group not found');
         //config.pseudoLayers[key].pseudos.forEach(name => {
