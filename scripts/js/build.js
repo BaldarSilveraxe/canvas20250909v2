@@ -50,7 +50,7 @@ const makeCameraWrappers = (state, config, util) => {
             kObj = new Konva.Group({
                 name: name,
                 id: genId,
-                // draggable: true
+                draggable: true
             });
             ({
                 node
