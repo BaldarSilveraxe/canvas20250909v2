@@ -47,7 +47,8 @@ const makeLayers = (state, config, util) => { // Add util parameter
         });
         state.stage.add(kObj);
         util.addReserveName(config.build.layers[key].layerName);
-        r[config.build.layers[key].layerName] = { 
+        r[config.build.layers[key].layerName] = {
+            node: kObj,
             name: config.build.layers[key].layerName,
             id: genId,
             type: 'layer',
@@ -80,6 +81,7 @@ const makeCameraWrappers = (state, config, util) => {
             theLayer.add(node);
             util.addReserveName(name);
             r[name] = { 
+                node: node,
                 name: name,
                 id: genId,
                 type: 'group',
@@ -114,6 +116,7 @@ const makePseudoLayers = (state, config, util) => {
             targetGroup.add(node);
             util.addReserveName(name);
             r[name] = { 
+                node: node,
                 name: name,
                 id: genId,
                 type: 'group',
@@ -148,6 +151,7 @@ const makeWorldRect = (state, config, util) => {
     targetGroup.add(node);
     util.addReserveName(config.build.world.name);
     return { 
+        node: node,
         name: config.build.world.name,
         id: genId,
         type: 'shape',
