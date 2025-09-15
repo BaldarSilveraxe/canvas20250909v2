@@ -125,8 +125,10 @@ export const build = {
             makeCameraWrappers(state, config, util);
             makePseudoLayers(state, config, util);
             makeWorldRect(state, config, util);
-
+            
+            console.log('~~~~~~~~~~~~~~');
             console.log(state);
+            console.log('-------------');
             
             // Batch draw all layers
             state.stage.getLayers().forEach(layer => layer.batchDraw());
