@@ -68,28 +68,30 @@ const makeCameraWrappers = (state, config, util) => {
 const makePseudoLayers = (state, config, util) => {
     let targetGroup, genId, kObj, node;
     Object.keys(config.build.pseudoLayers).forEach(key => {
-        const cameraWrapperName = config.build.layers[key]?.cameraName;
-        if (cameraWrapperName && state.indexName[cameraWrapperName]) {
-            targetGroup = state.stage.findOne(`#${state.indexName[cameraWrapperName]}`);
-            if (!targetGroup) throw new Error('[makePseudoLayers] target group not found');
-            config.build.pseudoLayers[key].pseudos.forEach(name => {
-                genId = getId();
-                kObj = new Konva.Group({
-                    name: name,
-                    id: genId,
-                    // draggable: true
-                });
-                ({
-                    node
-                } = util.addNode({
-                    name: name,
-                    id: genId,
-                    konvaNode: kObj
-                }));
-                targetGroup.add(node);
-                util.addReserveName(name);
-            });
-        }
+        console.log(config.build.pseudoLayers[key]);
+        console.log('~~~~~~~~~~~~~~~~~~');
+        //const cameraWrapperName = config.build.layers[key]?.cameraName;
+        //if (cameraWrapperName && state.indexName[cameraWrapperName]) {
+        //    targetGroup = state.stage.findOne(`#${state.indexName[cameraWrapperName]}`);
+        //    if (!targetGroup) throw new Error('[makePseudoLayers] target group not found');
+        //    config.build.pseudoLayers[key].pseudos.forEach(name => {
+        //        genId = getId();
+        //        kObj = new Konva.Group({
+        //            name: name,
+        //            id: genId,
+        //            // draggable: true
+        //        });
+        //        ({
+        //            node
+        //        } = util.addNode({
+        //            name: name,
+        //            id: genId,
+        //            konvaNode: kObj
+        //        }));
+        //        targetGroup.add(node);
+        //        util.addReserveName(name);
+        //    });
+        //}
     });
 };
 
