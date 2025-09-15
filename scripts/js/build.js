@@ -125,7 +125,7 @@ const teardown = (state) => {
         state.indexName = {};
     }
     if (state.reservedName) {
-        state.reservedName = {};
+        state.reservedName.clear();
     }
 };
 
