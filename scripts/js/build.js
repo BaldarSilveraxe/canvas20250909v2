@@ -55,7 +55,7 @@ const makePseudoLayers = (state, config, util) => {
         console.log(config.build.layers[key].layerName);
         if (config.build.layers[key] &&
             config.build.layers[key].layerName) {
-            targetGroup = state.stage.findOne(`#${config.build.layers[key].layerName}`);
+            targetGroup = state.stage.findOne(`#${state.indexName[config.build.layers[key].layerName]}`);
             if (!targetGroup) throw new Error('[makePseudoLayers] target group not found');
             console.log(targetGroup)
         }
