@@ -65,6 +65,15 @@ const makePseudoLayers = (state, config, util) => {
     });
 };
 
+        const makeWorldRect = () => {
+            let targetGroup, kObj, node;
+            //targetGroup = getNodeByName('group-world-pseudoLayer-background');
+            //if (!targetGroup) throw new Error('[makeWorldRect] pseudo layer not found');
+            //kObj = new Konva.Rect({ ...config.world });
+            //({ node } = addNode({ stateType: 'shapes', name: name, konvaNode: kObj }));
+            //targetGroup.add(node);
+        };
+
 const teardown = (state) => {
     if (state.stage) {
         state.stage.destroy();
