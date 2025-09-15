@@ -192,7 +192,7 @@ export const build = {
             throw err;
         }
 
-        console.log(buildTree);
+        console.log(ref);
         
         return {
             getStage: () => state.stage,
