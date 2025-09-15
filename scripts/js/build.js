@@ -55,7 +55,7 @@ const makeLayers = (state, config, util) => { // Add util parameter
 };
 
 const makeCameraWrappers = (state, config, util) => {
-    let name, theLayer, kObj, node, genId,r = {};
+    let name, theLayer, kObj, node, genId, r = {};
     Object.keys(config.build.layers).forEach(key => {
         if (config.build.layers[key].cameraName &&
             state.indexName[config.build.layers[key].layerName]) {
@@ -76,13 +76,13 @@ const makeCameraWrappers = (state, config, util) => {
             }));
             theLayer.add(node);
             util.addReserveName(name);
+            r[name] = { 
+                name: name,
+                id: genId,
+                type: 'group',
+                parent: state.indexName[config.build.layers[key].layerName]
+            };
         }
-        r[config.build.layers[key].cameraName] = { 
-            name: config.build.layers[key].cameraName,
-            id: genId,
-            type: 'group',
-            parent: state.indexName[config.build.layers[key].layerName]
-        };
     });
 };
 
