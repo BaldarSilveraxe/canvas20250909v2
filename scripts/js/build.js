@@ -73,6 +73,7 @@ const makePseudoLayers = (state, config, util) => {
             targetGroup = state.stage.findOne(`#${state.indexName[config.build.layers[key].layerName]}`);
             if (!targetGroup) throw new Error('[makePseudoLayers] target group not found');
             config.build.pseudoLayers[key].pseudos.forEach(name => {
+                console.log(build.pseudoLayers[key])
                 genId = getId();
                 kObj = new Konva.Group({
                     name: name,
