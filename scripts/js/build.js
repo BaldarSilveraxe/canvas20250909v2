@@ -144,6 +144,12 @@ const makeWorldRect = (state, config, util) => {
     }));
     targetGroup.add(node);
     util.addReserveName(config.build.world.name);
+    return { 
+        name: config.build.world.name,
+        id: genId,
+        type: 'shape',
+        parent: config.build.pseudoLayers.world.background]
+    };
 };
 
 const teardown = (state) => {
@@ -181,7 +187,7 @@ export const build = {
             layers: {},
             camWrap: {},
             pseudoLayers: {},
-            shape: {}
+            shapes: {}
         };
 
         if (!htmlContainer) throw new Error('setStageLayersGroups: htmlContainer is required');
@@ -199,7 +205,7 @@ export const build = {
                 buildTree.layers = makeLayers(state, config, util); // Pass util as parameter
                 buildTree.camWrap = makeCameraWrappers(state, config, util);
                 buildTree.pseudoLayers = makePseudoLayers(state, config, util);
-                makeWorldRect(state, config, util);
+                buildTree.shapes = makeWorldRect(state, config, util);
                 // Batch draw all layers
                 state.stage.batchDraw();
             } else {
