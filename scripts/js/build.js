@@ -172,9 +172,8 @@ export const build = {
         }
 
         return {
-            //stage: state.stage,
-            //layers: state.layers,
-            // Add other API methods as needed
+            getStage: () => state.stage,
+            teardown: () => teardown(state)
         };
     }
 };
