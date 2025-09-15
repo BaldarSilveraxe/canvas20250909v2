@@ -114,7 +114,7 @@ const makePseudoLayers = (state, config, util) => {
                 name: name,
                 id: genId,
                 type: 'group',
-                parent: config.build.pseudoLayers[key].group
+                parent: state.indexName[config.build.pseudoLayers[key].group]
             };
         });
     });
@@ -148,7 +148,7 @@ const makeWorldRect = (state, config, util) => {
         name: config.build.world.name,
         id: genId,
         type: 'shape',
-        parent: config.build.pseudoLayers.world.background
+        parent: state.indexName[config.build.pseudoLayers.world.background]
     };
 };
 
