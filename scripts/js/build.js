@@ -17,7 +17,7 @@ const makeStage = (el, state, config, util) => {
         height: el.clientHeight,
     });
     util.addReserveName(config.build.stage.name);
-     return {[config.build.stage.name]: state.stage};
+    return {[config.build.stage.name]: state.stage};
 };
 
 const makeLayers = (state, config, util) => { // Add util parameter
@@ -66,13 +66,7 @@ const makeCameraWrappers = (state, config, util) => {
             }));
             theLayer.add(node);
             util.addReserveName(name);
-            r[name] = { 
-                node: node,
-                name: name,
-                id: genId,
-                type: 'group',
-                parent: state.indexName[config.build.layers[key].layerName]
-            };
+            r[name] = node;
         }
     });
     return r;
