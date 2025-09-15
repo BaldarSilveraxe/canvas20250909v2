@@ -20,7 +20,8 @@ const makeStage = (el, state, config, util) => {
     return { 
         name: config.build.stage.name,
         id: genId,
-        type: 'stage'
+        type: 'stage',
+        parent: el
     };
 };
 
