@@ -69,8 +69,10 @@ const makePseudoLayers = (state, config, util) => {
     let targetGroup, genId, kObj, node;
     Object.keys(config.build.pseudoLayers).forEach(key => {
         targetGroup = state.stage.findOne(`#${state.indexName[config.build.pseudoLayers[key].group]}`);
+        if (!targetGroup) {
+            throw new Error(`[makePseudoLayers] Camera wrapper '${config.build.pseudoLayers[key].group}' not found`);
+        }
         config.build.pseudoLayers[key].pseudos.forEach(name => {
-            console.log(name);
             genId = getId();
             kObj = new Konva.Group({
                 name: name,
