@@ -17,7 +17,7 @@ const makeStage = (el, state, config, util) => {
         height: el.clientHeight,
     });
     util.addReserveName(config.build.stage.name);
-    return {[config.build.stage.name]: state.stage};
+    return {state.stage};
 };
 
 const makeLayers = (state, config, util) => { // Add util parameter
@@ -184,7 +184,7 @@ export const build = {
         } = opts;
 
         let buildTree = {
-            stage: {},
+            _stage: {},
             layers: {},
             camWrap: {},
             pseudoLayers: {},
@@ -200,7 +200,7 @@ export const build = {
                 state,
                 config
             });
-            buildTree.stage = makeStage(htmlContainer, state, config, util);
+            buildTree._stage = makeStage(htmlContainer, state, config, util);
 
             if (state.stage) {
                 buildTree.layers = makeLayers(state, config, util); // Pass util as parameter
