@@ -161,7 +161,7 @@ export const build = {
             makeLayers(state, config, util); // Pass util as parameter
             makeCameraWrappers(state, config, util);
             makePseudoLayers(state, config, util);
-            //makeWorldRect(state, config, util);
+            makeWorldRect(state, config, util);
 
             // Batch draw all layers
             state.stage.batchDraw();
