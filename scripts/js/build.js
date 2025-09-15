@@ -32,11 +32,23 @@ const makeLayers = (state, config, util) => {  // Add util parameter
 };
 
 const makeCameraWrappers = (state, config, util) => {
+    let name, theLayer, kObj, node, genId; 
     Object.keys(config.build.layers).forEach(key => {
+        if (config.build.layers[key].cameraName &&
+           state.indexName[config.build.layers[key].layerName]) {
+            name = config.build.layers[key].cameraName;
+            genId = getId();
+            theLayer = state.stage.findOne(`#${state.indexName[config.build.layers[key].layerName]}`); 
+            kObj  = new Konva.Group({ name: name, draggable: true });
+            ({ node } = util.addNode({ name: name, id: genId, konvaNode: kObj }));
+            theLayer.add(node);
+            util.addReserveName(name);
+        }
         console.log(config.build.layers[key]);
     });
-        
-    //let name, theLayer, kObj, node, genId;
+    
+   
+    //
     //name = config.build.cameraWraps.worldCamera;
     //genId = getId();
     //theLayer = state.stage.findOne(`#${state.indexName['layer-world']}`); //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Make 'layer-world' from Config
