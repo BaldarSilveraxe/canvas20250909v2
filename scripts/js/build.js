@@ -48,7 +48,7 @@ const makeLayers = (state, config, util) => { // Add util parameter
             name: config.build.layers[key].layerName,
             id: genId,
             type: 'layer',
-            parent: state.stage.id()
+            parent: state.stage.id() 
         };
     });
     return r;
