@@ -118,7 +118,6 @@ const makePseudoLayers = (state, config, util) => {
             };
         });
     });
-    console.log(r);
     return r;
 };
 
