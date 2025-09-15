@@ -98,7 +98,12 @@ const makeWorldRect = (state, config, util) => {
     if (!targetGroup) throw new Error('[makeWorldRect] pseudo layer not found');
     genId = getId();
     kObj = new Konva.Rect({
-        ...config.build.world,
+        x: config.build.world.x,
+        y: config.build.world.y,
+        width: config.build.world.width,
+        height: config.build.world.height,
+        fill: config.build.world.fill,
+        listening: config.build.world.listening,
         id: genId
     });
     ({
