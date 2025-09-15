@@ -76,6 +76,8 @@ const makeCameraWrappers = (state, config, util) => {
             }));
             theLayer.add(node);
             util.addReserveName(name);
+            console.log(r)
+            console.log(name)
             r[name] = { 
                 name: name,
                 id: genId,
