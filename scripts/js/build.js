@@ -86,6 +86,7 @@ const makeCameraWrappers = (state, config, util) => {
             };
         }
     });
+    return r;
 };
 
 const makePseudoLayers = (state, config, util) => {
