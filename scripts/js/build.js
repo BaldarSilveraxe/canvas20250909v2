@@ -44,15 +44,12 @@ const makeCameraWrappers = (state, config, util) => {
             theLayer.add(node);
             util.addReserveName(name);
         }
-        console.log(config.build.layers[key]);
     });
 };
 
 const makePseudoLayers = (state, config, util) => {
     let targetGroup, genId, kObj, node;
-    console.log(config.build.pseudoLayers);
     Object.keys(config.build.pseudoLayers).forEach(key => {
-        console.log(config.build.layers[key].layerName);
         if (config.build.layers[key] &&
             config.build.layers[key].layerName) {
             targetGroup = state.stage.findOne(`#${state.indexName[config.build.layers[key].layerName]}`);
@@ -113,6 +110,8 @@ export const build = {
             makeLayers(state, config, util);  // Pass util as parameter
             makeCameraWrappers(state, config, util);
             makePseudoLayers(state, config, util);
+
+            console.log(state);
             
             // Batch draw all layers
             state.stage.getLayers().forEach(layer => layer.batchDraw());
