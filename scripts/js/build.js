@@ -164,7 +164,7 @@ export const build = {
             makeWorldRect(state, config, util);
 
             // Batch draw all layers
-            state.stage.getLayers().forEach(layer => layer.batchDraw());
+            state.stage.batchDraw();
 
         } catch (err) {
             teardown(state);
