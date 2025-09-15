@@ -221,7 +221,8 @@ export const build = {
         
         return {
             getStage: () => state.stage,
-            teardown: () => teardown(state)
+            teardown: () => teardown(state),
+            buildTree
         };
     }
 };
