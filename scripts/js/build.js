@@ -39,7 +39,7 @@ const makeCameraWrappers = (state, config, util) => {
             name = config.build.layers[key].cameraName;
             genId = getId();
             theLayer = state.stage.findOne(`#${state.indexName[config.build.layers[key].layerName]}`); 
-            kObj  = new Konva.Group({ name: name, draggable: true });
+            kObj  = new Konva.Group({ name: name, id: genId, draggable: true });
             ({ node } = util.addNode({ name: name, id: genId, konvaNode: kObj }));
             theLayer.add(node);
             util.addReserveName(name);
@@ -56,7 +56,7 @@ const makePseudoLayers = (state, config, util) => {
             if (!targetGroup) throw new Error('[makePseudoLayers] target group not found');
             config.build.pseudoLayers[key].pseudos.forEach(name => {
                 genId = getId();
-                kObj  = new Konva.Group({ name: name, draggable: true });
+                kObj  = new Konva.Group({ name: name, id: genId, draggable: true });
                 ({ node } = util.addNode({ name: name, id: genId, konvaNode: kObj }));
                 targetGroup.add(node);
                 util.addReserveName(name);
