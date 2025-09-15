@@ -51,7 +51,7 @@ const makeCameraWrappers = (state, config, util) => {
 const makePseudoLayers = (state, config, util) => {
     let targetGroup, kObj, node;
     console.log(config.build.pseudoLayers);
-    //Object.keys(config.build.pseudoLayers).forEach(key => {
+    Object.keys(config.build.pseudoLayers).forEach(key => {
         //console.log(key);
         //targetGroup = getNodeByName(config.pseudoLayers[key].group);
         //if (!targetGroup) throw new Error('[makePseudoLayers] target group not found');
@@ -60,7 +60,7 @@ const makePseudoLayers = (state, config, util) => {
         //    ({ node } = addNode({ stateType: 'groups', name: name, konvaNode: kObj }));
         //    targetGroup.add(node);
         //    });
-    //});
+    });
 };
 
 const teardown = (state) => {
