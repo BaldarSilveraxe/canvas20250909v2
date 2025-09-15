@@ -26,6 +26,7 @@ const makeStage = (el, state, config, util) => {
 };
 
 const makeLayers = (state, config, util) => { // Add util parameter
+    let r = {};
     Object.keys(config.build.layers).forEach(key => {
         let genId = getId(),
             kObj = new Konva.Layer({
@@ -43,7 +44,14 @@ const makeLayers = (state, config, util) => { // Add util parameter
         });
         state.stage.add(kObj);
         util.addReserveName(config.build.layers[key].layerName);
+        r[addReserveName(config.build.layers[key].layerName] = { 
+            name: addReserveName(config.build.layers[key].layerName,
+            id: genId,
+            type: 'layer',
+            parent: state.stage.id()
+        };
     });
+    return r;
 };
 
 const makeCameraWrappers = (state, config, util) => {
@@ -174,7 +182,7 @@ export const build = {
             buildTree.stage = makeStage(htmlContainer, state, config, util);
 
             if (state.stage) {
-                makeLayers(state, config, util); // Pass util as parameter
+                buildTree.layers = makeLayers(state, config, util); // Pass util as parameter
                 makeCameraWrappers(state, config, util);
                 makePseudoLayers(state, config, util);
                 makeWorldRect(state, config, util);
