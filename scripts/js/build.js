@@ -88,7 +88,7 @@ const makeCameraWrappers = (state, config, util) => {
 };
 
 const makePseudoLayers = (state, config, util) => {
-    let targetGroup, genId, kObj, node;
+    let targetGroup, genId, kObj, node, r = {};
     Object.keys(config.build.pseudoLayers).forEach(key => {
         targetGroup = state.stage.findOne(`#${state.indexName[config.build.pseudoLayers[key].group]}`);
         if (!targetGroup) {
@@ -110,8 +110,15 @@ const makePseudoLayers = (state, config, util) => {
             }));
             targetGroup.add(node);
             util.addReserveName(name);
+            r[name] = { 
+                name: name,
+                id: genId,
+                type: 'group',
+                parent: config.build.pseudoLayers[key].group
+            };
         });
     });
+    return r;
 };
 
 const makeWorldRect = (state, config, util) => {
@@ -191,7 +198,7 @@ export const build = {
             if (state.stage) {
                 buildTree.layers = makeLayers(state, config, util); // Pass util as parameter
                 buildTree.camWrap = makeCameraWrappers(state, config, util);
-                makePseudoLayers(state, config, util);
+                buildTree.camWrap = makePseudoLayers(state, config, util);
                 makeWorldRect(state, config, util);
                 // Batch draw all layers
                 state.stage.batchDraw();
