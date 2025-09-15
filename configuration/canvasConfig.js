@@ -48,7 +48,7 @@ export const CONFIG = {
             name: 'shape-pseudoLayer-background-rect',
             width: 6000,
             height: 6000,
-            fill: '#000000',
+            fill: '#555555',
             listening: true,
         },
     },
