@@ -68,10 +68,7 @@ const makeCameraWrappers = (state, config, util) => {
 const makePseudoLayers = (state, config, util) => {
     let targetGroup, genId, kObj, node;
     Object.keys(config.build.pseudoLayers).forEach(key => {
-        console.log(config.build.pseudoLayers[key]);
-        console.log('~~~~~~~~~~~~~~~~~~');
         targetGroup = state.stage.findOne(`#${state.indexName[config.build.pseudoLayers[key].group]}`);
-        console.log(targetGroup);
         config.build.pseudoLayers[key].pseudos.forEach(name => {
             console.log(name);
             genId = getId();
