@@ -153,6 +153,8 @@ export const build = {
             config,
         } = opts;
 
+        let buildTree;
+
         if (!htmlContainer) throw new Error('setStageLayersGroups: htmlContainer is required');
         if (!state) throw new Error('setStageLayersGroups: state is required');
         if (!config) throw new Error('setStageLayersGroups: config is required');
@@ -162,7 +164,7 @@ export const build = {
                 state,
                 config
             });
-            makeStage(htmlContainer, state, config, util);
+            buildTree = makeStage(htmlContainer, state, config, util);
 
             if (state.stage) {
                 makeLayers(state, config, util); // Pass util as parameter
@@ -180,6 +182,8 @@ export const build = {
             throw err;
         }
 
+        console.log(buildTree);
+        
         return {
             getStage: () => state.stage,
             teardown: () => teardown(state)
