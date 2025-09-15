@@ -21,7 +21,7 @@ export const CONFIG = {
                 layerName: 'layer-items',
                 cameraName: 'group-items-pseudoLayer-camera-wrap'
             },
-            ui:{
+            ui: {
                 layerName: 'layer-ui',
                 cameraName: null
             }
