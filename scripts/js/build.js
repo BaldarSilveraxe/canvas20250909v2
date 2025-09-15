@@ -32,6 +32,10 @@ const makeLayers = (state, config, util) => {  // Add util parameter
 };
 
 const makeCameraWrappers = (state, config, util) => {
+    Object.keys(config.build.layers).forEach(key => {
+        console.log(config.build.layers[key]);
+    });
+        
     let name, theLayer, kObj, node, genId;
     name = config.build.cameraWraps.worldCamera;
     genId = getId();
@@ -91,7 +95,7 @@ export const build = {
             }
             
             makeLayers(state, config, util);  // Pass util as parameter
-            //makeCameraWrappers(state, config, util); 
+            makeCameraWrappers(state, config, util); 
             
             // Batch draw all layers
             state.stage.getLayers().forEach(layer => layer.batchDraw());
