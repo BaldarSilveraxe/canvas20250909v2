@@ -21,7 +21,7 @@ const makeStage = (el, state, config, util) => {
         name: config.build.stage.name,
         id: genId,
         type: 'stage',
-        parent: el
+        parent: el.id
     };
 };
 
