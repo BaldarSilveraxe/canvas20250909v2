@@ -68,9 +68,9 @@ const makeCameraWrappers = (state, config, util) => {
 const makePseudoLayers = (state, config, util) => {
     let targetGroup, genId, kObj, node;
     Object.keys(config.build.pseudoLayers).forEach(key => {
-        if (config.build.layers[key] &&
-            config.build.layers[key].group) {
-            targetGroup = state.stage.findOne(`#${state.indexName[config.build.layers[key].group]}`);
+        const cameraWrapperName = config.build.layers[key]?.cameraName;
+        if (cameraWrapperName && state.indexName[cameraWrapperName]) {
+            targetGroup = state.stage.findOne(`#${state.indexName[cameraWrapperName]}`);
             if (!targetGroup) throw new Error('[makePseudoLayers] target group not found');
             config.build.pseudoLayers[key].pseudos.forEach(name => {
                 genId = getId();
