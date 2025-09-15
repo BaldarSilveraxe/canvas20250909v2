@@ -17,7 +17,12 @@ export const createUtility = ({
         id,
         konvaNode
     }) => {
-        ;
+        if (s.indexName[name]) {
+            throw new Error(`Node name '${name}' already exists`);
+        }
+        if (s.indexId[id]) {
+            throw new Error(`Node id '${id}' already exists`);
+        }
         s.indexId[id] = name;
         s.indexName[name] = id;
         return {
