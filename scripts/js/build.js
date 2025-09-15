@@ -95,13 +95,7 @@ const makePseudoLayers = (state, config, util) => {
             }));
             targetGroup.add(node);
             util.addReserveName(name);
-            r[name] = { 
-                node: node,
-                name: name,
-                id: genId,
-                type: 'group',
-                parent: state.indexName[config.build.pseudoLayers[key].group]
-            };
+            r[name] = node;
         });
     });
     return r;
@@ -130,15 +124,7 @@ const makeWorldRect = (state, config, util) => {
     }));
     targetGroup.add(node);
     util.addReserveName(config.build.world.name);
-    return { [config.build.world.name]: 
-        { 
-            node: node,
-            name: config.build.world.name,
-            id: genId,
-            type: 'shape',
-            parent: state.indexName[config.build.pseudoLayers.world.background]
-        }
-    };
+    return { [config.build.world.name]: node};
 };
 
 const teardown = (state) => {
