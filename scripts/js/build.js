@@ -6,7 +6,14 @@ import {
     createUtility
 } from './utilities/utilities.js';
 
-const makeStage = (el,{build:{stage:{elStyle,name}}}, util) => {
+const makeStage = (el, {
+    build: {
+        stage: {
+            elStyle,
+            name
+        }
+    }
+}, util) => {
     if (!name) { 
         throw new Error("Config missing stage name.");
     }
