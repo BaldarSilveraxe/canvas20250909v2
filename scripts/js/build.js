@@ -6,19 +6,38 @@ import {
     createUtility
 } from './utilities/utilities.js';
 
-const makeStage = (el, state, config, util) => {
-    let genId = getId();
-    Object.assign(el.style, config.build.stage.elStyle);
-    state.stage = new Konva.Stage({
-        id: genId,
-        name: config.build.stage.name,
+const makeStage = (el,{build:{stage:{elStyle,name}}}, util) => {
+    if (!name) { 
+        throw new Error("Config missing stage name.");
+    }
+    if (elStyle) {
+        Object.assign(el.style, elStyle);
+    }
+    const stage = new Konva.Stage({
+        id: util.getId(), 
+        name: name,
         container: el,
         width: el.clientWidth,
         height: el.clientHeight,
     });
-    util.addReserveName(config.build.stage.name);
-    return {[config.build.stage.name]: state.stage};
+    util.addReserveName(name);
+    return {
+        [name]: stage
+    };
 };
+//const makeStage = (el, state, config, util) => {
+    //let genId = getId();
+    //Object.assign(el.style, config.build.stage.elStyle);
+    //state.stage = new Konva.Stage({
+    //    id: genId,
+    //    name: config.build.stage.name,
+    //    container: el,
+    //    width: el.clientWidth,
+    //    height: el.clientHeight,
+    //});
+    //util.addReserveName(config.build.stage.name);
+    //return {[config.build.stage.name]: state.stage};
+//};
 
 const makeLayers = (state, config, util) => { // Add util parameter
     let r = {};
