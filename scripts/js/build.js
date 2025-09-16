@@ -6,45 +6,19 @@ import {
     createUtility
 } from './utilities/utilities.js';
 
-const makeStage = (el, {
-    build: {
-        stage: {
-            elStyle = {}, // Provide a default empty object
-            name = 'default-stage-name' // Provide a default string
-        } = {} // Provide a default empty object for 'stage'
-    } = {} // Provide a default empty object for 'build'
-} = {}, util) => {
-    if (!name) { 
-        throw new Error("Config missing stage name.");
-    }
-    if (elStyle) {
-        Object.assign(el.style, elStyle);
-    }
-    const stage = new Konva.Stage({
-        id: util.getId(), 
-        name: name,
+const makeStage = (el, config, util) => {
+    let genId = getId();
+    Object.assign(el.style, config.build.stage.elStyle);
+    state.stage = new Konva.Stage({
+        id: genId,
+        name: config.build.stage.name,
         container: el,
         width: el.clientWidth,
         height: el.clientHeight,
     });
-    util.addReserveName(name);
-    return {
-        [name]: stage
-    };
+    util.addReserveName(config.build.stage.name);
+    return {[config.build.stage.name]: state.stage};
 };
-//const makeStage = (el, state, config, util) => {
-    //let genId = getId();
-    //Object.assign(el.style, config.build.stage.elStyle);
-    //state.stage = new Konva.Stage({
-    //    id: genId,
-    //    name: config.build.stage.name,
-    //    container: el,
-    //    width: el.clientWidth,
-    //    height: el.clientHeight,
-    //});
-    //util.addReserveName(config.build.stage.name);
-    //return {[config.build.stage.name]: state.stage};
-//};
 
 const makeLayers = (state, config, util) => { // Add util parameter
     let r = {};
@@ -200,7 +174,7 @@ export const build = {
                 state,
                 config
             });
-            ref.stage = makeStage(htmlContainer, state, config, util);
+            ref.stage = makeStage(htmlContainer, config, util);
 
             if (state.stage) {
                 ref.layers = makeLayers(state, config, util); // Pass util as parameter
