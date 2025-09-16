@@ -9,11 +9,11 @@ import {
 const makeStage = (el, {
     build: {
         stage: {
-            elStyle,
-            name
-        }
-    }
-}, util) => {
+            elStyle = {}, // Provide a default empty object
+            name = 'default-stage-name' // Provide a default string
+        } = {} // Provide a default empty object for 'stage'
+    } = {} // Provide a default empty object for 'build'
+} = {}, util) => {
     if (!name) { 
         throw new Error("Config missing stage name.");
     }
