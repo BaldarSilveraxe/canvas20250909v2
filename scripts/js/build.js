@@ -6,7 +6,7 @@ import {
     createUtility
 } from './utilities/utilities.js';
 
-const makeStage = (el, config, util) => {
+const makeStage = (el, state, config, util) => {
     let genId = getId();
     Object.assign(el.style, config.build.stage.elStyle);
     state.stage = new Konva.Stage({
@@ -174,7 +174,7 @@ export const build = {
                 state,
                 config
             });
-            ref.stage = makeStage(htmlContainer, config, util);
+            ref.stage = makeStage(htmlContainer, state, config, util);
 
             if (state.stage) {
                 ref.layers = makeLayers(state, config, util); // Pass util as parameter
